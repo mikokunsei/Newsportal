@@ -26,9 +26,9 @@
 <![endif]-->
 </head>
 <body>
-<!-- <div id="preloader">
+<div id="preloader">
   <div id="status">&nbsp;</div>
-</div> -->
+</div>
 <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
 <div class="container">
   <header id="header">
@@ -62,9 +62,17 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav main_nav">
-          <li class="active"><a href="../index.php"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
-          <li><a href="#">Technology</a></li>
-          <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Mobile</a>
+          <li class="active"><a href="index.php"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
+          <?php 
+            $get_data = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news'");
+            while ($data = mysqli_fetch_array($get_data)) {
+          ?>
+          <li><a href="single_page_cat.php?c_canal=<?=$data['c_canal']?>"><?php echo $data['c_canal']; ?></a></li>
+          
+          <?php 
+            }
+          ?>
+          <!-- <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Mobile</a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="#">Android</a></li>
               <li><a href="#">Samsung</a></li>
@@ -72,9 +80,7 @@
               <li><a href="#">Walton Mobile</a></li>
               <li><a href="#">Sympony</a></li>
             </ul>
-          </li>
-          <li><a href="#">Laptops</a></li>
-          <li><a href="#">Tablets</a></li>
+          </li> -->
           <li><a href="contact.php">Contact Us</a></li>
           <li><a href="404.html">404 Page</a></li>
         </ul>
@@ -91,7 +97,7 @@
             while ($data = mysqli_fetch_array($get_data)){
               // print_r($data);
           ?>
-            <li><a href="pages/single_page.php?id=<?=$data['id']?>"><img src="<?php echo $data['c_image']; ?>" alt=""><?php echo $data['title']; ?></a></li>
+            <li><a href="single_page.php?id=<?=$data['id']?>"><img src="<?php echo $data['c_image']; ?>" alt=""><?php echo $data['title']; ?></a></li>
           <?php
             }
           ?>
@@ -134,12 +140,12 @@
             <h2><span>Popular Post</span></h2>
             <ul class="spost_nav">
               <?php 
-                $get_data = mysqli_query($conn, "SELECT c_image, title FROM news_content WHERE media = 'news' AND c_canal = 'top-news' LIMIT 5");
+                $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_canal = 'top-news' LIMIT 5");
                 while ($data = mysqli_fetch_array($get_data)) {
               ?>
               <li>
-                <div class="media wow fadeInDown"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="<?php echo $data['c_image']; ?>"> </a>
-                  <div class="media-body"> <a href="pages/single_page.html" class="catg_title"><?php echo $data['title']; ?></a> </div>
+                <div class="media wow fadeInDown"> <a href="single_page.php?id=<?=$data['id']?>" class="media-left"> <img alt="" src="<?php echo $data['c_image']; ?>"> </a>
+                  <div class="media-body"> <a href="single_page.php?id=<?=$data['id']?>" class="catg_title"><?php echo $data['title']; ?></a> </div>
                 </div>
               </li>
               <?php 

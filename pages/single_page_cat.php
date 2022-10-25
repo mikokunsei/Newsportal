@@ -1,9 +1,9 @@
 <?php 
-  if(isset($_GET['id'])){
-    $id_news = $_GET['id'];
+  if(isset($_GET['c_canal'])){
+    $cat_news = $_GET['c_canal'];
   
   } else {
-    die("Error, No ID Selected !");
+    die("Error, No Canal Selected !");
   }
 
   include "../config/connection.php";
@@ -16,7 +16,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>NewsFeed | Pages | Single Page</title>
+<title>NewsFeed | Pages | By Category</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,11 +33,24 @@
 <script src="../assets/js/html5shiv.min.js"></script>
 <script src="../assets/js/respond.min.js"></script>
 <![endif]-->
+
+<style>
+  .text-paragraph {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* multiple ellipse */
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+</style>
+
 </head>
 <body>
-<!-- <div id="preloader">
+<div id="preloader">
   <div id="status">&nbsp;</div>
-</div> -->
+</div>
 <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
 <div class="container">
   <header id="header">
@@ -76,7 +89,7 @@
             $get_data = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news'");
             while ($data = mysqli_fetch_array($get_data)) {
           ?>
-          <li><a href="pages/single_page_cat.php?c_canal=<?=$data['c_canal']?>"><?php echo $data['c_canal']; ?></a></li>
+          <li><a href="single_page_cat.php?c_canal=<?=$data['c_canal']?>"><?php echo $data['c_canal']; ?></a></li>
           
           <?php 
             }
@@ -90,8 +103,8 @@
               <li><a href="#">Sympony</a></li>
             </ul>
           </li> -->
-          <li><a href="pages/contact.php">Contact Us</a></li>
-          <li><a href="pages/404.html">404 Page</a></li>
+          <li><a href="contact.php">Contact Us</a></li>
+          <li><a href="404.html">404 Page</a></li>
         </ul>
       </div>
     </nav>
@@ -111,7 +124,7 @@
             }
           ?>
           </ul>
-          <div class="social_area">
+          <!-- <div class="social_area">
             <ul class="social_nav">
               <li class="facebook"><a href="#"></a></li>
               <li class="twitter"><a href="#"></a></li>
@@ -122,154 +135,95 @@
               <li class="youtube"><a href="#"></a></li>
               <li class="mail"><a href="#"></a></li>
             </ul>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
   </section>
+  
   <section id="contentSection">
     <div class="row">
       <div class="col-lg-8 col-mdf-8 col-sm-8">
         <div class="left_content">
           <div class="single_page">
             <?php 
-              $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE id = '$id_news' ");
-              while ($data = mysqli_fetch_array($get_data)){
-                $canal = $data['c_canal'];
+              $get_data = mysqli_query($conn, "SELECT c_canal FROM news_content WHERE c_canal = '$cat_news' ");
+              $data = mysqli_fetch_array($get_data);
             ?>
             <ol class="breadcrumb">
               <li><a href="../index.php">Home</a></li>
-              <li class="active"><a href="single_page_cat.php?c_canal=<?=$data['c_canal']?>"><?php echo ucfirst($canal); ?></a></li>
-              
+              <li class="active"><a href="single_page_cat.php?c_canal=<?=$data['c_canal']?>"><?php echo ucfirst($data['c_canal']); ?></a></li>
             </ol>
-            <h1><?php echo $data['title']; ?></h1>
-            <div class="post_commentbox"> <a href="#"><i class="fa fa-user"></i><?php echo $data['media_name']; ?></a>
-              <span>
-                <i class="fa fa-calendar"></i><?php echo $data['c_datetime']; ?>
-              </span>
-              <a href="single_page_cat.php?c_canal=<?=$data['c_canal']?>"><i class="fa fa-tags"></i><?php echo ucfirst($canal); ?></a> 
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-8">
+        <div class="slick_slider">
+          <?php
+            $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_canal = '$cat_news' ORDER BY c_datetime DESC LIMIT 4");
+            while ($data = mysqli_fetch_array($get_data)){
+              // print_r($data);
+              $date_news = $data['c_datetime'];
+          ?>
+          <div class="single_iteam"> <a href="single_page.php?id=<?=$data['id']?>"> <img src="<?php echo $data['c_image']; ?>" alt=""></a>
+            <div class="slider_article">
+              <h2><a class="slider_tittle" href="single_page.php?id=<?=$data['id']?>"><?php echo $data['title']; ?></a></h2>
+              <p class="text-paragraph">
+                <?php echo $data['txt']; ?>
+              </p>
+              <p><?php echo $date_news; ?></p>
             </div>
-            <div class="single_page_content"> <img class="img-center" src="<?php echo $data['c_image']; ?>" alt="">
-              <p style="text-align: justify ;  text-indent: 45px;">
-                <?php 
-
-                $data_paragraph = $data['txt'];
-                // $separate_paragraph = explode(".", $data_paragraph);
-                 echo wordwrap($data_paragraph, 1125,"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n"); 
-                // echo explode('.', $data_paragraph); 
-
-                // var_dump($separate_paragraph);
+          </div>
+          <?php
+            }
+          ?>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-8">
+        <div class="left_content">
+          <div class="single_post_content">
             
-                // print_r(count($separate_paragraph));
-                
-
-                // for ($i=3; $i<=count($separate_paragraph); $i++)
-                // {
-                //   echo empty( $separate_paragraph[$i]) ?'':'<p>'. $separate_paragraph[$i].'</p>';
-                // }
-                
-                // menampilkan outputnya
-                
-                                
-
-                
-                ?>
-              </p>  
-              <div class="source">
-                <div class="srcNews">
-                  <h6>Sumber :</h6>
-                  <a href="<?php echo $data['link'];?>" target="_blank"><?php echo $data['link'];?></a>
-                </div>
-              </div>
-              <br>
-              <blockquote> Donec volutpat nibh sit amet libero ornare non laoreet arcu luctus. Donec id arcu quis mauris euismod placerat sit amet ut metus. Sed imperdiet fringilla sem eget euismod. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque adipiscing, neque ut pulvinar tincidunt, est sem euismod odio, eu ullamcorper turpis nisl sit amet velit. Nullam vitae nibh odio, non scelerisque nibh. Vestibulum ut est augue, in varius purus. </blockquote>
-              
-                <?php 
-                  
-                  $data_tag = $data['tag'];
-
-                  // echo $data_tag;
-
-                  // var_dump($data_tag);
-                  $explode_tag = explode(',', $data_tag);
-
-                  // echo explode(',', $data_tag); 
-                  // print_r(count($data_tag));
-                  // for ($i=0; $i<=count($data_tag); $i++)
-                  // {
-                  //   echo empty( $data_tag[$i]) ?'':'<p>'. $data_tag[$i].'</p>';
-                  // }
-                  // ---------------------------
-                  for ($i=0; $i<count($explode_tag); $i++)
-                  {
-                    
-                    //  $part = str_replace($explode_tag[$i], "<p>".$explode_tag[$i]."</p>", $explode_tag[$i]);
-                     echo "<button class='btn default-btn'> ".$explode_tag[$i]."</button> &nbsp;";
-                     
-                  }
-                  
-                  //
-                  // for ($i=0; $i<=count($explode_tag)-1; $i++)
-                  // {
-                  //   $ternary = empty ($explode_tag[$i])?'':$explode_tag[$i];
-                  //   //  $part = str_replace($explode_tag[$i], "<p>".$explode_tag[$i]."</p>", $explode_tag[$i]);
-                  //    echo "<button class='btn default-btn'> ".$ternary."</button> &nbsp;";
-                     
-                  // }
-                ?> 
-                
-                <?php 
-                ?>
-              
-              
-            </div>
-            <div class="social_link">
-              <ul class="sociallink_nav">
-                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+            <h2><span><?php echo $cat_news ?></span></h2>
+            
+            <div class="single_post_content_left">
+              <ul class="news_catgnav  wow fadeInDown">
+              <?php
+                $get_data = mysqli_query($conn,"SELECT * FROM news_content WHERE media = 'news' AND c_canal = '$cat_news' ORDER BY rand() LIMIT 3");
+                while ($data = mysqli_fetch_array($get_data)){
+              ?>
+                <li>
+                  <figure class="bsbig_fig"> <a href="single_page.php?id=<?=$data['id']?>" class="featured_img"> <img alt="" src="<?php echo $data['c_image']; ?>"> <span class="overlay"></span> </a>
+                    <figcaption> <a href="single_page.php?id=<?=$data['id']?>"><?php echo $data['title']; ?></a> </figcaption>
+                    <p class="text-paragraph">
+                      <?php echo $data ['txt']; ?> 
+                    </p>
+                  </figure>
+                </li>
+              <?php 
+                }
+              ?>
               </ul>
             </div>
-            <?php } ?>
-            <div class="related_post">
-              <h2>Related Post <i class="fa fa-thumbs-o-up"></i></h2>
-              <ul class="spost_nav wow fadeInDown animated">
-                <?php 
-                  $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_canal = 'news' ORDER BY rand() LIMIT 3 ");
+            
+            <div class="single_post_content_right">
+              <ul class="spost_nav">
+                <?php
+                  $get_data = mysqli_query($conn,"SELECT id, c_image, title FROM news_content WHERE media = 'news' AND c_canal = '$cat_news' ORDER BY rand() LIMIT 12");
                   while ($data = mysqli_fetch_array($get_data)){
                 ?>
                 <li>
-                  <div class="media"> <a class="media-left" href="single_page.php?id=<?=$data['id']?>"> <img src="<?php echo $data['c_image']; ?>" alt=""> </a>
-                    <div class="media-body"> <a class="catg_title" href="single_page.php?id=<?=$data['id']?>"> <?php echo $data['title']; ?></a> </div>
+                  <div class="media wow fadeInDown"> <a href="single_page.php?id=<?=$data['id']?>" class="media-left"> <img alt="" src="<?php echo $data['c_image']; ?>"> </a>
+                    <div class="media-body"> <a href="single_page.php?id=<?=$data['id']?>" class="catg_title"> <?php echo $data['title']; ?> </a> </div>
                   </div>
                 </li>
-                <?php }?>
+                <?php
+                  }
+                ?>
               </ul>
             </div>
           </div>
         </div>
-      </div>
-      <nav class="nav-slit"> 
-        <?php 
-          $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_canal = 'news' ORDER BY rand() LIMIT 1");
-          while ($data = mysqli_fetch_array($get_data)){
-
-            $id_extends = $data['id'];
-        ?>
-        <a class="prev" href="single_page.php?id=<?=$id_extends?>"> <span class="icon-wrap"><i class="fa fa-angle-left"></i></span>
-        <div>
-          <h3>Sebelumnya</h3>
-          <img src="<?php echo $data['c_image']; ?>" alt=""/> </div>
-        </a> 
-        <a class="next" href="single_page.php?id=<?=$id_extends?>"> <span class="icon-wrap"><i class="fa fa-angle-right"></i></span>
-        <div>
-          <h3>Selanjutnya</h3>
-          <img src="<?php echo $data['c_image']; ?>" alt=""/> </div>
-        </a> 
-        <?php }?>
-      </nav>
+      </div> 
       <div class="col-lg-4 col-md-4 col-sm-4">
         <aside class="right_content">
           <div class="single_sidebar">
@@ -304,7 +258,7 @@
                       while ($data = mysqli_fetch_array($get_data)){
                         $canal = $data['c_canal'];
                   ?>
-                  <li class="cat-item"><a href="single_page_cat.php?c_canal=<?=$data['c_canal']?>"><?php echo ucfirst($canal); ?></a></li>
+                  <li class="cat-item"><a href="single_page_cat.php?c_canal=<?=$canal?>"><?php echo ucfirst($canal); ?></a></li>
                   <?php 
                     }
                   ?>
@@ -364,7 +318,7 @@
             </ul>
           </div>
         </aside>
-      </div>
+      </div> 
     </div>
   </section>
   <footer id="footer">
@@ -372,7 +326,7 @@
       <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-4">
           <div class="footer_widget wow fadeInLeftBig">
-            <h2>Flickr Images</h2>
+            <h2>Flicker Images</h2>
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
@@ -384,7 +338,7 @@
                   while ($data = mysqli_fetch_array($get_data)){
                     $canal = $data['c_canal'];
               ?>
-              <li><a href="single_page_cat.php?c_canal=<?=$data['c_canal']?>"><?php echo ucfirst($canal) ?></a></li>
+              <li><a href="single_page_cat.php?c_canal=<?=$canal?>"><?php echo ucfirst($canal) ?></a></li>
               <?php
                   }
                ?>
