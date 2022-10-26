@@ -1,0 +1,12 @@
+RewriteEngine On
+Options All -Indexes
+
+
+
+RewriteRule ^login$ login.php [L] 
+RewriteRule ^logout$ logout.php [L]
+RewriteRule ^dashboard$ index.php?page=dashboard [L]
+
+RewriteRule ^media$ index.php?page=media [L]
+RewriteRule ^kategori$ index.php?page=kategori [L]
+
