@@ -61,6 +61,59 @@
             <p><?php echo date('l, d M Y'); ?></p>
           </div>
         </div>
+        <div class="logo_other" style="margin-top: 70px ; margin-bottom: 20px ; ">
+            <center>
+            <ul class="other-portal-v2">
+                <li >
+                    <a href="https://www.antaranews.com/" target="_blank" rel="noopener" style="margin-right: 30px ;" aria-label="antaranews">
+                        <img src="images/logo_other_portal/antaranews.png" alt="" width="57" height="20" loading="lazy">
+                    </a>&nbsp;
+                    <a href="https://beritaterbaru.news/" target="_blank" rel="noopener" style="margin-right: 30px ;" aria-label="beritaterbaru">
+                        <img src="images/logo_other_portal/beritaterbaru.png" alt="" width="57" height="20" loading="lazy">
+                    </a>&nbsp;
+                    <a href="https://www.cnbcindonesia.com/" target="_blank" rel="noopener" style="margin-right: 30px ;" aria-label="cnbcindonesia">
+                        <img src="images/logo_other_portal/cnbcindonesia.png" alt="" width="57" height="20" loading="lazy">
+                    </a>&nbsp;
+                    <a href="https://www.jawapos.com/" target="_blank" rel="noopener" style="margin-right: 30px ;" aria-label="jawapos">
+                        <img src="images/logo_other_portal/jawapos.png" alt="" width="57" height="20" loading="lazy">
+                    </a>&nbsp;
+                    <a href="https://kumparan.com/" target="_blank" rel="noopener" style="margin-right: 30px ;" aria-label="kumparan">
+                        <img src="images/logo_other_portal/kumparan.png" alt="" width="57" height="20" loading="lazy">
+                    </a>&nbsp;
+                    <a href="https://mediaindonesia.com/" target="_blank" rel="noopener" style="margin-right: 30px ;" aria-label="mediaindonesia">
+                        <img src="images/logo_other_portal/mediaindonesia.png" alt="" width="57" height="20" loading="lazy">
+                    </a>&nbsp;
+                    <a href="https://www.nytimes.com/" target="_blank" rel="noopener" style="margin-right: 30px ;" aria-label="nytimes">
+                        <img src="images/logo_other_portal/nytimes.png" alt="" width="57" height="20" loading="lazy">
+                    </a>&nbsp;
+                    <a href="https://www.okezone.com/" target="_blank" rel="noopener" style="margin-right: 30px ;" aria-label="okezone">
+                        <img src="images/logo_other_portal/okezone.png" alt="" width="57" height="20" loading="lazy">
+                    </a>&nbsp;
+                    <a href="https://www.republika.co.id/" target="_blank" rel="noopener" style="margin-right: 30px ;" aria-label="republika">
+                        <img src="images/logo_other_portal/republika.png" alt="" width="57" height="20" loading="lazy">
+                    </a>&nbsp;
+                    <a href="https://www.suara.com/" target="_blank" rel="noopener" style="margin-right: 30px ;" aria-label="suara">
+                        <img src="images/logo_other_portal/suara.png" alt="" width="57" height="20" loading="lazy">
+                    </a>&nbsp;
+                    <a href="https://www.tempo.co/" target="_blank" rel="noopener" style="margin-right: 30px ;" aria-label="tempo">
+                        <img src="images/logo_other_portal/tempo.png" alt="" width="57" height="20" loading="lazy">
+                    </a>
+                    
+                </li>
+                <li style="margin-top: 10px ;">
+                    <a href="https://www.viva.co.id/" target="_blank" rel="noopener" style="margin-right: 30px ;" aria-label="vivanews">
+                        <img src="images/logo_other_portal/vivanews.png" alt="" width="57" height="20" loading="lazy">
+                    </a>&nbsp;
+                    <a href="https://www.voaindonesia.com/" target="_blank" rel="noopener" style="margin-right: 30px ;" aria-label="voaindonesia">
+                        <img src="images/logo_other_portal/voaindonesia.png" alt="" width="57" height="20" loading="lazy">
+                    </a>&nbsp;
+                    <a href="https://waspada.co.id/" target="_blank" rel="noopener" style="margin-right: 30px ;" aria-label="waspada">
+                        <img src="images/logo_other_portal/waspada.png" alt="" width="57" height="20" loading="lazy">
+                    </a>
+                </li>
+            </ul>
+            </center>
+          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="header_bottom">
