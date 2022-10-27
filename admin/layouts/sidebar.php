@@ -35,8 +35,8 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
-            <a href="dashboard" class="nav-link active">
+          <li class="nav-item ">
+            <a href="dashboard" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -68,10 +68,10 @@
           </li>
           <li class="nav-item">
             <a href="logout" class="nav-link">
-                <i class="nav-icon fas fa-power-off"></i>
-                <p>
-                  Logout
-                </p>
+              <i class="nav-icon fas fa-power-off"></i>
+              <p>
+                Logout
+              </p>
             </a>
           </li>
         </ul>
