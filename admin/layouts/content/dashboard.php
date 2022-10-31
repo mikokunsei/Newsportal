@@ -90,53 +90,76 @@
         </div>
         <!-- GRAFIK BERITA by Media -->
         <div class="card-body">
+          <!-- CHART BAR -->
           <div class="row">
             <div class="col-md-12">
-              <div id="highchart_media">
+              <div id="highchart_bar">
               </div>
             </div>
           </div>
         </div>
-        <!-- <div class="card-body">
-          <div class="d-flex">
-            <p class="d-flex flex-column">
-              <span class="text-bold text-lg">820</span>
-              <span>Total Berita</span>
-            </p>
-            <p class="ml-auto d-flex flex-column text-right">
-              <span class="text-success">
-                <i class="fas fa-arrow-up"></i> 12.5%
-              </span>
-              <span class="text-muted">Since last week</span>
-            </p>
-          </div> -->
-        <!-- /.d-flex -->
-
-        <!-- <div class="position-relative mb-4">
-            <div class="chartjs-size-monitor">
-              <div class="chartjs-size-monitor-expand">
-                <div class=""></div>
-              </div>
-              <div class="chartjs-size-monitor-shrink">
-                <div class=""></div>
-              </div>
-            </div>
-            <canvas id="visitors-chart" height="250" width="715" style="display: block; height: 200px; width: 572px;" class="chartjs-render-monitor"></canvas>
-          </div>
-
-          <div class="d-flex flex-row justify-content-end">
-            <span class="mr-2">
-              <i class="fas fa-square text-primary"></i> This Week
-            </span>
-
-            <span>
-              <i class="fas fa-square text-gray"></i> Last Week
-            </span>
-          </div>
-        </div> -->
       </div>
 
-      
+      <div class="card">
+        <div class="card-header border-0">
+          <div class="d-flex justify-content-between">
+            <h3 class="card-title">Grafik Berita by Kategori</h3>
+            <a href="javascript:void(0);">View Report</a>
+          </div>
+        </div>
+        <!-- GRAFIK BERITA by Kategori -->
+        <div class="card-body">
+          <!-- CHART PIE -->
+          <div class="row">
+            <div class="col-md-12">
+              <div id="highchart_pie">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header border-0">
+          <div class="d-flex justify-content-between">
+            <h3 class="card-title">Grafik Berita by Kategori</h3>
+            <a href="javascript:void(0);">View Report</a>
+          </div>
+        </div>
+        <!-- COBA CHART ADMINLTE -->
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-7">
+              <!-- DONUT CHART -->
+              <div class="card card-danger">
+                <div class="card-header">
+                  <h3 class="card-title">Donut Chart</h3>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <!-- <button type="button" class="btn btn-tool" data-card-widget="remove">
+                      <i class="fas fa-times"></i>
+                    </button> -->
+                  </div>
+                </div>
+                <div class="card-body">
+                  <canvas id="donutChart" style="min-height: 500px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col (LEFT) -->
+            <div class="col-md-6">
+              <!-- right -->
+            </div>
+            <!-- /.col (RIGHT) -->
+          </div>
+          <!-- /.row -->
+        </div>
+
+      </div>
 
     </div>
     <!--/. container-fluid -->

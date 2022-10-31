@@ -250,25 +250,7 @@
           </div>
         </div>
       </div>
-      <nav class="nav-slit"> 
-        <?php 
-          $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_canal = 'news' ORDER BY rand() LIMIT 1");
-          while ($data = mysqli_fetch_array($get_data)){
 
-            $id_extends = $data['id'];
-        ?>
-        <a class="prev" href="single_page.php?id=<?=$id_extends?>"> <span class="icon-wrap"><i class="fa fa-angle-left"></i></span>
-        <div>
-          <h3>Sebelumnya</h3>
-          <img src="<?php echo $data['c_image']; ?>" alt=""/> </div>
-        </a> 
-        <a class="next" href="single_page.php?id=<?=$id_extends?>"> <span class="icon-wrap"><i class="fa fa-angle-right"></i></span>
-        <div>
-          <h3>Selanjutnya</h3>
-          <img src="<?php echo $data['c_image']; ?>" alt=""/> </div>
-        </a> 
-        <?php }?>
-      </nav>
       <div class="col-lg-4 col-md-4 col-sm-4">
         <aside class="right_content">
           <div class="single_sidebar">
