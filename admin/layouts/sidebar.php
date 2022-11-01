@@ -67,6 +67,23 @@
             </ul>
           </li>
           <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tools"></i>
+              <p>
+                Utilitas
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="pengguna" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Pengguna</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
             <a href="logout" class="nav-link">
               <i class="nav-icon fas fa-power-off"></i>
               <p>
