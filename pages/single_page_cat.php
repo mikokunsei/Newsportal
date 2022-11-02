@@ -65,7 +65,85 @@ include "../config/connection.php";
               </ul>
             </div>
             <div class="header_top_right">
-              <p><?php echo date('l, d M Y'); ?></p>
+              <p>
+                <?php
+
+                $hari = date('l');
+                // echo $hari . "<br/>"; //akan menampilkan nama hari sekarang dalam bahasa inggris
+                $bulan = date('m');
+
+
+                switch ($hari) {
+                  case "Sunday":
+                    $hari = "Minggu";
+                    break;
+                  case "Monday":
+                    $hari = "Senin";
+                    break;
+                  case "Tuesday":
+                    $hari = "Selasa";
+                    break;
+                  case "Wednesday":
+                    $hari = "Rabu";
+                    break;
+                  case "Thursday":
+                    $hari = "Kamis";
+                    break;
+                  case "Friday":
+                    $hari = "Jumat";
+                    break;
+                  case "Saturday":
+                    $hari = "Sabtu";
+                    break;
+                }
+
+                switch ($bulan) {
+                  case "1":
+                    $bulan = "Januari";
+                    break;
+                  case "2":
+                    $bulan = "Februari";
+                    break;
+                  case "3":
+                    $bulan = "Maret";
+                    break;
+                  case "4":
+                    $bulan = "April";
+                    break;
+                  case "5":
+                    $bulan = "Mei";
+                    break;
+                  case "6":
+                    $bulan = "Juni";
+                    break;
+                  case "7":
+                    $bulan = "Juli";
+                    break;
+                  case "8":
+                    $bulan = "Agustus";
+                    break;
+                  case "9":
+                    $bulan = "September";
+                    break;
+                  case "10":
+                    $bulan = "Oktober";
+                    break;
+                  case "11":
+                    $bulan = "November";
+                    break;
+                  case "12":
+                    $bulan = "Desember";
+                    break;
+                }
+                //menampilkan format hari dalam bahasa indonesia
+                // echo "<br/>" . $hari;
+                $tanggal = date('d');
+                $tahun = date('Y');
+                //menampilkan hari tanggal bulan dan tahun
+                echo "<br/>$hari, $tanggal  $bulan  $tahun";
+                ?>
+
+              </p>
             </div>
           </div>
         </div>
@@ -84,7 +162,7 @@ include "../config/connection.php";
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav main_nav">
-            <li class="active"><a href="index.php"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
+            <li class="active"><a href="../index.php"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
             <?php
             $get_data = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news'");
             while ($data = mysqli_fetch_array($get_data)) {
@@ -111,7 +189,7 @@ include "../config/connection.php";
     </section>
     <section id="newsSection">
       <div class="row">
-        <div class="col-lg-12 col-md-12">
+        <div class="col-lg-12 col-md-12 col-sm-12">
           <div class="latest_newsarea"> <span>Latest News</span>
             <ul id="ticker01" class="news_sticker">
               <?php
@@ -143,7 +221,7 @@ include "../config/connection.php";
 
     <section id="contentSection">
       <div class="row">
-        <div class="col-lg-8 col-mdf-8 col-sm-8">
+        <div class="col-lg-12 col-md-12 col-sm-12">
           <div class="left_content">
             <div class="single_page">
               <?php
@@ -157,7 +235,7 @@ include "../config/connection.php";
             </div>
           </div>
         </div>
-        <div class="col-lg-8 col-md-8 col-sm-8">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
           <div class="slick_slider">
             <?php
             $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_canal = '$cat_news' ORDER BY c_datetime DESC LIMIT 4");

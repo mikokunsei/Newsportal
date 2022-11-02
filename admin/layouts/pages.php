@@ -31,6 +31,18 @@
                 include "action/delete-user.php";
                 break;
 
+            case 'komentar':
+                include "content/komentar.php";
+                break;
+
+            case 'editkomentar':
+                include "content/edit-komentar.php";
+                break;
+
+            case 'deletekomentar':
+                include "action/delete-komentar.php";
+                break;
+
 
             default:
             
