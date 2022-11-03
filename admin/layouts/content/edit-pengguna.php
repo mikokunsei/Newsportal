@@ -16,9 +16,18 @@ if (isset($_GET['id'])) {
     header("location:pengguna");
 }
 
-if ($_SESSION['role'] == 'admin') {
+if ($_SESSION['role'] == 'user' OR $id == 1) {
 ?>
+    <div class="wrapper">
+        <div class="content-wrapper" style="text-align:center;">
+            <section class="content">
+                <i>Not Allowed</i>
+            </section>
+        </div>
+    </div>
 
+<?php
+} elseif ($_SESSION['role'] == 'admin' OR 'manager') { ?>
     <div class="wrapper">
         <div class="content-wrapper">
             <section class="content-header">
@@ -109,7 +118,12 @@ if ($_SESSION['role'] == 'admin') {
             </section>
         </div>
     </div>
-
-<?php
-}
-?>
+<?php } else { ?>
+    <div class="wrapper">
+        <div class="content-wrapper" style="text-align:center;">
+            <section class="content">
+                <i>Not Allowed</i>
+            </section>
+        </div>
+    </div>
+<?php } ?>

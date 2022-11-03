@@ -14,7 +14,7 @@
           <img src="template/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="dashboard" class="d-block"><b>Administrator</b></a>
+          <a href="dashboard" class="d-block"><b><?php echo ucfirst($_SESSION['role']); ?> | <?php echo ucfirst($_SESSION['username']); ?></b></a>
         </div>
       </div>
 

@@ -11,6 +11,7 @@ if (isset($_GET['id'])){
         $query = mysqli_query($conn, "DELETE FROM tb_users WHERE id = '$id' ");
 
         if ($query) {
+            echo '<script language="javascript" type="text/javascript">alert("Data berhasil di hapus!");</script>';
             echo '<script>window.location.href = "http://localhost/newsportal/admin/pengguna"</script>' ;
         } else {
             header("location:pengguna");
@@ -19,4 +20,3 @@ if (isset($_GET['id'])){
 } else {
     header("location:pengguna");
 }
-?>

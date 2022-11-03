@@ -3,10 +3,7 @@
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Data Komentar</h1>
-                    </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-12">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
                             <li class="breadcrumb-item active">Data Komentar</li>
@@ -23,7 +20,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">DataTable with default features</h3>
+                                <h3 class="card-title">Data Komentar</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -53,6 +50,7 @@
                                                     ORDER BY tb_comments.id DESC";
                                         $get_comment = mysqli_query($conn, $sql);
                                         while ($data_comment = mysqli_fetch_array($get_comment)) {
+                                            $data_id = $data_comment['id'] ;
                                         ?>
                                             <tr>
                                                 <td><?php echo $no++; ?></td>
@@ -68,8 +66,31 @@
                                                     <?php
                                                     if ($_SESSION['role'] == 'admin' or 'manager') {
                                                     ?>
-                                                        <a href="editkomentar-<?php echo $data_comment['id']; ?>" class="btn btn-warning">Edit</a>
-                                                        <a href="deletekomentar-<?php echo $data_comment['id']; ?>" class="btn btn-danger">Delete</a>
+                                                        <div class="container">
+                                                            <a href="editkomentar-<?php echo $data_id; ?>" class="btn btn-warning">Edit</a>
+                                                            <a href="#modal_delete" onclick="confirm_modal('deletekomentar-<?php echo $data_id; ?>')"><button class="btn btn-danger" title="Hapus">Delete</button></a>
+                                                            <div class="modal fade" id="modal_delete">
+                                                                <div class="modal-dialog modal-md">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h6 class="modal-title">Modal Heading</h6>
+                                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <h5 style="text-align:center;">Yakin ingin menghapus data ?</h5>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <div class="row">
+                                                                                <div class="col" style="text-align:center ;">
+                                                                                    <a href="#" class="btn btn-danger" id="delete_user">Hapus</a>
+                                                                                    <a href="#" class="btn btn-primary" data-dismiss="modal">Kembali</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     <?php
                                                     } else { ?>
                                                         <i>Not Allowed</i>

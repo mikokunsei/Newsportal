@@ -27,6 +27,18 @@
 <script src="template/plugins/jquery-mapael/maps/usa_states.min.js"></script>
 <!-- ChartJS -->
 <script src="template/plugins/chart.js/Chart.min.js"></script>
+
+<!-- Modal -->
+<!-- Javascript untuk popup modal Delete-->
+<script type="text/javascript">
+    function confirm_modal(delete_url)
+    {
+      $('#modal_delete').modal('show', {backdrop: 'static'});
+      document.getElementById('delete_user').setAttribute('href' , delete_url);
+      document.getElementById('delete_comment').setAttribute('href' , delete_url);
+    }
+</script> 
+
 <!-- Highchart CDN-->
 <script>
   // Create the chart using cdn highchart

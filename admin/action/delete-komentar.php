@@ -11,7 +11,7 @@ if (isset($_GET['id'])) {
         $query = mysqli_query($conn, $sql);
 
         if ($query) {
-            
+            echo '<script language="javascript" type="text/javascript">alert("Data berhasil di hapus!");</script>';
             echo '<script>window.location.href = "http://localhost/newsportal/admin/komentar"</script>';
         } else {
             // header("location:komentar");

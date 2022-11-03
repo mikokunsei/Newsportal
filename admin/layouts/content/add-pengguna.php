@@ -1,5 +1,5 @@
 <?php
-if ($_SESSION['role'] == 'admin') {
+if ($_SESSION['role'] == 'admin' OR 'manager') {
 ?>
 
     <div class="wrapper">
@@ -89,5 +89,12 @@ if ($_SESSION['role'] == 'admin') {
     </div>
 
 <?php
-}
-?>
+} else { ?>
+    <div class="wrapper">
+        <div class="content-wrapper" style="text-align:center;">
+            <section class="content">
+                <i>Not Allowed</i>
+            </section>
+        </div>
+    </div>
+<?php } ?>
