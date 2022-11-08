@@ -85,8 +85,8 @@
                                                         <?php } elseif ($_SESSION['role'] == 'admin') { ?>
                                                             <div class="container">
                                                                 <a href="editpengguna-<?php echo $data_id ?>" class="btn btn-warning text-white">Edit</a>
-                                                                <a href="#modal_delete" onclick="confirm_modal('deletepengguna-<?php echo $data_id ?>')"><button class="btn btn-danger" title="Hapus">Delete</button></a>
-                                                                <div class="modal fade" id="modal_delete">
+                                                                <a href="" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?php echo $data_id ?>" >Delete</a>
+                                                                <div class="modal fade" id="modal_delete<?php echo $data_id ?>">
                                                                     <div class="modal-dialog modal-md">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
@@ -94,13 +94,14 @@
                                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                             </div>
                                                                             <div class="modal-body">
+                                                                                <?php print_r($data); ?>
                                                                                 <h5 style="text-align:center;">Yakin ingin menghapus data ?</h5>
                                                                             </div>
                                                                             <div class="modal-footer">
                                                                                 <div class="row">
                                                                                     <div class="col" style="text-align:center ;">
-                                                                                        <a href="#" class="btn btn-danger" id="delete_user">Hapus</a>
-                                                                                        <a href="#" class="btn btn-primary" data-dismiss="modal">Kembali</a>
+                                                                                        <a href="deletepengguna-<?php echo $data_id ?>" class="btn btn-danger" id="delete_user">Hapus</a>
+                                                                                        <a href="" class="btn btn-primary" data-dismiss="modal">Kembali</a>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>

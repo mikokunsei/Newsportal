@@ -34,7 +34,7 @@
                                             <th scope="col">Tanggal</th>
                                             <th scope="col">Status</th>
                                             <th scope="col">Berita</th>
-                                            <th scope="col">Action</th>
+                                            <th scope="col"  width="14%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -49,7 +49,7 @@
                                                     ON tb_comments.news_id = news_content.id
                                                     ORDER BY tb_comments.id DESC";
                                         $get_comment = mysqli_query($conn, $sql);
-                                        while ($data_comment = mysqli_fetch_array($get_comment)) {
+                                        while ($data_comment = mysqli_fetch_assoc($get_comment)) {
                                             $data_id = $data_comment['id'] ;
                                         ?>
                                             <tr>
@@ -68,8 +68,8 @@
                                                     ?>
                                                         <div class="container">
                                                             <a href="editkomentar-<?php echo $data_id; ?>" class="btn btn-warning">Edit</a>
-                                                            <a href="#modal_delete" onclick="confirm_modal('deletekomentar-<?php echo $data_id; ?>')"><button class="btn btn-danger" title="Hapus">Delete</button></a>
-                                                            <div class="modal fade" id="modal_delete">
+                                                            <a href="" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?php echo $data_id ?>">Delete</a>
+                                                            <div class="modal fade" id="modal_delete<?php echo $data_id ?>">
                                                                 <div class="modal-dialog modal-md">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
@@ -82,8 +82,8 @@
                                                                         <div class="modal-footer">
                                                                             <div class="row">
                                                                                 <div class="col" style="text-align:center ;">
-                                                                                    <a href="#" class="btn btn-danger" id="delete_user">Hapus</a>
-                                                                                    <a href="#" class="btn btn-primary" data-dismiss="modal">Kembali</a>
+                                                                                    <a href="deletekomentar-<?php echo $data_id ?>" class="btn btn-danger" id="delete_user">Hapus</a>
+                                                                                    <a href="" class="btn btn-primary" data-dismiss="modal">Kembali</a>
                                                                                 </div>
                                                                             </div>
                                                                         </div>

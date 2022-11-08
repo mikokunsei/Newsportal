@@ -7,7 +7,7 @@ if (isset($_GET['id'])) {
 
 include "../config/connection.php";
 
-
+$update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_view+1 WHERE id = '$id_news'")
 
 ?>
 
@@ -33,12 +33,17 @@ include "../config/connection.php";
 <script src="../assets/js/html5shiv.min.js"></script>
 <script src="../assets/js/respond.min.js"></script>
 <![endif]-->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
 </head>
 
 <body>
   <!-- <div id="preloader">
   <div id="status">&nbsp;</div>
 </div> -->
+
+  <input type="hidden" id="idberita" value="<?php echo $_GET['id']; ?>">
   <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
   <div class="container">
     <header id="header">
@@ -48,7 +53,23 @@ include "../config/connection.php";
             <div class="header_top_left">
               <ul class="top_nav">
                 <li><a href="../index.php">Home</a></li>
-                <li><a href="#">About</a></li>
+                <li>
+                  <div class="dropdown">
+                    <a href="" class=" dropdown-toggle" type="button" data-toggle="dropdown">News by Date
+                      <span class=""></span></a>
+                    <ul class="dropdown-menu">
+                      <?php
+
+                      $query_date = mysqli_query($conn, "SELECT DISTINCT (SUBSTR(c_datetime, 1,7)) AS data_date FROM news_content WHERE media = 'news' GROUP BY c_datetime");
+                      while ($data_date = mysqli_fetch_array($query_date)) {
+                      ?>
+                        <li>
+                          <a href="pages/single_page_date.php?date=<?= $data_date['data_date'] ?>"><?php echo $data_date['data_date'] ?></a>
+                        </li>
+                      <?php } ?>
+                    </ul>
+                  </div>
+                </li>
                 <li><a href="contact.php">Contact</a></li>
               </ul>
             </div>
@@ -153,6 +174,7 @@ include "../config/connection.php";
             <?php
             $get_cat_canal = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news'");
             while ($data_cat_canal = mysqli_fetch_array($get_cat_canal)) {
+
             ?>
               <li><a href="../pages/single_page_cat.php?c_canal=<?= $data_cat_canal['c_canal'] ?>"><?php echo $data_cat_canal['c_canal']; ?></a></li>
 
@@ -168,8 +190,8 @@ include "../config/connection.php";
               <li><a href="#">Sympony</a></li>
             </ul>
           </li> -->
-            <li><a href="pages/contact.php">Contact Us</a></li>
-            <li><a href="pages/404.html">404 Page</a></li>
+            <!-- <li><a href="pages/contact.php">Contact Us</a></li>
+            <li><a href="pages/404.html">404 Page</a></li> -->
           </ul>
         </div>
       </nav>
@@ -270,7 +292,7 @@ include "../config/connection.php";
                   // var_dump($data_tag);
                   $explode_tag = explode(',', $data_tag);
 
-                  // echo explode(',', $data_tag); 
+                  // echo explode(',', $data_tag);
                   // print_r(count($data_tag));
                   // for ($i=0; $i<=count($data_tag); $i++)
                   // {
@@ -280,7 +302,7 @@ include "../config/connection.php";
                   for ($i = 0; $i < count($explode_tag); $i++) {
 
                     //  $part = str_replace($explode_tag[$i], "<p>".$explode_tag[$i]."</p>", $explode_tag[$i]);
-                    echo "<button class='btn default-btn'> " . $explode_tag[$i] . "</button> &nbsp;";
+                    echo "<a href='single_page_tag.php?tag=".$explode_tag[$i]."'class='btn btn-default'> ".$explode_tag[$i]."</a> &nbsp;";
                   }
 
                   //
@@ -293,10 +315,9 @@ include "../config/connection.php";
                   // }
                   ?>
 
-                  <?php
-                  ?>
 
 
+                  <!-- KOMENTAR -->
                   <div class="show-comment" style="margin-top: 20px ;">
                     <div class="panel panel-default ">
                       <div class="panel-heading">
@@ -305,35 +326,9 @@ include "../config/connection.php";
                         </h3>
                       </div>
                       <div class="panel-body">
-                        <ul class="spost_nav">
-                          <?php
-                          $sql_comment = "SELECT * FROM tb_comments WHERE news_id = '$id_news' AND status = 'aktif' ORDER BY id ASC";
-                          $get_comment = mysqli_query($conn, $sql_comment);
 
-                          while ($data_comment = mysqli_fetch_array($get_comment)) {
-
-                          ?>
-                            <li>
-                              <!-- <div class="media wow fadeInDown"> <a href="single_page.html" class="media-left"> <img alt="" src="../images/post_img1.jpg"> </a>
-                        <div class="media-body"> <a href="single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 1</a> </div>
-                      </div> -->
-                              <div class="media wow fadeInDown">
-                                <div class="media-body">
-                                  <h4>
-                                    <a href="mailto:<?php echo $data_comment['email']; ?>" class="title mr-3">
-                                      <?php echo $data_comment['nama']; ?>
-                                    </a>
-                                    <br>
-                                  </h4>
-                                  <?php echo $data_comment['komentar']; ?> [<?php echo $data_comment['tgl']; ?>]
-                                  <hr>
-                                </div>
-                              </div>
-                            </li>
-                          <?php
-                          }
-                          ?>
-                        </ul>
+                        <div id="load_data"></div>
+                        <div id="load_data_message"></div>
                       </div>
                     </div>
                   </div>
@@ -412,12 +407,15 @@ include "../config/connection.php";
               <h2><span>Popular Post</span></h2>
               <ul class="spost_nav">
                 <?php
-                $get_popular = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' ORDER BY rand() LIMIT 5 ");
+                $get_popular = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'  ORDER BY jml_view DESC LIMIT 5 ");
                 while ($data_popular = mysqli_fetch_array($get_popular)) {
 
                 ?>
                   <li>
                     <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data_popular['id'] ?>" class="media-left"> <img alt="" src="<?php echo $data_popular['c_image']; ?>"> </a>
+                      <div class="media-header">
+                        <span style="font-size: 12px;"><?php echo substr($data_popular['c_datetime'], 0, 10); ?> | views : <?php echo $data_popular['jml_view']; ?></span>
+                      </div>
                       <div class="media-body"> <a href="single_page.php?id=<?= $data_popular['id'] ?>" class="catg_title"> <?php echo $data_popular['title']; ?></a> </div>
                     </div>
                   </li>
@@ -566,3 +564,72 @@ include "../config/connection.php";
 </body>
 
 </html>
+
+<!-- <script type="text/javascript">
+  $(document).ready(function() {
+    $(document).on('click', '#btn_load_comment', function() {
+      var last_id = $(this).data("id");
+      $('#btn_load_comment').html("Loading...");
+      $.ajax({
+        url: "single_page.php",
+        method: "POST",
+        data: {
+          last_id: last_id
+        },
+        dataType: "text",
+        success: function(data) {
+          $('#remove_comment').remove();
+          $('#load_comment').append(data);
+        }
+      });
+    });
+  });
+</script> -->
+
+
+<script>
+  $(document).ready(function() {
+    var limit = 2;
+    var start = 0;
+    var idberita = $('#idberita').val();
+    var action = 'inactive';
+
+    function load_country_data(limit, start, idberita) {
+      $.ajax({
+        url: "load-comment.php",
+        method: "POST",
+        data: {
+          limit: limit,
+          start: start,
+          idberita: idberita
+        },
+        cache: false,
+        success: function(data) {
+          $('#load_data').append(data);
+          if (data == '') {
+            $('#load_data_message').html("<button type='button' class='btn btn-secondary disabled'>Tidak ada komentar</button>");
+            action = 'active';
+          } else {
+            $('#load_data_message').html("<button type='button' class='btn btn-warning' style='margin-left:45%;'>Load More</button>");
+            action = "inactive";
+          }
+        }
+      });
+    }
+    if (action == 'inactive') {
+      action = 'active';
+      load_country_data(limit, start, idberita);
+    }
+    $(document).on('click', '#load_data_message', function() {
+
+      if ($(window).scrollTop() + $(window).height() > $("#load_data").height() && action == 'inactive') {
+        action = 'active';
+        start = start + limit;
+        setTimeout(function() {
+          load_country_data(limit, start, idberita);
+        }, 1000);
+      }
+    });
+
+  });
+</script>

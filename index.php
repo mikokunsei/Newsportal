@@ -54,7 +54,23 @@ include 'config/connection.php'
             <div class="header_top_left">
               <ul class="top_nav">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="#">About</a></li>
+                <li>
+                  <div class="dropdown">
+                    <a href="" class=" dropdown-toggle" type="button" data-toggle="dropdown">News by Date
+                      <span class=""></span></a>
+                    <ul class="dropdown-menu">
+                      <?php
+
+                      $query_date = mysqli_query($conn, "SELECT DISTINCT (SUBSTR(c_datetime, 1,7)) AS data_date FROM news_content WHERE media = 'news' GROUP BY c_datetime");
+                      while ($data_date = mysqli_fetch_array($query_date)) {
+                      ?>
+                        <li>
+                          <a href="pages/single_page_date.php?date=<?= $data_date['data_date'] ?>"><?php echo $data_date['data_date'] ?></a>
+                        </li>
+                      <?php } ?>
+                    </ul>
+                  </div>
+                </li>
                 <li><a href="pages/contact.php">Contact</a></li>
               </ul>
             </div>
@@ -139,7 +155,7 @@ include 'config/connection.php'
               </p>
             </div>
           </div>
-          <div class="logo_other" style="margin-top: 70px ; margin-bottom: 20px ; ">
+          <!-- <div class="logo_other" style="margin-top: 70px ; margin-bottom: 20px ; ">
             <center>
               <ul class="other-portal-v2">
                 <li>
@@ -191,12 +207,12 @@ include 'config/connection.php'
                 </li>
               </ul>
             </center>
-          </div>
+          </div> -->
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12">
           <div class="header_bottom">
             <div class="logo_area"><a href="index.php" class="logo"><img src="images/logo.jpg" alt=""></a></div>
-            <div class="add_banner"><a href="#"><img src="images/purple_panorama.jpg" style="width: 745 px;" alt=""></a></div>
+            <!-- <div class="add_banner"><a href="#"><img src="images/purple_panorama.jpg" style="width: 745 px;" alt=""></a></div> -->
           </div>
         </div>
       </div>
@@ -227,8 +243,8 @@ include 'config/connection.php'
               <li><a href="#">Sympony</a></li>
             </ul>
           </li> -->
-            <li><a href="pages/contact.php">Contact Us</a></li>
-            <li><a href="pages/404.html">404 Page</a></li>
+            <!-- <li><a href="pages/contact.php">Contact Us</a></li>
+            <li><a href="pages/404.html">404 Page</a></li> -->
           </ul>
         </div>
       </nav>
@@ -296,7 +312,7 @@ include 'config/connection.php'
               <div id="prev-button"><i class="fa fa-chevron-up"></i></div>
               <ul class="latest_postnav">
                 <?php
-                $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' ORDER BY rand()  LIMIT 5");
+                $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' ORDER BY c_datetime DESC LIMIT 5");
                 while ($data = mysqli_fetch_array($get_data)) {
                   // print_r($data);
                 ?>
@@ -306,9 +322,11 @@ include 'config/connection.php'
                         <img alt="" src="<?php echo $data['c_image']; ?>">
                       </a>
                       <div class="media-body">
-                        <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="catg_title">
-                          <?php echo $data['title']; ?>
-                        </a>
+                        <figcaption>
+                          <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="catg_title">
+                            <?php echo $data['title']; ?>
+                          </a>
+                        </figcaption>
                       </div>
                     </div>
                   </li>
@@ -446,11 +464,14 @@ include 'config/connection.php'
               <h2><span>Popular Post</span></h2>
               <ul class="spost_nav">
                 <?php
-                $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_canal = 'top-news' LIMIT 4");
+                $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' ORDER BY jml_view DESC LIMIT 5");
                 while ($data = mysqli_fetch_array($get_data)) {
                 ?>
                   <li>
                     <div class="media wow fadeInDown"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="<?php echo $data['c_image']; ?>"> </a>
+                      <div class="media-header">
+                        <span style="font-size: 12px;"><?php echo substr($data['c_datetime'], 0, 10); ?> | views : <?php echo $data['jml_view']; ?></span>
+                      </div>
                       <div class="media-body"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="catg_title"><?php echo $data['title']; ?></a> </div>
                     </div>
                   </li>
