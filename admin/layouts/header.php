@@ -33,6 +33,10 @@ if (!isset($_SESSION['username'])) {
   <script src="https://code.highcharts.com/modules/export-data.js"></script>
   <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
+  <!-- DataTables -->
+  <link rel="stylesheet" href="template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
 </head>
 
@@ -40,9 +44,9 @@ if (!isset($_SESSION['username'])) {
   <div class="wrapper">
 
     <!-- Preloader -->
-    <div class="preloader flex-column justify-content-center align-items-center">
+    <!-- <div class="preloader flex-column justify-content-center align-items-center">
       <img src="../assets/css/images/purple_loading.gif" style="border-radius: 50%; width: 150px; height:150px;" alt="loading">
-    </div>
+    </div> -->
     <!-- <div id="preloader">
     <div id="status">&nbsp;</div>
   </div> -->

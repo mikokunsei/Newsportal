@@ -31,10 +31,10 @@
                                             <th scope="col">Nama</th>
                                             <th scope="col">Email</th>
                                             <th scope="col" width="40%">Komentar</th>
-                                            <th scope="col">Tanggal</th>
+                                            <th scope="col" width="10%">Tanggal</th>
                                             <th scope="col">Status</th>
                                             <th scope="col">Berita</th>
-                                            <th scope="col"  width="14%">Action</th>
+                                            <th scope="col"  width="17%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>

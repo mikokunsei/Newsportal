@@ -302,7 +302,7 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
                   for ($i = 0; $i < count($explode_tag); $i++) {
 
                     //  $part = str_replace($explode_tag[$i], "<p>".$explode_tag[$i]."</p>", $explode_tag[$i]);
-                    echo "<a href='single_page_tag.php?tag=".$explode_tag[$i]."'class='btn btn-default'> ".$explode_tag[$i]."</a> &nbsp;";
+                    echo "<a href='single_page_tag.php?tag=" . $explode_tag[$i] . "'class='btn btn-default'> " . $explode_tag[$i] . "</a> &nbsp;";
                   }
 
                   //
@@ -561,6 +561,8 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
   <script src="../assets/js/jquery.newsTicker.min.js"></script>
   <script src="../assets/js/jquery.fancybox.pack.js"></script>
   <script src="../assets/js/custom.js"></script>
+
+
 </body>
 
 </html>
@@ -587,6 +589,7 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
 </script> -->
 
 
+<!-- LOAD COMMENTS -->
 <script>
   $(document).ready(function() {
     var limit = 2;
@@ -596,7 +599,7 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
 
     function load_country_data(limit, start, idberita) {
       $.ajax({
-        url: "load-comment.php",
+        url: "load_comment.php",
         method: "POST",
         data: {
           limit: limit,

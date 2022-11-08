@@ -265,12 +265,21 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
                                 <ul class="spost_nav">
                                     <?php
 
-                                    $batas = 10;
-                                    
+                                    $batas = 12;
+                                    $halaman = @$_GET['halaman'];
+                                    if (empty($halaman)) {
+                                        $posisi = 0;
+                                        $hahlaman = 1;
+                                    } else {
+                                        $posisi = ($halaman - 1) * $batas;
+                                    }
+
+                                    $get_data_tag = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_datetime LIKE '%$date_news%'");
+                                    $jml_data = mysqli_num_rows($get_data_tag);
+                                    $jml_halaman = ceil($jml_data / $batas);
 
 
-
-                                    $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_datetime LIKE '%$date_news%' limit $batas ");
+                                    $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_datetime LIKE '%$date_news%' ORDER BY c_datetime DESC limit $posisi, $batas ");
                                     while ($data = mysqli_fetch_array($get_data)) {
                                     ?>
                                         <li>
@@ -290,11 +299,17 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
                                     ?>
                                 </ul>
                                 <ul class="pagination">
-                                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                    <?php
+                                    for ($i = 1; $i <= $jml_halaman; $i++)
+                                        if ($i != $halaman) {
+                                            echo "<li class='page-item'><a class='page-link' href=\"single_page_date.php?date=$date_news&halaman=$i\">$i</a></li>";
+                                            if ($i == 17) {
+                                                echo "<br/>";
+                                            }
+                                        } else {
+                                            echo "<li class='page-item active'><a class='page-link'>$i</a></i>";
+                                        }
+                                    ?>
                                 </ul>
                             </div>
                         </div>

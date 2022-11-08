@@ -1,5 +1,5 @@
 <?php
-if (isset($_GET['tag'])) {
+if (isset($_GET['tag']) || ($_GET['halaman'])) {
     $tag_news = $_GET['tag'];
 } else {
     die("Error, No Tag Selected !");
@@ -265,22 +265,30 @@ $get_news = mysqli_query($conn, "SELECT tag FROM news_content WHERE media = 'new
                                 <ul class="spost_nav">
                                     <?php
 
-                                    $batas = 10;
-                                    
+                                    $batas = 12;
+                                    $halaman = @$_GET['halaman'];
+                                    if (empty($halaman)) {
+                                        $posisi = 0;
+                                        $hahlaman = 1;
+                                    } else {
+                                        $posisi = ($halaman - 1) * $batas;
+                                    }
 
+                                    $get_data_tag = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND tag LIKE '%$tag_news%'");
+                                    $jml_data = mysqli_num_rows($get_data_tag);
+                                    $jml_halaman = ceil($jml_data / $batas);
 
-
-                                    $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND tag LIKE '%$tag_news%' limit $batas ");
+                                    $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND tag LIKE '%$tag_news%' ORDER BY c_datetime DESC limit $posisi, $batas ");
                                     while ($data = mysqli_fetch_array($get_data)) {
                                     ?>
                                         <li>
                                             <div class="list-news wow fadeInRight">
                                                 <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="<?php echo $data['c_image']; ?>"> </a>
                                                     <div class="media-body">
-                                                        <span><?php echo $data['c_datetime']; ?></span>
                                                         <h5>
                                                             <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"> <?php echo $data['title']; ?> </a>
                                                         </h5>
+                                                        <span><?php echo $data['c_datetime']; ?></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -289,14 +297,21 @@ $get_news = mysqli_query($conn, "SELECT tag FROM news_content WHERE media = 'new
                                     }
                                     ?>
                                 </ul>
-                                <ul class="pagination">
-                                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                </ul>
+
                             </div>
+                            <ul class="pagination">
+                                <?php
+                                for ($i = 1; $i <= $jml_halaman; $i++)
+                                    if ($i != $halaman) {
+                                        echo "<li class='page-item'><a class='page-link' href=\"single_page_tag.php?tag=$tag_news&halaman=$i\">$i</a></li>";
+                                        if ($i == 16) {
+                                            echo "<br/>";
+                                        }
+                                    } else {
+                                        echo "<li class='page-item'><a class='page-link'>$i</a></i>";
+                                    }
+                                ?>
+                            </ul>
                         </div>
                     </div>
                 </div>
