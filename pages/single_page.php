@@ -158,7 +158,7 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
         <div class="col-lg-12 col-md-12 col-sm-12">
           <div class="header_bottom">
             <div class="logo_area"><a href="../index.php" class="logo"><img src="../images/logo.jpg" alt=""></a></div>
-            <div class="add_banner"><a href="#"><img src="../images/purple_panorama.jpg" style="width: 745 px;" alt=""></a></div>
+            <!-- <div class="add_banner"><a href="#"><img src="../images/purple_panorama.jpg" style="width: 745 px;" alt=""></a></div> -->
           </div>
         </div>
       </div>
@@ -322,7 +322,18 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
                     <div class="panel panel-default ">
                       <div class="panel-heading">
                         <h3 class="panel-title">
-                          Komentar
+                          <?php
+
+                          $jml_komentar = mysqli_query($conn, "SELECT COUNT(news_id) AS jml_komentar, id FROM tb_comments WHERE news_id = '$id_news' AND status = 'aktif' ");
+                          while ($data_jml = mysqli_fetch_assoc($jml_komentar)) {
+
+                          ?>
+
+                            <?php echo $data_jml['jml_komentar']; ?>
+                            Komentar
+                          <?php
+                          }
+                          ?>
                         </h3>
                       </div>
                       <div class="panel-body">
@@ -344,22 +355,13 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
                         <form action="comment.php" method="POST">
                           <input type="hidden" name="news_id" value="<?php echo $data_content['id']; ?>">
                           <div class="form-group">
-                            <label for="name">
-                              Nama
-                            </label>
-                            <input type="text" class="form-control" name="name" id="" placeholder="Masukkan nama Anda" required>
+                            <input type="text" class="form-control" name="name" id="" placeholder="Masukkan nama" required>
                           </div>
                           <div class="form-group">
-                            <label for="email">
-                              Email
-                            </label>
-                            <input type="text" class="form-control" name="email" id="" placeholder="Masukkan email Anda" required>
+                            <input type="text" class="form-control" name="email" id="" placeholder="Masukkan email" required>
                           </div>
                           <div class="form-group">
-                            <label for="comment">
-                              Komentar
-                            </label>
-                            <textarea name="comment" class="form-control" id="" cols="30" rows="5"></textarea>
+                            <textarea name="comment" class="form-control" id="" cols="30" rows="5" placeholder="Komentar"></textarea>
                           </div>
                           <div class="form-group">
                             <button type="submit" class="form-control" name="simpan" class="btn btn-danger" style="background-color: #d083cf; color: white ;" value="input">Kirim</button>
@@ -446,7 +448,9 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
                 </div>
                 <div role="tabpanel" class="tab-pane" id="video">
                   <div class="vide_area">
-                    <iframe width="100%" height="250" src="https://www.youtube.com/embed/_Kyq0T3qe4w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <!-- Insert this tag where you want the widget to render -->
+                    <iframe width="100%" height="250" src="https://cybermap.kaspersky.com/en/widget/dynamic/dark" frameborder="0"></iframe>
+                    <!-- <iframe width="100%" height="250" src="https://www.youtube.com/embed/_Kyq0T3qe4w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
                     <!-- <iframe width="100%" height="250" src="http://www.youtube.com/embed/h5QWbURNEpA?feature=player_detailpage" frameborder="0" allowfullscreen></iframe> -->
                   </div>
                 </div>
@@ -489,7 +493,7 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
               <h2><span>Sponsor</span></h2>
               <a class="sideAdd" href="#"><img src="../images/bintang_sma.jpg" alt=""></a>
             </div>
-            <div class="single_sidebar wow fadeInDown">
+            <!-- <div class="single_sidebar wow fadeInDown">
               <h2><span>Category Archive</span></h2>
               <select class="catgArchive">
                 <option>Select Category</option>
@@ -498,14 +502,23 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
                 <option>Technology</option>
                 <option>Treads</option>
               </select>
-            </div>
+            </div> -->
             <div class="single_sidebar wow fadeInDown">
-              <h2><span>Links</span></h2>
+              <h2><span>Category Archive</span></h2>
               <ul>
-                <li><a href="#">Blog</a></li>
+                <?php
+                $get_cat_ar = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news' ");
+                while ($data_cat_ar = mysqli_fetch_array($get_cat_ar)) {
+                  $canal = $data_cat_ar['c_canal'];
+                ?>
+                  <li><a href="single_page_cat.php?c_canal=<?= $data_cat_ar['c_canal'] ?>"><?php echo ucfirst($canal) ?></a></li>
+                <?php
+                }
+                ?>
+                <!-- <li><a href="#">Blog</a></li>
                 <li><a href="#">Rss Feed</a></li>
                 <li><a href="#">Login</a></li>
-                <li><a href="#">Life &amp; Style</a></li>
+                <li><a href="#">Life &amp; Style</a></li> -->
               </ul>
             </div>
           </aside>
@@ -592,10 +605,13 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
 <!-- LOAD COMMENTS -->
 <script>
   $(document).ready(function() {
+
     var limit = 2;
     var start = 0;
     var idberita = $('#idberita').val();
     var action = 'inactive';
+
+    show_variable(limit, start, idberita);
 
     function load_country_data(limit, start, idberita) {
       $.ajax({
@@ -608,31 +624,117 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
         },
         cache: false,
         success: function(data) {
+
+          show_variable(limit, start, idberita);
+
           $('#load_data').append(data);
           if (data == '') {
-            $('#load_data_message').html("<button type='button' class='btn btn-secondary disabled'>Tidak ada komentar</button>");
+            $('#load_data_message').html("<button type='button' class='btn disabled' style=' background-color: grey; color: white ; border-radius:10px; margin-left:40%;'>Tidak ada komentar</button>");
             action = 'active';
           } else {
-            $('#load_data_message').html("<button type='button' class='btn btn-warning' style='margin-left:45%;'>Load More</button>");
+            $('#load_data_message').html("<button type='button' class='btn' style=' background-color: #d083cf; color: white ; border-radius:10px; margin-left:45%;'>Load More</button>");
             action = "inactive";
           }
         }
       });
     }
+
     if (action == 'inactive') {
       action = 'active';
       load_country_data(limit, start, idberita);
     }
-    $(document).on('click', '#load_data_message', function() {
+
+    $('#load_data_message').on('click', function() {
 
       if ($(window).scrollTop() + $(window).height() > $("#load_data").height() && action == 'inactive') {
         action = 'active';
         start = start + limit;
         setTimeout(function() {
           load_country_data(limit, start, idberita);
-        }, 1000);
+        }, 500);
       }
     });
 
+
   });
+
+  function show_variable(a, b, c) {
+
+    console.log(a)
+    console.log(b)
+    console.log(c)
+
+  }
+
+
+
+
+  function reply_comment(id) {
+
+    // console.log(id)
+    // document.getElementById("test").innerHTML = id;
+    $("#input_comment_" + id).show()
+    // $("#load_comment_"+id).hide()
+
+  }
+
+  function cancel_comment(id) {
+
+    $("#input_comment_" + id).hide()
+  }
+
+  function show_comment(id) {
+
+    $("#input_comment_" + id).hide()
+    $("#show_replies_" + id).hide()
+
+    var limit = 2;
+    var start = 0;
+    var comment_id = id;
+    var action = 'inactive';
+
+    function load_country_data(limit, start, idberita) {
+      $.ajax({
+        url: "load_reply.php",
+        method: "POST",
+        data: {
+          limit: limit,
+          start: start,
+          comment_id: comment_id
+        },
+        cache: false,
+        success: function(data) {
+
+          show_variable(limit, start, comment_id);
+
+          $('#load_comment_' + id).append(data);
+          if (data == '') {
+            $('#load_data_comment_' + id).html("<button type='button' class='btn disabled' style=' background-color: grey; color: white ; border-radius:10px; margin-left:40%;'>Tidak ada komentar</button>");
+            action = 'active';
+          } else {
+            $('#load_data_comment_' + id).html("<button type='button' class='btn' style=' background-color: #d083cf; color: white ; border-radius:10px; margin-left:45%;'>Load More</button>");
+            action = "inactive";
+          }
+
+        }
+      });
+    }
+
+    if (action == 'inactive') {
+      action = 'active';
+      load_country_data(limit, start, id);
+    }
+
+    $('#load_data_comment_' + id).on('click', function() {
+
+      if ($(window).scrollTop() + $(window).height() > $("#load_comment" + id).height() && action == 'inactive') {
+        action = 'active';
+        start = start + limit;
+        setTimeout(function() {
+          load_country_data(limit, start, id);
+        }, 500);
+      }
+    });
+
+  }
 </script>

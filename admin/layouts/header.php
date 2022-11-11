@@ -44,9 +44,9 @@ if (!isset($_SESSION['username'])) {
   <div class="wrapper">
 
     <!-- Preloader -->
-    <!-- <div class="preloader flex-column justify-content-center align-items-center">
+    <div class="preloader flex-column justify-content-center align-items-center">
       <img src="../assets/css/images/purple_loading.gif" style="border-radius: 50%; width: 150px; height:150px;" alt="loading">
-    </div> -->
+    </div>
     <!-- <div id="preloader">
     <div id="status">&nbsp;</div>
   </div> -->

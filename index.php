@@ -322,8 +322,10 @@ include 'config/connection.php'
                         <img alt="" src="<?php echo $data['c_image']; ?>">
                       </a>
                       <div class="media-body">
+                        <span style="font-size: 13px;"><?php echo substr($data['c_datetime'], 0, 10); ?></span>
                         <figcaption>
                           <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="catg_title">
+
                             <?php echo $data['title']; ?>
                           </a>
                         </figcaption>
@@ -368,12 +370,20 @@ include 'config/connection.php'
               <div class="single_post_content_right">
                 <ul class="spost_nav">
                   <?php
-                  $get_data = mysqli_query($conn, "SELECT id, c_image, title FROM news_content WHERE media = 'news' AND c_canal = 'news' ORDER BY rand() LIMIT 4");
+                  $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_canal = 'news' ORDER BY rand() LIMIT 4");
                   while ($data = mysqli_fetch_array($get_data)) {
                   ?>
                     <li>
-                      <div class="media wow fadeInDown"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="<?php echo $data['c_image']; ?>"> </a>
-                        <div class="media-body"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="catg_title"> <?php echo $data['title']; ?> </a> </div>
+                      <div class="media wow fadeInDown">
+                        <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="media-left">
+                          <img alt="" src="<?php echo $data['c_image']; ?>">
+                        </a>
+                        <div class="media-body">
+                          <span style="font-size: 14px;"><?php echo substr($data['c_datetime'], 0, 10); ?></span>
+                          <h5>
+                            <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="catg_title"> <?php echo $data['title']; ?> </a>
+                          </h5>
+                        </div>
                       </div>
                     </li>
                   <?php
@@ -405,12 +415,20 @@ include 'config/connection.php'
                   </ul>
                   <ul class="spost_nav">
                     <?php
-                    $get_data = mysqli_query($conn, "SELECT id, c_image, title FROM news_content WHERE media = 'news' AND c_canal = 'hukum' ORDER BY rand() LIMIT 4");
+                    $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_canal = 'hukum' ORDER BY rand() LIMIT 4");
                     while ($data = mysqli_fetch_array($get_data)) {
                     ?>
                       <li>
-                        <div class="media wow fadeInDown"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="<?php echo $data['c_image']; ?>"> </a>
-                          <div class="media-body"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="catg_title"><?php echo $data['title']; ?></a> </div>
+                        <div class="media wow fadeInDown">
+                          <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="media-left">
+                            <img alt="" src="<?php echo $data['c_image']; ?>">
+                          </a>
+                          <div class="media-body">
+                            <span style="font-size: 14px;"><?php echo substr($data['c_datetime'], 0, 10); ?></span>
+                            <h5>
+                              <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="catg_title"><?php echo $data['title']; ?></a>
+                            </h5>
+                          </div>
                         </div>
                       </li>
                     <?php
@@ -441,12 +459,20 @@ include 'config/connection.php'
                   </ul>
                   <ul class="spost_nav">
                     <?php
-                    $get_data = mysqli_query($conn, "SELECT id, c_image, title, txt FROM news_content WHERE media = 'news' AND c_canal = 'politik' ORDER BY rand() LIMIT 4");
+                    $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_canal = 'politik' ORDER BY rand() LIMIT 4");
                     while ($data = mysqli_fetch_array($get_data)) {
                     ?>
                       <li>
-                        <div class="media wow fadeInDown"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="<?php echo $data['c_image']; ?>"> </a>
-                          <div class="media-body"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="catg_title"><?php echo $data['title']; ?></a> </div>
+                        <div class="media wow fadeInDown">
+                          <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="media-left">
+                            <img alt="" src="<?php echo $data['c_image']; ?>">
+                          </a>
+                          <div class="media-body">
+                            <span style="font-size: 14px;"><?php echo substr($data['c_datetime'], 0, 10); ?></span>
+                            <h5>
+                              <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="catg_title"><?php echo $data['title']; ?></a>
+                            </h5>
+                          </div>
                         </div>
                       </li>
                     <?php
@@ -502,8 +528,10 @@ include 'config/connection.php'
                 </div>
                 <div role="tabpanel" class="tab-pane" id="video">
                   <div class="vide_area">
-                    <iframe width="100%" height="250" src="https://www.youtube.com/embed/_Kyq0T3qe4w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    <!-- <iframe width="100%" height="250" src="http://www.youtube.com/embed/h5QWbURNEpA?feature=player_detailpage" frameborder="0" allowfullscreen></iframe> -->
+                    <!-- Insert this tag where you want the widget to render -->
+                    <iframe width="100%" height="250" src="https://cybermap.kaspersky.com/en/widget/dynamic/dark" frameborder="0"></iframe>
+                      <!-- <iframe width="100%" height="250" src="https://www.youtube.com/embed/_Kyq0T3qe4w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+                      <!-- <iframe width="100%" height="250" src="http://www.youtube.com/embed/h5QWbURNEpA?feature=player_detailpage" frameborder="0" allowfullscreen></iframe> -->
                   </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="comments">
@@ -544,6 +572,7 @@ include 'config/connection.php'
             <div class="single_sidebar wow fadeInDown">
               <h2><span>Sponsor</span></h2>
               <a class="sideAdd" href="#"><img src="images/bintang_sma.jpg" alt=""></a>
+
             </div>
             <div class="single_sidebar wow fadeInDown">
               <h2><span>Category Archive</span></h2>
