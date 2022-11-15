@@ -23,10 +23,10 @@ if (isset($_POST["limit"], $_POST["start"], $_POST["idberita"])) {
           <div class="media-action">
             <p id="test"></p>
             <div class="row btn-media">
-              <div class="col-sm-2">
+              <div class="col-sm-3 col-md-2 col-lg-2 col-xl-2 ">
                 <button type="button" class="form-control" onclick="reply_comment(<?php echo $row['id'] ?>)" style=" background-color: #d083cf; color: white ; border-radius:10px;">Reply</button>
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-5 col-md-4 col-lg-3 col-xl-3 ">
                 <?php
 
                 $id = $row['id'];
@@ -63,10 +63,10 @@ if (isset($_POST["limit"], $_POST["start"], $_POST["idberita"])) {
               <textarea name="comment" class="form-control" id="" cols="30" rows="5" placeholder="Komentar"></textarea>
             </div>
             <div class="form-group">
-              <div class="col-md-6">
+              <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-6">
                 <button type="submit" class="form-control" name="simpan" class="btn btn-danger" style="background-color: #d083cf; color: white ; border-radius:10px;" value="input">Kirim</button>
               </div>
-              <div class="col-md-6">
+              <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-6">
                 <button type="button" class="form-control" name="batal" onclick="cancel_comment(<?php echo $row['id'] ?>)" class="btn btn-danger" style=" border-radius:10px;">Batal</button>
               </div>
             </div>

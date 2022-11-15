@@ -32,9 +32,9 @@
                                             <th scope="col">Email</th>
                                             <th scope="col" width="40%">Komentar</th>
                                             <th scope="col" width="10%">Tanggal</th>
-                                            <th scope="col">Status</th>
+                                            <th scope="col" width="10%">Status</th>
                                             <th scope="col">Berita</th>
-                                            <th scope="col"  width="17%">Action</th>
+                                            <th scope="col" width="17%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -50,7 +50,7 @@
                                                     ORDER BY tb_comments.id DESC";
                                         $get_comment = mysqli_query($conn, $sql);
                                         while ($data_comment = mysqli_fetch_assoc($get_comment)) {
-                                            $data_id = $data_comment['id'] ;
+                                            $data_id = $data_comment['id'];
                                         ?>
                                             <tr>
                                                 <td><?php echo $no++; ?></td>
@@ -58,7 +58,16 @@
                                                 <td><?php echo $data_comment['email']; ?></td>
                                                 <td><?php echo $data_comment['komentar']; ?></td>
                                                 <td><?php echo $data_comment['tgl']; ?></td>
-                                                <td><?php echo ucfirst($data_comment['status']); ?></td>
+                                                <td>
+                                                    <select  class="form-control selectstatusxx" name="status">
+                                                        <option value="aktif" <?php if ($data_comment['status'] == 'aktif') {
+                                                                                        echo 'selected';
+                                                                                    } ?> data-id="<?php echo $data_comment['id'] ?>">Aktif</option>
+                                                        <option value="nonaktif" <?php if ($data_comment['status'] == 'nonaktif') {
+                                                                                        echo 'selected';
+                                                                                    } ?> data-id="<?php echo $data_comment['id'] ?>">Nonaktif</option>
+                                                    </select>
+                                                </td>
                                                 <td>
                                                     <a href="../pages/single_page.php?id=<?= $data_comment['news_id'] ?>"><?php echo $data_comment['news_id']; ?></a>
                                                 </td>
@@ -67,7 +76,6 @@
                                                     if ($_SESSION['role'] == 'admin' or 'manager') {
                                                     ?>
                                                         <div class="container">
-                                                            <a href="editkomentar-<?php echo $data_id; ?>" class="btn btn-warning">Edit</a>
                                                             <a href="" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?php echo $data_id ?>">Delete</a>
                                                             <div class="modal fade" id="modal_delete<?php echo $data_id ?>">
                                                                 <div class="modal-dialog modal-md">

@@ -1,6 +1,6 @@
 <!-- Main Footer -->
 <footer class="main-footer">
-  <strong>Copyright &copy; 2014-2021 <a href="template/https://adminlte.io">AdminLTE.io</a>.</strong>
+  <strong>Copyright &copy; 2022 <a href="https://github.com/mikokunsei">Mikokunsei</a>.</strong>
   All rights reserved.
   <div class="float-right d-none d-sm-inline-block">
     <b>Version</b> 3.2.0
@@ -284,6 +284,36 @@
       options: donutOptions
     })
   })
+</script>
+
+
+<!-- DROPDOWN UPDATE STATUS -->
+<script>
+    $(document).ready(function() {
+        $(".selectstatusxx").change(function() {
+            var statusname = $(this).val();
+            var getid = $('.selectstatusxx option:selected').attr("data-id");
+            $.ajax({
+                type: 'POST',
+                url: '../admin/action/update-komentar-ajax.php',
+                data: {
+                    status: statusname,
+                    id: getid
+                },
+                success: function(result) {
+                    
+                  if (result=='1') {
+                    window.location.reload();
+                  } else {
+                    alert('Gagal update');
+                  }
+                    
+                }
+            });
+
+            console.log(statusname,getid);
+        });
+    });
 </script>
 </body>
 

@@ -1,3 +1,9 @@
+<?php
+
+include "../config/connection.php";
+
+?>
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -25,13 +31,22 @@
       <div class="row">
         <div class="col-12 col-sm-6 col-md-3">
           <div class="info-box">
-            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+            <span class="info-box-icon bg-info elevation-1"><i class="far fa-newspaper  "></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">CPU Traffic</span>
+              <span class="info-box-text">Total Berita</span>
+              <?php
+
+              $sql_total_news = "SELECT COUNT(id) as total_berita FROM news_content WHERE media = 'news' ";
+              $query_total = mysqli_query($conn, $sql_total_news);
+              $data_total = mysqli_fetch_array($query_total);
+
+              ?>
               <span class="info-box-number">
-                10
-                <small>%</small>
+                <?php
+                echo $data_total['total_berita'];
+                ?>
+                <small>Bertia</small>
               </span>
             </div>
             <!-- /.info-box-content -->
@@ -41,11 +56,20 @@
         <!-- /.col -->
         <div class="col-12 col-sm-6 col-md-3">
           <div class="info-box mb-3">
-            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
+            <span class="info-box-icon bg-danger elevation-1"><i class="far fa-comment-dots"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Likes</span>
-              <span class="info-box-number">41,410</span>
+              <span class="info-box-text">Total Komentar</span>
+              <?php
+
+              $sql_komentar = "SELECT COUNT(komentar)AS jml_komentar FROM tb_comments ";
+              $query_komentar = mysqli_query($conn, $sql_komentar);
+              $data_komentar = mysqli_fetch_array($query_komentar);
+
+              ?>
+              <span class="info-box-number"><?php echo $data_komentar['jml_komentar']; ?>
+                <small>Komentar</small>
+              </span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -55,11 +79,18 @@
 
         <div class="col-12 col-sm-6 col-md-3">
           <div class="info-box mb-3">
-            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+            <span class="info-box-icon bg-success elevation-1"><i class="	fas fa-pencil-alt"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Sales</span>
-              <span class="info-box-number">760</span>
+              <span class="info-box-text">Total Media</span>
+              <?php
+              $sql_media = "SELECT COUNT(DISTINCT media_name) AS jml_media FROM news_content WHERE media = 'news' ";
+              $query_media = mysqli_query($conn, $sql_media);
+              $data_media = mysqli_fetch_array($query_media);
+              ?>
+              <span class="info-box-number"><?php echo $data_media['jml_media']; ?>
+                <small>Media</small>
+              </span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -71,8 +102,17 @@
             <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">New Members</span>
-              <span class="info-box-number">2,000</span>
+              <span class="info-box-text">Total Pengguna</span>
+              <?php
+
+              $sql_pengguna = "SELECT COUNT(id) AS jml_pengguna FROM tb_users ";
+              $query_pengguna = mysqli_query($conn, $sql_pengguna);
+              $data_pengguna = mysqli_fetch_array($query_pengguna);
+
+              ?>
+              <span class="info-box-number"><?php echo $data_pengguna['jml_pengguna']; ?>
+                <small>Pengguna</small>
+              </span>
             </div>
             <!-- /.info-box-content -->
           </div>

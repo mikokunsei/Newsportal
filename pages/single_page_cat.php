@@ -71,7 +71,7 @@ include "../config/connection.php";
                       while ($data_date = mysqli_fetch_array($query_date)) {
                       ?>
                         <li>
-                          <a href="pages/single_page_date.php?date=<?= $data_date['data_date'] ?>"><?php echo $data_date['data_date'] ?></a>
+                          <a href="single_page_date.php?date=<?= $data_date['data_date'] ?>"><?php echo $data_date['data_date'] ?></a>
                         </li>
                       <?php } ?>
                     </ul>
@@ -265,7 +265,7 @@ include "../config/connection.php";
                   <p class="text-paragraph">
                     <?php echo $data['txt']; ?>
                   </p>
-                  <p><?php echo $date_news; ?></p>
+                  <p><?php echo $data['media_name'] ?> | <?php echo $date_news; ?></p>
                 </div>
               </div>
             <?php
@@ -286,17 +286,13 @@ include "../config/connection.php";
                   while ($data = mysqli_fetch_array($get_data)) {
                   ?>
                     <li>
-                      <div class="list-left-news">
-                        <figure class="bsbig_fig"> <a href="single_page.php?id=<?= $data['id'] ?>" class="featured_img"> <img alt="" src="<?php echo $data['c_image']; ?>"> <span class="overlay"></span> </a>
-                          <figcaption>
-                            <a href="single_page.php?id=<?= $data['id'] ?>"><?php echo $data['title']; ?></a>
-                          </figcaption>
-                          <span style="font-size: 15px;">[ <?php echo $data['c_datetime']; ?> ]</span>
-                          <p class="text-paragraph">
-                            <?php echo $data['txt']; ?>
-                          </p>
-                        </figure>
-                      </div>
+                      <figure class="bsbig_fig"> <a href="single_page.php?id=<?= $data['id'] ?>" class="featured_img"> <img alt="" src="<?php echo $data['c_image']; ?>"> <span class="overlay"></span> </a>
+                        <figcaption> <a href="single_page.php?id=<?= $data['id'] ?>"><?php echo $data['title']; ?></a> </figcaption>
+                        <span style="font-size: 14px;"><?php echo '<b>' . $data['media_name'] . '</b>' ?> | <?php echo $data['c_datetime']; ?></span>
+                        <p class="text-paragraph">
+                          <?php echo $data['txt']; ?>
+                        </p>
+                      </figure>
                     </li>
                   <?php
                   }
@@ -324,20 +320,17 @@ include "../config/connection.php";
                   while ($data = mysqli_fetch_array($get_data)) {
                   ?>
                     <li>
-                      <div class="list-news wow fadeInRight">
-                        <div class="media wow fadeInDown">
-                          <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left">
-                            <img alt="" src="<?php echo $data['c_image']; ?>">
-                          </a>
-                          <div class="media-body">
-                            <span style="font-size: 13px;"><?php echo $data['c_datetime']; ?></span>
-                            <h5>
-                              <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"> <?php echo $data['title']; ?> </a>
-                            </h5>
+                      <div class="media wow fadeInDown">
+                        <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left">
+                          <img alt="" src="<?php echo $data['c_image']; ?>">
+                        </a>
+                        <div class="media-body">
+                          <div class="media-header">
+                            <span style="font-size: 14px;"><?php echo '<b>' . $data['media_name'] . '</b>' ?> | <?php echo substr($data['c_datetime'], 0, 10); ?></span>
                           </div>
+                          <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"><?php echo $data['title']; ?></a>
                         </div>
                       </div>
-
                     </li>
                   <?php
                   }
@@ -373,9 +366,9 @@ include "../config/connection.php";
                   <li>
                     <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="<?php echo $data['c_image']; ?>"> </a>
                       <div class="media-header">
-                        <span style="font-size: 12px;"><?php echo substr($data['c_datetime'], 0, 10); ?> | views : <?php echo $data['jml_view']; ?></span>
+                        <span style="font-size: 13px;"><?php echo '<b>' . $data['media_name'] . '</b>' ?> | <?php echo substr($data['c_datetime'], 0, 10); ?> | views : <?php echo $data['jml_view']; ?></span>
                       </div>
-                      <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"> <?php echo $data['title']; ?></a> </div>
+                      <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"><?php echo $data['title']; ?></a> </div>
                     </div>
                   </li>
                 <?php
@@ -452,21 +445,20 @@ include "../config/connection.php";
             </div>
             <div class="single_sidebar wow fadeInDown">
               <h2><span>Category Archive</span></h2>
-              <select class="catgArchive">
-                <option>Select Category</option>
-                <option>Life styles</option>
-                <option>Sports</option>
-                <option>Technology</option>
-                <option>Treads</option>
-              </select>
-            </div>
-            <div class="single_sidebar wow fadeInDown">
-              <h2><span>Links</span></h2>
               <ul>
-                <li><a href="#">Blog</a></li>
+                <?php
+                $get_cat_ar = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news' ");
+                while ($data_cat_ar = mysqli_fetch_array($get_cat_ar)) {
+                  $canal = $data_cat_ar['c_canal'];
+                ?>
+                  <li><a href="single_page_cat.php?c_canal=<?= $data_cat_ar['c_canal'] ?>"><?php echo ucfirst($canal) ?></a></li>
+                <?php
+                }
+                ?>
+                <!-- <li><a href="#">Blog</a></li>
                 <li><a href="#">Rss Feed</a></li>
                 <li><a href="#">Login</a></li>
-                <li><a href="#">Life &amp; Style</a></li>
+                <li><a href="#">Life &amp; Style</a></li> -->
               </ul>
             </div>
           </aside>

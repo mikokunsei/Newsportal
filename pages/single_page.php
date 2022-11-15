@@ -64,7 +64,7 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
                       while ($data_date = mysqli_fetch_array($query_date)) {
                       ?>
                         <li>
-                          <a href="pages/single_page_date.php?date=<?= $data_date['data_date'] ?>"><?php echo $data_date['data_date'] ?></a>
+                          <a href="single_page_date.php?date=<?= $data_date['data_date'] ?>"><?php echo $data_date['data_date'] ?></a>
                         </li>
                       <?php } ?>
                     </ul>
@@ -231,12 +231,12 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
       <div class="row">
         <div class="col-lg-8 col-mdf-8 col-sm-8">
           <div class="left_content">
+            <?php
+            $get_content = mysqli_query($conn, "SELECT * FROM news_content WHERE id = '$id_news' ");
+            while ($data_content = mysqli_fetch_array($get_content)) {
+              $canal = $data_content['c_canal'];
+            ?>
             <div class="single_page">
-              <?php
-              $get_content = mysqli_query($conn, "SELECT * FROM news_content WHERE id = '$id_news' ");
-              while ($data_content = mysqli_fetch_array($get_content)) {
-                $canal = $data_content['c_canal'];
-              ?>
                 <ol class="breadcrumb">
                   <li><a href="../index.php">Home</a></li>
                   <li class="active"><a href="single_page_cat.php?c_canal=<?= $data_content['c_canal'] ?>"><?php echo ucfirst($canal); ?></a></li>
@@ -373,22 +373,38 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
 
                 </div>
                 <!-- <div class="social_link">
-              <ul class="sociallink_nav">
-                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-              </ul>
-            </div> -->
+                <ul class="sociallink_nav">
+                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                  <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                  <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                  <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                </ul>
+              </div> -->
 
 
-              <?php } ?>
+              
               <div class="related_post">
                 <h2>Related Post <i class="fa fa-thumbs-o-up"></i></h2>
                 <ul class="spost_nav wow fadeInDown animated">
                   <?php
-                  $get_related = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_canal = 'news' ORDER BY rand() LIMIT 3 ");
+
+
+                  $data_tag = $data_content['tag'];
+                  $explode_tag = explode(',', $data_tag);
+
+                  // echo var_dump($explode_tag);
+
+                  for ($i = 0; $i < count($explode_tag); $i++) {
+
+                    //  $part = str_replace($explode_tag[$i], "<p>".$explode_tag[$i]."</p>", $explode_tag[$i]);
+                    // echo  $explode_tag[$i];
+                    $get_related = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND tag LIKE '%$explode_tag[$i]%' ORDER BY rand() LIMIT 3 ");
+
+                  }
+                  
+                  // $tag = print_r($explode_tag);
+                  
                   while ($data_related = mysqli_fetch_array($get_related)) {
                   ?>
                     <li>
@@ -400,6 +416,7 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
                 </ul>
               </div>
             </div>
+            <?php } ?>
           </div>
         </div>
 
@@ -416,9 +433,9 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
                   <li>
                     <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data_popular['id'] ?>" class="media-left"> <img alt="" src="<?php echo $data_popular['c_image']; ?>"> </a>
                       <div class="media-header">
-                        <span style="font-size: 12px;"><?php echo substr($data_popular['c_datetime'], 0, 10); ?> | views : <?php echo $data_popular['jml_view']; ?></span>
+                        <span style="font-size: 13px;"><?php echo '<b>' . $data_popular['media_name'] . '</b>' ?> | <?php echo substr($data_popular['c_datetime'], 0, 10); ?> | views : <?php echo $data_popular['jml_view']; ?></span>
                       </div>
-                      <div class="media-body"> <a href="single_page.php?id=<?= $data_popular['id'] ?>" class="catg_title"> <?php echo $data_popular['title']; ?></a> </div>
+                      <div class="media-body"> <a href="single_page.php?id=<?= $data_popular['id'] ?>" class="catg_title"><?php echo $data_popular['title']; ?></a> </div>
                     </div>
                   </li>
                 <?php
@@ -538,6 +555,7 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
               <h2>Category</h2>
               <ul class="tag_nav">
                 <?php
+
                 $get_cat_bot = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news' ");
                 while ($data_cat_bot = mysqli_fetch_array($get_cat_bot)) {
                   $canal = $data_cat_bot['c_canal'];

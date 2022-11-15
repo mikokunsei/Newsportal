@@ -284,15 +284,22 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
                                     ?>
                                         <li>
                                             <div class="list-news wow fadeInRight">
-                                                <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="<?php echo $data['c_image']; ?>"> </a>
+                                                <div class="media wow fadeInDown">
+                                                    <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left">
+                                                        <img alt="" src="<?php echo $data['c_image']; ?>">
+                                                    </a>
                                                     <div class="media-body">
                                                         <span><?php echo $data['c_datetime']; ?></span>
                                                         <h5>
                                                             <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"> <?php echo $data['title']; ?> </a>
                                                         </h5>
+                                                        <p class="text-paragraph">
+                                                            <?php echo $data['txt']; ?>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr/>
                                         </li>
                                     <?php
                                     }
@@ -328,7 +335,7 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
                                     <li>
                                         <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="<?php echo $data['c_image']; ?>"> </a>
                                             <div class="media-header">
-                                                <span style="font-size: 12px;"><?php echo substr($data['c_datetime'], 0, 10); ?> | views : <?php echo $data['jml_view']; ?></span>
+                                                <span style="font-size: 13px;"><?php echo '<b>' . $data['media_name'] . '</b>' ?> | <?php echo substr($data['c_datetime'], 0, 10); ?> | views : <?php echo $data['jml_view']; ?></span>
                                             </div>
                                             <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"> <?php echo $data['title']; ?></a> </div>
                                         </div>
@@ -407,21 +414,20 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
                         </div>
                         <div class="single_sidebar wow fadeInDown">
                             <h2><span>Category Archive</span></h2>
-                            <select class="catgArchive">
-                                <option>Select Category</option>
-                                <option>Life styles</option>
-                                <option>Sports</option>
-                                <option>Technology</option>
-                                <option>Treads</option>
-                            </select>
-                        </div>
-                        <div class="single_sidebar wow fadeInDown">
-                            <h2><span>Links</span></h2>
                             <ul>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Rss Feed</a></li>
-                                <li><a href="#">Login</a></li>
-                                <li><a href="#">Life &amp; Style</a></li>
+                                <?php
+                                $get_cat_ar = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news' ");
+                                while ($data_cat_ar = mysqli_fetch_array($get_cat_ar)) {
+                                    $canal = $data_cat_ar['c_canal'];
+                                ?>
+                                    <li><a href="single_page_cat.php?c_canal=<?= $data_cat_ar['c_canal'] ?>"><?php echo ucfirst($canal) ?></a></li>
+                                <?php
+                                }
+                                ?>
+                                <!-- <li><a href="#">Blog</a></li>
+                <li><a href="#">Rss Feed</a></li>
+                <li><a href="#">Login</a></li>
+                <li><a href="#">Life &amp; Style</a></li> -->
                             </ul>
                         </div>
                     </aside>
