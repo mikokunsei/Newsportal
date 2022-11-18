@@ -64,6 +64,12 @@
                   <p>Kategori</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="berita" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tabel Berita</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">

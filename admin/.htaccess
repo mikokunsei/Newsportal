@@ -11,13 +11,17 @@ RewriteRule ^media$ index.php?page=media [L]
 RewriteRule ^kategori$ index.php?page=kategori [L]
 RewriteRule ^pengguna$ index.php?page=pengguna [L]
 RewriteRule ^tambahpengguna$ index.php?page=tambahpengguna [L]
+RewriteRule ^tambahberita$ index.php?page=tambahberita [L]
 
 RewriteRule ^komentar$ index.php?page=komentar [L]
+RewriteRule ^berita$ index.php?page=berita [L]
 
 RewriteRule ^editkomentar-(.*)$ index.php?page=editkomentar&id=$1 [L]
 RewriteRule ^deletekomentar-(.*)$ index.php?page=deletekomentar&id=$1 [L]
 
-
 RewriteRule ^editpengguna-(.*)$ index.php?page=editpengguna&id=$1 [L]
 RewriteRule ^deletepengguna-(.*)$ index.php?page=deletepengguna&id=$1 [L]
+
+RewriteRule ^editberita-(.*)$ index.php?page=editberita&id=$1 [L]
+RewriteRule ^deleteberita-(.*)$ index.php?page=deleteberita&id=$1 [L]
 

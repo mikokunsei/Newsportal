@@ -63,7 +63,7 @@ if ($_SESSION['role'] == 'admin' OR 'manager') {
                                                 </div>
                                                 <div class="form-group row">
                                                     <label for="role" class="col-sm-2 col-form-label">
-                                                        User Role Typle
+                                                        User Role Type
                                                     </label>
                                                     <div class="col-sm-10">
                                                         <select class="form-control" name="role" id="exampleFormControlSelect1" required>

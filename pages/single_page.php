@@ -206,7 +206,15 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
               while ($data_ticker = mysqli_fetch_array($get_ticker)) {
                 // print_r($data_ticker);
               ?>
-                <li><a href="single_page.php?id=<?= $data_ticker['id'] ?>"><img src="<?php echo $data_ticker['c_image']; ?>" alt=""><?php echo $data_ticker['title']; ?></a></li>
+                <li><a href="single_page.php?id=<?= $data_ticker['id'] ?>"><img src="
+                <?php
+                $link = substr($data_ticker['c_image'], 0, 4);
+                if ($link != 'http') {
+                  echo '../admin/public/image/' . $data_ticker['c_image'];
+                } else {
+                  echo $data_ticker['c_image'];
+                }
+                ?>" alt=""><?php echo $data_ticker['title']; ?></a></li>
               <?php
               }
               ?>
@@ -236,7 +244,7 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
             while ($data_content = mysqli_fetch_array($get_content)) {
               $canal = $data_content['c_canal'];
             ?>
-            <div class="single_page">
+              <div class="single_page">
                 <ol class="breadcrumb">
                   <li><a href="../index.php">Home</a></li>
                   <li class="active"><a href="single_page_cat.php?c_canal=<?= $data_content['c_canal'] ?>"><?php echo ucfirst($canal); ?></a></li>
@@ -249,36 +257,53 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
                   </span>
                   <a href="single_page_cat.php?c_canal=<?= $data_content['c_canal'] ?>"><i class="fa fa-tags"></i><?php echo ucfirst($canal); ?></a>
                 </div>
-                <div class="single_page_content"> <img class="img-center" src="<?php echo $data_content['c_image']; ?>" alt="">
-                  <p style="text-align: justify ;  text-indent: 45px;">
-                    <?php
+                <div class="single_page_content"> <img class="image" style="display:block; margin-left:auto; margin-right:auto; text-align:center" src="
+                <?php
+                $link = substr($data_content['c_image'], 0, 4);
+                if ($link != 'http') {
+                  echo '../admin/public/image/' . $data_content['c_image'];
+                } else {
+                  echo $data_content['c_image'];
+                }
+                ?>" alt="">
+                  <!-- Merapihkan paragraf dari bawaan database V V V -->
+                  <!-- <div style="text-align: justify ;  text-indent: 45px;"> -->
+                  <div>
+              
+                      <?php
 
-                    $data_paragraph = $data_content['txt'];
-                    // $separate_paragraph = explode(".", $data_paragraph);
-                    echo wordwrap($data_paragraph, 1125, "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n");
-                    // echo explode('.', $data_paragraph); 
+                      $txt_tag = substr($data_content['txt'], -4);
 
-                    // var_dump($separate_paragraph);
+                      if ($txt_tag != '</p>') {
+                       
+                        echo '<p>' . $data_content['txt'] . '</p>';
+                      } 
+                      else {
+                        echo htmlspecialchars_decode($data_content['txt']);
+                      }
+                      // echo htmlspecialchars_decode($data_content['txt']);
 
-                    // print_r(count($separate_paragraph));
+                      // $data_paragraph = htmlspecialchars_decode($data_content['txt']);
+                      // echo wordwrap($data_paragraph, 1125, "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n");
 
-
-                    // for ($i=3; $i<=count($separate_paragraph); $i++)
-                    // {
-                    //   echo empty( $separate_paragraph[$i]) ?'':'<p>'. $separate_paragraph[$i].'</p>';
-                    // }
-
-                    // menampilkan outputnya
-
-
-
-
-                    ?>
-                  </p>
+                      ?>
+                   
+                  </div>
                   <div class="source">
                     <div class="srcNews">
                       <h6>Sumber :</h6>
-                      <a href="<?php echo $data_content['link']; ?>" target="_blank"><?php echo $data_content['link']; ?></a>
+                      <?php
+                      if ($data_content['link'] != null) {
+                      ?>
+                        <a href="<?php echo $data_content['link']; ?>" target="_blank"><?php echo $data_content['link']; ?></a>
+
+                      <?php } else {
+                      ?>
+                        <p>Tidak Tersedia</p>
+                      <?php
+                      }
+                      ?>
+
                     </div>
                   </div>
                   <br>
@@ -301,8 +326,12 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
                   // ---------------------------
                   for ($i = 0; $i < count($explode_tag); $i++) {
 
-                    //  $part = str_replace($explode_tag[$i], "<p>".$explode_tag[$i]."</p>", $explode_tag[$i]);
-                    echo "<a href='single_page_tag.php?tag=" . $explode_tag[$i] . "'class='btn btn-default'> " . $explode_tag[$i] . "</a> &nbsp;";
+                    if ($data_tag != null) {
+                      //  $part = str_replace($explode_tag[$i], "<p>".$explode_tag[$i]."</p>", $explode_tag[$i]);
+                      echo "<a href='single_page_tag.php?tag=" . $explode_tag[$i] . "'class='btn btn-default'> " . $explode_tag[$i] . "</a> &nbsp;";
+                    } else {
+                      echo "";
+                    }
                   }
 
                   //
@@ -319,9 +348,9 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
 
                   <!-- KOMENTAR -->
                   <div class="show-comment" style="margin-top: 20px ;">
-                    <div class="panel panel-default ">
-                      <div class="panel-heading">
-                        <h3 class="panel-title">
+                    <div class="panel" style="border-color: #99CCFF ;">
+                      <div class="panel-heading" style="background-color: #99CCFF ;">
+                        <h3 class="panel-title" style="color: grey;">
                           <?php
 
                           $jml_komentar = mysqli_query($conn, "SELECT COUNT(news_id) AS jml_komentar, id FROM tb_comments WHERE news_id = '$id_news' AND status = 'aktif' ");
@@ -345,9 +374,9 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
                   </div>
 
                   <div class="input-comment mt-5">
-                    <div class="panel panel-danger" style=" color:#d083cf; ">
-                      <div class="panel-heading">
-                        <h3 class="panel-title">
+                    <div class="panel" style="border-color: #99CCFF ;">
+                      <div class="panel-heading" style="background-color: #99CCFF ;">
+                        <h3 class="panel-title" style="color: grey;">
                           Tinggalkan Komentar
                         </h3>
                       </div>
@@ -364,7 +393,7 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
                             <textarea name="comment" class="form-control" id="" cols="30" rows="5" placeholder="Komentar"></textarea>
                           </div>
                           <div class="form-group">
-                            <button type="submit" class="form-control" name="simpan" class="btn btn-danger" style="background-color: #d083cf; color: white ;" value="input">Kirim</button>
+                            <button type="submit" class="form-control" name="simpan" class="btn btn-danger" style="background-color: #99CCFF; color: grey;" value="input">Kirim</button>
                           </div>
                         </form>
                       </div>
@@ -383,39 +412,46 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
               </div> -->
 
 
-              
-              <div class="related_post">
-                <h2>Related Post <i class="fa fa-thumbs-o-up"></i></h2>
-                <ul class="spost_nav wow fadeInDown animated">
-                  <?php
+
+                <div class="related_post">
+                  <h2>Related Post <i class="fa fa-thumbs-o-up"></i></h2>
+                  <ul class="spost_nav wow fadeInDown animated">
+                    <?php
 
 
-                  $data_tag = $data_content['tag'];
-                  $explode_tag = explode(',', $data_tag);
+                    $data_tag = $data_content['tag'];
+                    $explode_tag = explode(',', $data_tag);
 
-                  // echo var_dump($explode_tag);
+                    // echo var_dump($explode_tag);
 
-                  for ($i = 0; $i < count($explode_tag); $i++) {
+                    for ($i = 0; $i < count($explode_tag); $i++) {
 
-                    //  $part = str_replace($explode_tag[$i], "<p>".$explode_tag[$i]."</p>", $explode_tag[$i]);
-                    // echo  $explode_tag[$i];
-                    $get_related = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND tag LIKE '%$explode_tag[$i]%' ORDER BY rand() LIMIT 3 ");
+                      //  $part = str_replace($explode_tag[$i], "<p>".$explode_tag[$i]."</p>", $explode_tag[$i]);
+                      // echo  $explode_tag[$i];
+                      $get_related = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND tag LIKE '%$explode_tag[$i]%' ORDER BY rand() LIMIT 3 ");
+                    }
 
-                  }
-                  
-                  // $tag = print_r($explode_tag);
-                  
-                  while ($data_related = mysqli_fetch_array($get_related)) {
-                  ?>
-                    <li>
-                      <div class="media"> <a class="media-left" href="single_page.php?id=<?= $data_related['id'] ?>"> <img src="<?php echo $data_related['c_image']; ?>" alt=""> </a>
-                        <div class="media-body"> <a class="catg_title" href="single_page.php?id=<?= $data_related['id'] ?>"> <?php echo $data_related['title']; ?></a> </div>
-                      </div>
-                    </li>
-                  <?php } ?>
-                </ul>
+                    // $tag = print_r($explode_tag);
+
+                    while ($data_related = mysqli_fetch_array($get_related)) {
+                    ?>
+                      <li>
+                        <div class="media"> <a class="media-left" href="single_page.php?id=<?= $data_related['id'] ?>"> <img src="
+                        <?php
+                        $link = substr($data_related['c_image'], 0, 4);
+                        if ($link != 'http') {
+                          echo '../admin/public/image/' . $data_related['c_image'];
+                        } else {
+                          echo $data_related['c_image'];
+                        }
+                        ?>" alt=""> </a>
+                          <div class="media-body"> <a class="catg_title" href="single_page.php?id=<?= $data_related['id'] ?>"> <?php echo $data_related['title']; ?></a> </div>
+                        </div>
+                      </li>
+                    <?php } ?>
+                  </ul>
+                </div>
               </div>
-            </div>
             <?php } ?>
           </div>
         </div>
@@ -431,7 +467,15 @@ $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_vie
 
                 ?>
                   <li>
-                    <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data_popular['id'] ?>" class="media-left"> <img alt="" src="<?php echo $data_popular['c_image']; ?>"> </a>
+                    <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data_popular['id'] ?>" class="media-left"> <img alt="" src="
+                    <?php
+                    $link = substr($data_popular['c_image'], 0, 4);
+                    if ($link != 'http') {
+                      echo '../admin/public/image/' . $data_popular['c_image'];
+                    } else {
+                      echo $data_popular['c_image'];
+                    }
+                    ?>"> </a>
                       <div class="media-header">
                         <span style="font-size: 13px;"><?php echo '<b>' . $data_popular['media_name'] . '</b>' ?> | <?php echo substr($data_popular['c_datetime'], 0, 10); ?> | views : <?php echo $data_popular['jml_view']; ?></span>
                       </div>

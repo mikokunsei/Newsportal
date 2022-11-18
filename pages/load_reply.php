@@ -15,8 +15,8 @@ if (isset($_POST["limit"], $_POST["start"], $_POST["comment_id"])) {
             <ul class="spost_nav">
                 <li>
                     <div class="media">
-                        <div class="media-content">
-                            <h4><?php echo $row["nama"] ?>
+                        <div class="media-content" >
+                            <h4 style="color: #99CCFF;"><?php echo $row["nama"] ?>
                                 <br>
                             </h4>
                             <p class="media  wow fadeInDown"><?php echo $row["komentar"] ?> [<?php echo $row["tgl"] ?>]</p>

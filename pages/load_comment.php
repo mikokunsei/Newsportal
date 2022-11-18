@@ -15,7 +15,7 @@ if (isset($_POST["limit"], $_POST["start"], $_POST["idberita"])) {
       <li>
         <div class="media">
           <div class="media-content">
-            <h4><?php echo $row["nama"] ?>
+            <h4 style="color: #99CCFF ;"><?php echo $row["nama"] ?>
               <br>
             </h4>
             <p class="media  wow fadeInDown"><?php echo $row["komentar"] ?> [<?php echo $row["tgl"] ?>]</p>
@@ -24,7 +24,7 @@ if (isset($_POST["limit"], $_POST["start"], $_POST["idberita"])) {
             <p id="test"></p>
             <div class="row btn-media">
               <div class="col-sm-3 col-md-2 col-lg-2 col-xl-2 ">
-                <button type="button" class="form-control" onclick="reply_comment(<?php echo $row['id'] ?>)" style=" background-color: #d083cf; color: white ; border-radius:10px;">Reply</button>
+                <button type="button" class="form-control" onclick="reply_comment(<?php echo $row['id'] ?>)" style=" background-color: #99CCFF; color: white ; border-radius:10px;">Reply</button>
               </div>
               <div class="col-sm-5 col-md-4 col-lg-3 col-xl-3 ">
                 <?php
@@ -60,11 +60,11 @@ if (isset($_POST["limit"], $_POST["start"], $_POST["idberita"])) {
               <input type="text" class="form-control" name="email" id="" placeholder="Masukkan email" required>
             </div>
             <div class="form-group">
-              <textarea name="comment" class="form-control" id="" cols="30" rows="5" placeholder="Komentar"></textarea>
+              <textarea name="comment" class="form-control" id="" cols="30" rows="5" placeholder="Komentar" required></textarea>
             </div>
             <div class="form-group">
               <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-6">
-                <button type="submit" class="form-control" name="simpan" class="btn btn-danger" style="background-color: #d083cf; color: white ; border-radius:10px;" value="input">Kirim</button>
+                <button type="submit" class="form-control" name="simpan" class="btn btn-danger" style="background-color: #99CCFF; color: white ; border-radius:10px;" value="input">Kirim</button>
               </div>
               <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-6">
                 <button type="button" class="form-control" name="batal" onclick="cancel_comment(<?php echo $row['id'] ?>)" class="btn btn-danger" style=" border-radius:10px;">Batal</button>

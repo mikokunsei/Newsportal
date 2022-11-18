@@ -42,12 +42,21 @@
 <script src="template/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="template/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
+<!-- Preview Image -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->
+
+<!-- CDN CKEditor -->
+<!-- <script src="https://cdn.ckeditor.com/ckeditor5/35.3.1/classic/ckeditor.js"></script> -->
+<script src="https://cdn.ckeditor.com/ckeditor5/35.3.1/super-build/ckeditor.js"></script>
+<!-- <script type="text/javascript" src="../ckeditor/ckeditor.js"></script> -->
 
 <!-- Page specific script -->
 <script>
-  $(function () {
+  $(function() {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "responsive": true,
+      "lengthChange": false,
+      "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
@@ -65,13 +74,15 @@
 <!-- Modal -->
 <!-- Javascript untuk popup modal Delete-->
 <script type="text/javascript">
-    function confirm_modal(delete_url)
-    {
-      $('#modal_delete').modal('show', {backdrop: 'static'});
-      document.getElementById('delete_user').setAttribute('href' , delete_url);
-      document.getElementById('delete_comment').setAttribute('href' , delete_url);
-    }
-</script> 
+  function confirm_modal(delete_url) {
+    $('#modal_delete').modal('show', {
+      backdrop: 'static'
+    });
+    document.getElementById('delete_user').setAttribute('href', delete_url);
+    document.getElementById('delete_comment').setAttribute('href', delete_url);
+    document.getElementById('delete_berita').setAttribute('href', delete_url);
+  }
+</script>
 
 <!-- Highchart CDN-->
 <script>
@@ -153,13 +164,13 @@
 
   });
 
-  <?php 
+  <?php
 
   $get_data_kategori = mysqli_query($conn, "SELECT c_canal, COUNT(c_canal) AS jumlah_kategori FROM news_content WHERE media = 'news' GROUP BY c_canal");
 
   $result_kategori = [];
 
-  while ($data_kategori = mysqli_fetch_assoc($get_data_kategori)){
+  while ($data_kategori = mysqli_fetch_assoc($get_data_kategori)) {
 
     // print_r($data_kategori);
 
@@ -167,7 +178,7 @@
     array_push($result_kategori, $asoc_kategori);
   }
 
- 
+
   ?>
 
 
@@ -245,7 +256,7 @@
       labels: [
         <?php
         while ($data1 = mysqli_fetch_array($get_data1)) {
-          
+
           // print_r($data1);
 
           echo '"' . $data1['c_canal'] . '",';
@@ -289,32 +300,299 @@
 
 <!-- DROPDOWN UPDATE STATUS -->
 <script>
-    $(document).ready(function() {
-        $(".selectstatusxx").change(function() {
-            var statusname = $(this).val();
-            var getid = $('.selectstatusxx option:selected').attr("data-id");
-            $.ajax({
-                type: 'POST',
-                url: '../admin/action/update-komentar-ajax.php',
-                data: {
-                    status: statusname,
-                    id: getid
-                },
-                success: function(result) {
-                    
-                  if (result=='1') {
-                    window.location.reload();
-                  } else {
-                    alert('Gagal update');
-                  }
-                    
-                }
-            });
+  $(document).on("change", "#datastatus", function(e) {
+    var status = $(this).val();
+    var id = $(this).data('id');
 
-            console.log(statusname,getid);
-        });
+    $.ajax({
+      url: '../admin/action/update-komentar-ajax.php',
+      type: "POST",
+      data: {
+        status: status,
+        id: id
+      },
+      success: function(result) {
+        alert("Data Komentar ID : "+id+" Berhasil di Update");
+        // $("#display").html(result);
+        // setTimeout(function() { // wait for 5 secs(2)
+        //   location.reload(); // then reload the page.(3)
+        // }, 4000);
+      }
     });
+  });
+
+  // function selected(id) { 
+  //   var statusname = $("#statusSelect_"+id).val();
+  //   // var dataStatus = document.getElementById("#statusSelect_"+id).value; 
+  //   alert(statusname+id);
+  //   $.ajax({
+  //     type: "POST",
+  //     url: "../admin/action/update-komentar-ajax.php",
+  //     data: {
+  //       status = statusname,
+  //       id = id
+  //     },
+  //     // dataType: "dataType",
+  //     success: function (response) {
+
+  //     }
+  //   });
+  // }
+
+
+
+  // $(document).ready(function() {
+  //   $(".selectstatusxx").change(function() {
+  //     var statusname = $(this).val();
+  //     var getid = $('.selectstatusxx option:selected').attr("data-id");
+  //     $.ajax({
+  //       type: 'POST',
+  //       url: '../admin/action/update-komentar-ajax.php',
+  //       data: {
+  //         status: statusname,
+  //         id: getid
+  //       },
+  //       success: function(result) {
+
+  //         if (result == '1') {
+  //           // window.location.reload();
+  //           alert(statusname, getid);
+  //         } else {
+  //           alert('Gagal update');
+  //         }
+
+  //       }
+  //     });
+
+  //     console.log(statusname, getid);
+  //   });
+  // });
 </script>
+
+<!-- Script Preview Image -->
+<script>
+  $("#inputFile").change(function(event) {
+    fadeInAdd();
+    getURL(this);
+  });
+
+  $("#inputFile").on('click', function(event) {
+    fadeInAdd();
+  });
+
+  function getURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      var filename = $("#inputFile").val();
+
+      filename = filename.substring(filename.lastIndexOf('\\') + 1);
+      reader.onload = function(e) {
+
+        debugger;
+
+        $('#imgView').attr('src', e.target.result);
+        $('#imgView').hide();
+        $('#imgView').fadeIn(500);
+        // $('.custom-file-label').text(filename);
+
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+    $(".alert").removeClass("LoadAnimate").hide();
+  }
+
+  function fadeInAdd() {
+    fadeInAlert();
+  }
+
+  function fadeInAlert(text) {
+    $(".alert").text(text).addClass("loadAnimate");
+  }
+</script>
+
+<!-- CKEditor -->
+<!-- <script>
+    ClassicEditor
+        .create( document.querySelector( '#isi' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+</script> -->
+
+<script>
+  // This sample still does not showcase all CKEditor 5 features (!)
+  // Visit https://ckeditor.com/docs/ckeditor5/latest/features/index.html to browse all the features.
+  CKEDITOR.ClassicEditor.create(document.getElementById("isi"), {
+    // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
+    toolbar: {
+      items: [
+        'exportPDF', 'exportWord', '|',
+        'findAndReplace', 'selectAll', '|',
+        'heading', '|',
+        'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+        'bulletedList', 'numberedList', 'todoList', '|',
+        'outdent', 'indent', '|',
+        'undo', 'redo',
+        '-',
+        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+        'alignment', '|',
+        'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
+        'specialCharacters', 'horizontalLine', 'pageBreak', '|',
+        'textPartLanguage', '|',
+        'sourceEditing'
+      ],
+      shouldNotGroupWhenFull: true
+    },
+    // Changing the language of the interface requires loading the language file using the <script> tag.
+    // language: 'es',
+    list: {
+      properties: {
+        styles: true,
+        startIndex: true,
+        reversed: true
+      }
+    },
+    // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html#configuration
+    heading: {
+      options: [{
+          model: 'paragraph',
+          title: 'Paragraph',
+          class: 'ck-heading_paragraph'
+        },
+        {
+          model: 'heading1',
+          view: 'h1',
+          title: 'Heading 1',
+          class: 'ck-heading_heading1'
+        },
+        {
+          model: 'heading2',
+          view: 'h2',
+          title: 'Heading 2',
+          class: 'ck-heading_heading2'
+        },
+        {
+          model: 'heading3',
+          view: 'h3',
+          title: 'Heading 3',
+          class: 'ck-heading_heading3'
+        },
+        {
+          model: 'heading4',
+          view: 'h4',
+          title: 'Heading 4',
+          class: 'ck-heading_heading4'
+        },
+        {
+          model: 'heading5',
+          view: 'h5',
+          title: 'Heading 5',
+          class: 'ck-heading_heading5'
+        },
+        {
+          model: 'heading6',
+          view: 'h6',
+          title: 'Heading 6',
+          class: 'ck-heading_heading6'
+        }
+      ]
+    },
+    // https://ckeditor.com/docs/ckeditor5/latest/features/editor-placeholder.html#using-the-editor-configuration
+    placeholder: 'Welcome to CKEditor 5!',
+    // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-family-feature
+    fontFamily: {
+      options: [
+        'default',
+        'Arial, Helvetica, sans-serif',
+        'Courier New, Courier, monospace',
+        'Georgia, serif',
+        'Lucida Sans Unicode, Lucida Grande, sans-serif',
+        'Tahoma, Geneva, sans-serif',
+        'Times New Roman, Times, serif',
+        'Trebuchet MS, Helvetica, sans-serif',
+        'Verdana, Geneva, sans-serif'
+      ],
+      supportAllValues: true
+    },
+    // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-size-feature
+    fontSize: {
+      options: [10, 12, 14, 'default', 18, 20, 22],
+      supportAllValues: true
+    },
+    // Be careful with the setting below. It instructs CKEditor to accept ALL HTML markup.
+    // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html#enabling-all-html-features
+    htmlSupport: {
+      allow: [{
+        name: /.*/,
+        attributes: true,
+        classes: true,
+        styles: true
+      }]
+    },
+    // Be careful with enabling previews
+    // https://ckeditor.com/docs/ckeditor5/latest/features/html-embed.html#content-previews
+    htmlEmbed: {
+      showPreviews: true
+    },
+    // https://ckeditor.com/docs/ckeditor5/latest/features/link.html#custom-link-attributes-decorators
+    link: {
+      decorators: {
+        addTargetToExternalLinks: true,
+        defaultProtocol: 'https://',
+        toggleDownloadable: {
+          mode: 'manual',
+          label: 'Downloadable',
+          attributes: {
+            download: 'file'
+          }
+        }
+      }
+    },
+    // https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html#configuration
+    mention: {
+      feeds: [{
+        marker: '@',
+        feed: [
+          '@apple', '@bears', '@brownie', '@cake', '@cake', '@candy', '@canes', '@chocolate', '@cookie', '@cotton', '@cream',
+          '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread', '@gummi', '@ice', '@jelly-o',
+          '@liquorice', '@macaroon', '@marzipan', '@oat', '@pie', '@plum', '@pudding', '@sesame', '@snaps', '@soufflé',
+          '@sugar', '@sweet', '@topping', '@wafer'
+        ],
+        minimumCharacters: 1
+      }]
+    },
+    // The "super-build" contains more premium features that require additional configuration, disable them below.
+    // Do not turn them on unless you read the documentation and know how to configure them and setup the editor.
+    removePlugins: [
+      // These two are commercial, but you can try them out without registering to a trial.
+      // 'ExportPdf',
+      // 'ExportWord',
+      'CKBox',
+      'CKFinder',
+      'EasyImage',
+      // This sample uses the Base64UploadAdapter to handle image uploads as it requires no configuration.
+      // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/base64-upload-adapter.html
+      // Storing images as Base64 is usually a very bad idea.
+      // Replace it on production website with other solutions:
+      // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/image-upload.html
+      // 'Base64UploadAdapter',
+      'RealTimeCollaborativeComments',
+      'RealTimeCollaborativeTrackChanges',
+      'RealTimeCollaborativeRevisionHistory',
+      'PresenceList',
+      'Comments',
+      'TrackChanges',
+      'TrackChangesData',
+      'RevisionHistory',
+      'Pagination',
+      'WProofreader',
+      // Careful, with the Mathtype plugin CKEditor will not load when loading this sample
+      // from a local file system (file://) - load this site via HTTP server if you enable MathType
+      'MathType'
+    ]
+  });
+</script>
+
 </body>
 
 </html>

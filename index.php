@@ -30,6 +30,21 @@ include 'config/connection.php'
 
   <style>
     .text-paragraph {
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      /* multiple ellipse */
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .text-paragraph p {
+      background: none repeat scroll 0 0 rgba(0, 0, 0, 0.4);
+      color: #fff;
+      padding: 3px;
+      display: inline-block;
+
       overflow: hidden;
       text-overflow: ellipsis;
       /* multiple ellipse */
@@ -260,7 +275,15 @@ include 'config/connection.php'
               while ($data = mysqli_fetch_array($get_data)) {
                 // print_r($data);
               ?>
-                <li><a href="pages/single_page.php?id=<?= $data['id'] ?>"><img src="<?php echo $data['c_image']; ?>" alt=""><?php echo $data['title']; ?></a></li>
+                <li><a href="pages/single_page.php?id=<?= $data['id'] ?>"><img src="
+                <?php
+                $link = substr($data['c_image'], 0, 4);
+                if ($link != 'http') {
+                  echo 'admin/public/image/' . $data['c_image'];
+                } else {
+                  echo $data['c_image'];
+                }
+                ?>" alt=""><?php echo $data['title']; ?></a></li>
               <?php
               }
               ?>
@@ -291,11 +314,19 @@ include 'config/connection.php'
               // print_r($data);
               $date_news = $data['c_datetime'];
             ?>
-              <div class="single_iteam"> <a href="pages/single_page.php?id=<?= $data['id'] ?>"> <img src="<?php echo $data['c_image']; ?>" alt=""></a>
+            <div class="single_iteam"> <a href="pages/single_page.php?id=<?= $data['id'] ?>"> <img src="
+              <?php
+              $link = substr($data['c_image'], 0, 4);
+              if ($link != 'http') {
+                echo 'admin/public/image/' . $data['c_image'];
+              } else {
+                echo $data['c_image'];
+              }
+              ?>" alt=""></a>
                 <div class="slider_article">
                   <h2><a class="slider_tittle" href="pages/single_page.php?id=<?= $data['id'] ?>"><?php echo $data['title']; ?></a></h2>
-                  <p class="text-paragraph">
-                    <?php echo $data['txt']; ?>
+                   <p class="text-paragraph">
+                    <?php echo strip_tags($data['txt']); ?>
                   </p>
                   <p><?php echo $data['media_name'] ?> | <?php echo $date_news; ?></p>
                 </div>
@@ -320,7 +351,15 @@ include 'config/connection.php'
                   <li>
                     <div class="media">
                       <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="media-left">
-                        <img alt="" src="<?php echo $data['c_image']; ?>">
+                        <img alt="" src="
+                        <?php
+                        $link = substr($data['c_image'], 0, 4);
+                        if ($link != 'http') {
+                          echo 'admin/public/image/' . $data['c_image'];
+                        } else {
+                          echo $data['c_image'];
+                        }
+                        ?>">
                       </a>
                       <div class="media-body">
                         <div class="media-header">
@@ -355,7 +394,15 @@ include 'config/connection.php'
                 ?>
                   <ul class="news_catgnav  wow fadeInDown">
                     <li>
-                      <figure class="bsbig_fig"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="featured_img"> <img alt="" src="<?php echo $data['c_image']; ?>"> <span class="overlay"></span> </a>
+                      <figure class="bsbig_fig"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="featured_img"> <img alt="" src="
+                      <?php
+                      $link = substr($data['c_image'], 0, 4);
+                      if ($link != 'http') {
+                        echo 'admin/public/image/' . $data['c_image'];
+                      } else {
+                        echo $data['c_image'];
+                      }
+                      ?>"> <span class="overlay"></span> </a>
                         <figcaption> <a href="pages/single_page.php?id=<?= $data['id'] ?>"><?php echo $data['title']; ?></a> </figcaption>
                         <span style="font-size: 14px;"><?php echo '<b>' . $data['media_name'] . '</b>' ?> | <?php echo substr($data['c_datetime'], 0, 10); ?></span>
                         <p class="text-paragraph">
@@ -377,7 +424,15 @@ include 'config/connection.php'
                     <li>
                       <div class="media wow fadeInDown">
                         <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="media-left">
-                          <img alt="" src="<?php echo $data['c_image']; ?>">
+                          <img alt="" src="
+                          <?php
+                          $link = substr($data['c_image'], 0, 4);
+                          if ($link != 'http') {
+                            echo 'admin/public/image/' . $data['c_image'];
+                          } else {
+                            echo $data['c_image'];
+                          }
+                          ?>">
                         </a>
                         <div class="media-body">
                           <div class="media-header">
@@ -403,7 +458,15 @@ include 'config/connection.php'
                     while ($data = mysqli_fetch_array($get_data)) {
                     ?>
                       <li>
-                        <figure class="bsbig_fig"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="featured_img"> <img alt="" src="<?php echo $data['c_image']; ?>"> <span class="overlay"></span> </a>
+                        <figure class="bsbig_fig"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="featured_img"> <img alt="" src="
+                        <?php
+                        $link = substr($data['c_image'], 0, 4);
+                        if ($link != 'http') {
+                          echo 'admin/public/image/' . $data['c_image'];
+                        } else {
+                          echo $data['c_image'];
+                        }
+                        ?>"> <span class="overlay"></span> </a>
                           <figcaption> <a href="pages/single_page.php?id=<?= $data['id'] ?>"><?php echo $data['title']; ?></a> </figcaption>
                           <span style="font-size: 14px;"><?php echo '<b>' . $data['media_name'] . '</b>' ?> | <?php echo $data['c_datetime']; ?></span>
                           <p class="text-paragraph">
@@ -423,7 +486,15 @@ include 'config/connection.php'
                       <li>
                         <div class="media wow fadeInDown">
                           <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="media-left">
-                            <img alt="" src="<?php echo $data['c_image']; ?>">
+                            <img alt="" src="
+                            <?php
+                            $link = substr($data['c_image'], 0, 4);
+                            if ($link != 'http') {
+                              echo 'admin/public/image/' . $data['c_image'];
+                            } else {
+                              echo $data['c_image'];
+                            }
+                            ?>">
                           </a>
                           <div class="media-body">
                             <div class="media-header">
@@ -448,7 +519,15 @@ include 'config/connection.php'
                     while ($data = mysqli_fetch_array($get_data)) {
                     ?>
                       <li>
-                        <figure class="bsbig_fig wow fadeInDown"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="featured_img"> <img alt="" src="<?php echo $data['c_image']; ?>"> <span class="overlay"></span> </a>
+                        <figure class="bsbig_fig wow fadeInDown"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="featured_img"> <img alt="" src="
+                        <?php
+                        $link = substr($data['c_image'], 0, 4);
+                        if ($link != 'http') {
+                          echo 'admin/public/image/' . $data['c_image'];
+                        } else {
+                          echo $data['c_image'];
+                        }
+                        ?>"> <span class="overlay"></span> </a>
                           <figcaption> <a href="pages/single_page.php?id=<?= $data['id'] ?>"><?php echo $data['title']; ?></a> </figcaption>
                           <span style="font-size: 14px;"><?php echo '<b>' . $data['media_name'] . '</b>' ?> | <?php echo $data['c_datetime']; ?></span>
                           <p class="text-paragraph">
@@ -468,7 +547,15 @@ include 'config/connection.php'
                       <li>
                         <div class="media wow fadeInDown">
                           <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="media-left">
-                            <img alt="" src="<?php echo $data['c_image']; ?>">
+                            <img alt="" src="
+                            <?php
+                            $link = substr($data['c_image'], 0, 4);
+                            if ($link != 'http') {
+                              echo 'admin/public/image/' . $data['c_image'];
+                            } else {
+                              echo $data['c_image'];
+                            }
+                            ?>">
                           </a>
                           <div class="media-body">
                             <div class="media-header">
@@ -497,7 +584,15 @@ include 'config/connection.php'
                 while ($data = mysqli_fetch_array($get_data)) {
                 ?>
                   <li>
-                    <div class="media wow fadeInDown"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="<?php echo $data['c_image']; ?>"> </a>
+                    <div class="media wow fadeInDown"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="
+                    <?php
+                    $link = substr($data['c_image'], 0, 4);
+                    if ($link != 'http') {
+                      echo 'admin/public/image/' . $data['c_image'];
+                    } else {
+                      echo $data['c_image'];
+                    }
+                    ?>"> </a>
                       <div class="media-header">
                         <span style="font-size: 13px;"><?php echo '<b>' . $data['media_name'] . '</b>' ?> | <?php echo substr($data['c_datetime'], 0, 10); ?> | views : <?php echo $data['jml_view']; ?></span>
                       </div>

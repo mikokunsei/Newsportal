@@ -38,6 +38,24 @@ if (!isset($_SESSION['username'])) {
   <link rel="stylesheet" href="template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
+  <style>
+    #editor {
+      width: 1000px;
+      margin: 20px auto;
+    }
+
+    .ck-editor__editable[role="textbox"] {
+      /* editing area */
+      min-height: 200px;
+    }
+
+    .ck-content .image {
+      /* block images */
+      max-width: 80%;
+      margin: 20px auto;
+    }
+  </style>
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">

@@ -6,7 +6,7 @@
                     <div class="col-sm-12">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
-                            <li class="breadcrumb-item active">Data Komentar</li>
+                            <li class="breadcrumb-item active">Tabel Berita</li>
                         </ol>
                     </div>
                 </div>
@@ -20,21 +20,25 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Data Komentar</h3>
+                                <h3 class="card-title">Tabel Berita</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
+                                <?php if ($_SESSION['role'] == 'user') { ?>
+                                <?php } else { ?>
+                                    <a href="tambahberita" class="btn btn-primary mb-2">Tambah Berita</a>
+                                <?php } ?>
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
                                             <th scope="col" width="1%">No</th>
-                                            <th scope="col">Nama</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col" width="40%">Komentar</th>
-                                            <th scope="col" width="10%">Tanggal</th>
-                                            <th scope="col" width="10%">Status</th>
-                                            <th scope="col">Berita</th>
-                                            <th scope="col" width="17%">Action</th>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Judul</th>
+                                            <th scope="col">Media</th>
+                                            <th scope="col">Kategori</th>
+                                            <th scope="col" width="5%">Sumber</th>
+                                            <th scope="col">View</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -42,51 +46,33 @@
                                         include '../config/connection.php';
 
                                         $no = 1;
-                                        $sql = "SELECT tb_comments.id, tb_comments.nama, tb_comments.email, 
-                                                    tb_comments.komentar, tb_comments.tgl, tb_comments.status, news_content.id AS news_id
-                                                    FROM tb_comments
-                                                    JOIN news_content
-                                                    ON tb_comments.news_id = news_content.id
-                                                    ORDER BY tb_comments.id DESC";
-                                        $get_comment = mysqli_query($conn, $sql);
-                                        while ($data_comment = mysqli_fetch_assoc($get_comment)) {
-                                            $data_id = $data_comment['id'];
+                                        $sql = "SELECT * FROM news_content WHERE media = 'news' ORDER BY id DESC";
+                                        $query = mysqli_query($conn, $sql);
+                                        while ($data = mysqli_fetch_assoc($query)) {
+                                            $data_id = $data['id'];
                                         ?>
                                             <tr>
                                                 <td><?php echo $no++; ?></td>
-                                                <td><?php echo $data_comment['nama']; ?></td>
-                                                <td><?php echo $data_comment['email']; ?></td>
-                                                <td><?php echo $data_comment['komentar']; ?></td>
-                                                <td><?php echo $data_comment['tgl']; ?></td>
                                                 <td>
-                                                    <select class="form-control " id="datastatus" name="status" data-id="<?php echo $data_comment['id'] ?>">
-                                                        <?php
-                                                        $sql_status = "SELECT status FROM tb_comments GROUP BY status";
-                                                        $query_status = mysqli_query($conn, $sql_status);
-                                                        while ($status = mysqli_fetch_array($query_status)) {
-                                                        ?>
-                                                            <option value="<?php echo $status['status'] ?>" <?php if ($status['status'] == $data_comment['status']) {
-                                                                                                                echo 'selected';
-                                                                                                            } ?>><?php echo $status['status'] ?></option>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    </select>
+                                                    <a href="../pages/single_page.php?id=<?= $data['id'] ?>"><?php echo $data['id']; ?></a>
                                                 </td>
-                                                <td>
-                                                    <a href="../pages/single_page.php?id=<?= $data_comment['news_id'] ?>"><?php echo $data_comment['news_id']; ?></a>
-                                                </td>
+                                                <td><?php echo $data['title']; ?></td>
+                                                <td><?php echo $data['media_name']; ?></td>
+                                                <td><?php echo $data['c_canal']; ?></td>
+                                                <td><?php echo $data['link']; ?></td>
+                                                <td><?php echo $data['jml_view']; ?></td>
                                                 <td>
                                                     <?php
                                                     if ($_SESSION['role'] == 'admin' or 'manager') {
                                                     ?>
                                                         <div class="container">
-                                                            <a href="" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?php echo $data_id ?>">Delete</a>
+                                                            <a href="editberita-<?php echo $data_id ?>" style="width: 70px ;" class="btn btn-warning">Edit</a>
+                                                            <a href="" style="width: 70px ;" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?php echo $data_id ?>">Delete</a>
                                                             <div class="modal fade" id="modal_delete<?php echo $data_id ?>">
                                                                 <div class="modal-dialog modal-md">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h6 class="modal-title">Modal Heading</h6>
+                                                                            <h6 class="modal-title">Pesan</h6>
                                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -95,7 +81,7 @@
                                                                         <div class="modal-footer">
                                                                             <div class="row">
                                                                                 <div class="col" style="text-align:center ;">
-                                                                                    <a href="deletekomentar-<?php echo $data_id ?>" class="btn btn-danger" id="delete_user">Hapus</a>
+                                                                                    <a href="deleteberita-<?php echo $data_id ?>" class="btn btn-danger" id="delete_berita">Hapus</a>
                                                                                     <a href="" class="btn btn-primary" data-dismiss="modal">Kembali</a>
                                                                                 </div>
                                                                             </div>

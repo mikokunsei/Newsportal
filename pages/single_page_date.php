@@ -216,7 +216,15 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
                             while ($data = mysqli_fetch_array($get_data)) {
                                 // print_r($data);
                             ?>
-                                <li><a href="single_page.php?id=<?= $data['id'] ?>"><img src="<?php echo $data['c_image']; ?>" alt=""><?php echo $data['title']; ?></a></li>
+                                <li><a href="single_page.php?id=<?= $data['id'] ?>"><img src="
+                                <?php
+                                $link = substr($data['c_image'], 0, 4);
+                                if ($link != 'http') {
+                                    echo '../admin/public/image/' . $data['c_image'];
+                                } else {
+                                    echo $data['c_image'];
+                                }
+                                ?>" alt=""><?php echo $data['title']; ?></a></li>
                             <?php
                             }
                             ?>
@@ -249,7 +257,7 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
                             ?>
                             <ol class="breadcrumb">
                                 <li><a href="../index.php">Home</a></li>
-                                <li class="active"><a href="single_page_tag.php?tag=<?php echo $date_news ?>"><?php echo ucfirst($date_news); ?></a></li>
+                                <li class="active"><a href="single_page_date.php?date=<?php echo $date_news ?>"><?php echo ucfirst($date_news); ?></a></li>
                             </ol>
                         </div>
                     </div>
@@ -286,10 +294,18 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
                                             <div class="list-news wow fadeInRight">
                                                 <div class="media wow fadeInDown">
                                                     <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left">
-                                                        <img alt="" src="<?php echo $data['c_image']; ?>">
+                                                        <img alt="" src="
+                                                        <?php
+                                                        $link = substr($data['c_image'], 0, 4);
+                                                        if ($link != 'http') {
+                                                            echo '../admin/public/image/' . $data['c_image'];
+                                                        } else {
+                                                            echo $data['c_image'];
+                                                        }
+                                                        ?>">
                                                     </a>
                                                     <div class="media-body">
-                                                        <span><?php echo $data['c_datetime']; ?></span>
+                                                        <span><?php echo '<b>' . $data['media_name'] . '</b>' ?> | <?php echo $data['c_datetime']; ?></span>
                                                         <h5>
                                                             <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"> <?php echo $data['title']; ?> </a>
                                                         </h5>
@@ -299,7 +315,7 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
                                                     </div>
                                                 </div>
                                             </div>
-                                            <hr/>
+                                            <hr />
                                         </li>
                                     <?php
                                     }
@@ -333,7 +349,15 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
 
                                 ?>
                                     <li>
-                                        <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="<?php echo $data['c_image']; ?>"> </a>
+                                        <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="
+                                        <?php
+                                        $link = substr($data['c_image'], 0, 4);
+                                        if ($link != 'http') {
+                                            echo '../admin/public/image/' . $data['c_image'];
+                                        } else {
+                                            echo $data['c_image'];
+                                        }
+                                        ?>"> </a>
                                             <div class="media-header">
                                                 <span style="font-size: 13px;"><?php echo '<b>' . $data['media_name'] . '</b>' ?> | <?php echo substr($data['c_datetime'], 0, 10); ?> | views : <?php echo $data['jml_view']; ?></span>
                                             </div>
