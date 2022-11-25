@@ -7,7 +7,7 @@ if (isset($_POST['judul'])) {
     $kategori_berita = $_POST['kategori'];
     $gambar_nama = $_FILES['image']['name'];
     $gambar_size = $_FILES['image']['size'];
-    $isi = $_POST['isi'];
+    $isi = htmlspecialchars(htmlentities($_POST['isi']));
     $media = $_POST['media'];
     $sumber = $_POST['sumber'];
     $news = $_POST['news'];
@@ -25,7 +25,7 @@ if (isset($_POST['judul'])) {
         $tanggal = md5(date('Y-m-d h:i:s'));
 
         $gambar_nama_baru = $tanggal . '-' . $gambar_nama;
-        
+
         if (in_array($ekstensi, $izin_ekstensi)) {
 
             move_uploaded_file($file_temp, '../public/image/' . $gambar_nama_baru);
@@ -36,7 +36,8 @@ if (isset($_POST['judul'])) {
                 $query = mysqli_query($conn, $sql);
 
                 if ($query) {
-                    echo "Berhasil";
+                    echo '<script language="javascript" type="text/javascript">alert("Berhasil Menambahkan Berita!");</script>';
+                    echo '<script>window.location.href = "http://localhost/newsportal/admin/berita"</script>';
                 } else {
                     echo "Gagal";
                 }
@@ -45,7 +46,8 @@ if (isset($_POST['judul'])) {
                 $query = mysqli_query($conn, $sql);
 
                 if ($query) {
-                    echo "Berhasil";
+                    echo '<script language="javascript" type="text/javascript">alert("Berhasil Menambahkan Berita!");</script>';
+                    echo '<script>window.location.href = "http://localhost/newsportal/admin/berita"</script>';
                 } else {
                     echo "Gagal";
                 }

@@ -79,7 +79,7 @@
       backdrop: 'static'
     });
     document.getElementById('delete_user').setAttribute('href', delete_url);
-    document.getElementById('delete_comment').setAttribute('href', delete_url);
+    // document.getElementById('delete_comment').setAttribute('href', delete_url);
     document.getElementById('delete_berita').setAttribute('href', delete_url);
   }
 </script>
@@ -410,7 +410,7 @@
   }
 </script>
 
-<!-- CKEditor -->
+<!-- CKEditor Classic -->
 <!-- <script>
     ClassicEditor
         .create( document.querySelector( '#isi' ) )

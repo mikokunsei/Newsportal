@@ -9,11 +9,9 @@ if (isset($_POST['id'])) {
         $kategori_berita = $_POST['kategori'];
         $gambar_nama = $_FILES['image']['name'];
         $gambar_size = $_FILES['image']['size'];
-        $isi = $_POST['isi'];
+        $isi = htmlspecialchars(htmlentities($_POST['isi']));
         $media = $_POST['media'];
         $sumber = $_POST['sumber'];
-       
-
 
         // $sql = "UPDATE tb_comments SET status = '$status' WHERE id = '$id'";
         // $query = mysqli_query($conn, $sql);
@@ -61,24 +59,27 @@ if (isset($_POST['id'])) {
                     $query = mysqli_query($conn, $sql);
 
                     if ($query) {
-                        echo "Berhasil";
+                        echo '<script language="javascript" type="text/javascript">alert("Berita Berhasil diubah !")</script>';
+                        echo '<script>window.location.href = "http://localhost/newsportal/admin/berita"</script>';
                     } else {
-                        echo "Gagal";
+                        echo '<script language="javascript" type="text/javascript">alert("Gagal !")</script>';
+                        echo '<script>window.location.href = "http://localhost/newsportal/admin/editberita-'.$id.'"</script>';
                     }
                 } else {
                     $sql = "UPDATE news_content SET title =  '$judul', c_canal = '$kategori_berita', c_image = '$gambar_nama_baru', txt = '$isi', media_name = '$media' WHERE id = '$id' ";
                     $query = mysqli_query($conn, $sql);
 
                     if ($query) {
-                        echo "Berhasil";
+                        echo '<script language="javascript" type="text/javascript">alert("Berita Berhasil diubah !")</script>';
+                        echo '<script>window.location.href = "http://localhost/newsportal/admin/berita"</script>';
                     } else {
-                        echo "Gagal";
+                        echo '<script language="javascript" type="text/javascript">alert("Gagal !")</script>';
+                        echo '<script>window.location.href = "http://localhost/newsportal/admin/editberita-'.$id.'"</script>';
                     }
                 }
             } else {
                 echo "Ekstensi tidak sesuai";
-            } 
-
+            }
         } else {
 
             if ($sumber != "") {
@@ -87,18 +88,23 @@ if (isset($_POST['id'])) {
                 $query = mysqli_query($conn, $sql);
 
                 if ($query) {
-                    echo "Berhasil";
+                    // echo "Berhasil";
+                    echo '<script language="javascript" type="text/javascript">alert("Berita Berhasil diubah !")</script>';
+                    echo '<script>window.location.href = "http://localhost/newsportal/admin/berita"</script>';
                 } else {
-                    echo "Gagal";
+                    echo '<script language="javascript" type="text/javascript">alert("Gagal !")</script>';
+                    echo '<script>window.location.href = "http://localhost/newsportal/admin/editberita-'.$id.'"</script>';
                 }
             } else {
                 $sql = "UPDATE news_content SET title =  '$judul', c_canal = '$kategori_berita', txt = '$isi', media_name = '$media' WHERE id = '$id' ";
                 $query = mysqli_query($conn, $sql);
 
                 if ($query) {
-                    echo "Berhasil";
+                    echo '<script language="javascript" type="text/javascript">alert("Berita Berhasil diubah !")</script>';
+                    echo '<script>window.location.href = "http://localhost/newsportal/admin/berita"</script>';
                 } else {
-                    echo "Gagal";
+                    echo '<script language="javascript" type="text/javascript">alert("Gagal !")</script>';
+                    echo '<script>window.location.href = "http://localhost/newsportal/admin/editberita-'.$id.'"</script>';
                 }
             }
         }

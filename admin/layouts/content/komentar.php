@@ -28,6 +28,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col" width="1%">No</th>
+                                            <th scope="col">ID</th>
                                             <th scope="col">Nama</th>
                                             <th scope="col">Email</th>
                                             <th scope="col" width="40%">Komentar</th>
@@ -54,11 +55,15 @@
                                         ?>
                                             <tr>
                                                 <td><?php echo $no++; ?></td>
+                                                <td><?php echo $data_id; ?></td>
                                                 <td><?php echo $data_comment['nama']; ?></td>
                                                 <td><?php echo $data_comment['email']; ?></td>
                                                 <td><?php echo $data_comment['komentar']; ?></td>
                                                 <td><?php echo $data_comment['tgl']; ?></td>
                                                 <td>
+                                                    <?php 
+                                                    if ($_SESSION['role'] != 'user') {
+                                                    ?>
                                                     <select class="form-control " id="datastatus" name="status" data-id="<?php echo $data_comment['id'] ?>">
                                                         <?php
                                                         $sql_status = "SELECT status FROM tb_comments GROUP BY status";
@@ -72,13 +77,18 @@
                                                         }
                                                         ?>
                                                     </select>
+                                                    <?php 
+                                                    } else {
+                                                        echo $data_comment['status'] ;
+                                                    }
+                                                    ?>
                                                 </td>
                                                 <td>
-                                                    <a href="../pages/single_page.php?id=<?= $data_comment['news_id'] ?>"><?php echo $data_comment['news_id']; ?></a>
+                                                    <a href="../pages/single_page.php?id=<?= $data_comment['news_id'] ?>" target="_blank"><?php echo $data_comment['news_id']; ?></a>
                                                 </td>
                                                 <td>
                                                     <?php
-                                                    if ($_SESSION['role'] == 'admin' or 'manager') {
+                                                    if ($_SESSION['role'] != 'user') {
                                                     ?>
                                                         <div class="container">
                                                             <a href="" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?php echo $data_id ?>">Delete</a>
@@ -119,6 +129,7 @@
                                     <tfoot>
                                         <tr>
                                             <th scope="col" width="1%">No</th>
+                                            <th scope="col">ID</th>
                                             <th scope="col">Nama</th>
                                             <th scope="col">Email</th>
                                             <th scope="col">Komentar</th>

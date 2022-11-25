@@ -9,7 +9,8 @@ include "../config/connection.php";
 
 // echo $tag_news;
 
-$get_news = mysqli_query($conn, "SELECT tag FROM news_content WHERE media = 'news' AND tag LIKE '$tag_news'");
+// $query = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND tag LIKE '$tag_news'");
+// $data = mysqli_fetch_array($query);
 
 
 ?>
@@ -19,7 +20,7 @@ $get_news = mysqli_query($conn, "SELECT tag FROM news_content WHERE media = 'new
 <html>
 
 <head>
-    <title>NewsFeed | Pages | By Category</title>
+    <title>Pages by tag : <?php echo $tag_news; ?></title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -74,7 +75,81 @@ $get_news = mysqli_query($conn, "SELECT tag FROM news_content WHERE media = 'new
                                             while ($data_date = mysqli_fetch_array($query_date)) {
                                             ?>
                                                 <li>
-                                                    <a href="single_page_date.php?date=<?= $data_date['data_date'] ?>"><?php echo $data_date['data_date'] ?></a>
+                                                    <a href="single_page_date.php?date=<?= $data_date['data_date'] ?>">
+                                                        <?php
+
+                                                        $date_bulan = substr($data_date['data_date'], 5, 2);
+                                                        $date_tahun = substr($data_date['data_date'], 0, 4);
+
+                                                        switch ($date_bulan) {
+                                                            case '01':
+                                                                $date_bulan = "Januari";
+                                                                break;
+
+                                                            case '02':
+                                                                $date_bulan = "Februari";
+                                                                break;
+
+                                                            case '03':
+                                                                $date_bulan = "Maret";
+                                                                break;
+
+                                                            case '04':
+                                                                $date_bulan = "April";
+                                                                break;
+
+                                                            case '05':
+                                                                $date_bulan = "Mei";
+                                                                break;
+
+                                                            case '06':
+                                                                $date_bulan = "Juni";
+                                                                break;
+
+                                                            case '07':
+                                                                $date_bulan = "Juli";
+                                                                break;
+
+                                                            case '08':
+                                                                $date_bulan = "Agustus";
+                                                                break;
+
+                                                            case '09':
+                                                                $date_bulan = "September";
+                                                                break;
+
+                                                            case '10':
+                                                                $date_bulan = "Oktober";
+                                                                break;
+
+                                                            case '11':
+                                                                $date_bulan = "November";
+                                                                break;
+
+                                                            case '12':
+                                                                $date_bulan = "Desember";
+                                                                break;
+                                                        }
+
+                                                        echo "$date_bulan $date_tahun" ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dropdown">
+                                        <a href="" class=" dropdown-toggle" type="button" data-toggle="dropdown">News by Media
+                                            <span class=""></span></a>
+                                        <ul class="dropdown-menu">
+                                            <?php
+
+                                            $query_media = mysqli_query($conn, "SELECT media_name FROM news_content WHERE media = 'news' GROUP BY media_name");
+                                            while ($data_media = mysqli_fetch_array($query_media)) {
+                                            ?>
+                                                <li>
+                                                    <a href="single_page_media.php?media=<?= $data_media['media_name'] ?>"><?php echo $data_media['media_name'] ?></a>
                                                 </li>
                                             <?php } ?>
                                         </ul>
@@ -181,7 +256,7 @@ $get_news = mysqli_query($conn, "SELECT tag FROM news_content WHERE media = 'new
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav main_nav">
-                        <li class="active"><a href="../index.php"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
+                        <li><a href="../index.php"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
                         <?php
                         $get_data = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news'");
                         while ($data = mysqli_fetch_array($get_data)) {
@@ -216,7 +291,15 @@ $get_news = mysqli_query($conn, "SELECT tag FROM news_content WHERE media = 'new
                             while ($data = mysqli_fetch_array($get_data)) {
                                 // print_r($data);
                             ?>
-                                <li><a href="single_page.php?id=<?= $data['id'] ?>"><img src="<?php echo $data['c_image']; ?>" alt=""><?php echo $data['title']; ?></a></li>
+                                <li><a href="single_page.php?id=<?= $data['id'] ?>"><img src="
+                                <?php
+                                $link = substr($data['c_image'], 0, 4);
+                                if ($link != 'http') {
+                                    echo '../admin/public/image/' . $data['c_image'];
+                                } else {
+                                    echo $data['c_image'];
+                                }
+                                ?>" alt=""><?php echo $data['title']; ?></a></li>
                             <?php
                             }
                             ?>
@@ -266,13 +349,15 @@ $get_news = mysqli_query($conn, "SELECT tag FROM news_content WHERE media = 'new
                                     <?php
 
                                     $batas = 12;
-                                    $halaman = @$_GET['halaman'];
-                                    if (empty($halaman)) {
-                                        $posisi = 0;
-                                        $hahlaman = 1;
-                                    } else {
-                                        $posisi = ($halaman - 1) * $batas;
-                                    }
+                                    $halaman = isset($_GET['halaman']) && is_numeric($_GET['halaman']) ? $_GET['halaman'] : 1;
+                                    // if (empty($halaman)) {
+                                    //     $posisi = 0;
+                                    //     $hahlaman = 1;
+                                    // } else {
+                                    //     $posisi = ($halaman - 1) * $batas;
+                                    //     echo "<b>$posisi</b> </br>";
+                                    // }
+                                    $posisi = ($halaman > 1) ? ($halaman * $batas) - $batas : 0;
 
                                     $get_data_tag = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND tag LIKE '%$tag_news%'");
                                     $jml_data = mysqli_num_rows($get_data_tag);
@@ -280,20 +365,85 @@ $get_news = mysqli_query($conn, "SELECT tag FROM news_content WHERE media = 'new
 
                                     $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND tag LIKE '%$tag_news%' ORDER BY c_datetime DESC limit $posisi, $batas ");
                                     while ($data = mysqli_fetch_array($get_data)) {
+
                                     ?>
                                         <li>
                                             <div class="list-news wow fadeInRight">
                                                 <div class="media wow fadeInDown">
                                                     <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left">
-                                                        <img alt="" src="<?php echo $data['c_image']; ?>">
+                                                        <img alt="" src="
+                                                    <?php
+                                                    $link = substr($data['c_image'], 0, 4);
+                                                    if ($link != 'http') {
+                                                        echo '../admin/public/image/' . $data['c_image'];
+                                                    } else {
+                                                        echo $data['c_image'];
+                                                    }
+                                                    ?>">
                                                     </a>
                                                     <div class="media-body">
-                                                        <span><?php echo $data['c_datetime']; ?></span>
+                                                        <span><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?php echo $data['media_name'] ?></a></b> |
+                                                            <?php
+                                                            $db_tahun = substr($data['c_datetime'], 0, 4);
+                                                            $db_bulan = substr($data['c_datetime'], 5, 2);
+                                                            $db_tanggal = substr($data['c_datetime'], 8, 2);
+                                                            $db_jam = substr($data['c_datetime'], 12, 8);
+                                                            switch ($db_bulan) {
+                                                                case '01':
+                                                                    $db_bulan = "Januari";
+                                                                    break;
+
+                                                                case '02':
+                                                                    $db_bulan = "Februari";
+                                                                    break;
+
+                                                                case '03':
+                                                                    $db_bulan = "Maret";
+                                                                    break;
+
+                                                                case '04':
+                                                                    $db_bulan = "April";
+                                                                    break;
+
+                                                                case '05':
+                                                                    $db_bulan = "Mei";
+                                                                    break;
+
+                                                                case '06':
+                                                                    $db_bulan = "Juni";
+                                                                    break;
+
+                                                                case '07':
+                                                                    $db_bulan = "Juli";
+                                                                    break;
+
+                                                                case '08':
+                                                                    $db_bulan = "Agustus";
+                                                                    break;
+
+                                                                case '09':
+                                                                    $db_bulan = "September";
+                                                                    break;
+
+                                                                case '10':
+                                                                    $db_bulan = "Oktober";
+                                                                    break;
+
+                                                                case '11':
+                                                                    $db_bulan = "November";
+                                                                    break;
+
+                                                                case '12':
+                                                                    $db_bulan = "Desember";
+                                                                    break;
+                                                            }
+                                                            echo "$db_tanggal $db_bulan $db_tahun [$db_jam]";
+                                                            ?></span>
                                                         <h5>
                                                             <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"> <?php echo $data['title']; ?> </a>
                                                         </h5>
                                                         <p class="text-paragraph">
-                                                            <?php echo $data['txt']; ?>
+                                                            <?php echo strip_tags(htmlspecialchars_decode(html_entity_decode($data['txt']))); ?>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -305,20 +455,109 @@ $get_news = mysqli_query($conn, "SELECT tag FROM news_content WHERE media = 'new
                                     ?>
                                 </ul>
 
-                            </div>
-                            <ul class="pagination">
                                 <?php
-                                for ($i = 1; $i <= $jml_halaman; $i++)
-                                    if ($i != $halaman) {
-                                        echo "<li class='page-item'><a class='page-link' href=\"single_page_tag.php?tag=$tag_news&halaman=$i\">$i</a></li>";
-                                        if ($i == 16) {
-                                            echo "<br/>";
-                                        }
-                                    } else {
-                                        echo "<li class='page-item active'><a class='page-link'>$i</a></i>";
-                                    }
+                                // echo "jumlah halaman : " . $jml_halaman . "</br>";
+                                // echo "jumlah data : " . $jml_data . "</br>";
+                                // echo "halaman : " . $halaman . "</br>";
+                                // echo "posisi data ke : " . $posisi . "</br>";
                                 ?>
-                            </ul>
+
+                            </div>
+                            <?php if ($jml_halaman > 0) {
+                            ?>
+                                <ul class="pagination">
+                                    <?php
+                                    $previous = $halaman - 1;
+                                    $next = $halaman + 1;
+
+                                    // PREVIOUS
+                                    if ($halaman != 1) {
+                                    ?>
+                                        <li class="page-item">
+                                            <a class="page-link" href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $previous ?>">Previous</a>
+                                        </li>
+                                    <?php
+                                    }
+
+                                    // 1 Halaman dan titik
+                                    if ($halaman > 3) {
+                                    ?>
+                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=1">1</a></li>
+                                        <?php
+                                        if ($halaman > 4) {
+                                        ?>
+                                            <li class="page-item"><a>...</a></li>
+                                        <?php
+                                        }
+                                    }
+
+                                    // 2 Halaman
+                                    if ($halaman - 2 > 0) {
+                                        ?>
+                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman - 2 ?>"><?php echo $halaman - 2 ?></a></li>
+                                    <?php
+                                    }
+
+                                    if ($halaman - 1 > 0) {
+                                    ?>
+                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman - 1 ?>"><?php echo $halaman - 1 ?></a></li>
+                                    <?php
+                                    }
+                                    ?>
+
+                                    <!-- CURRENT -->
+                                    <li class="page-item active"><a><?php echo $halaman; ?></a></li>
+
+                                    <?php
+
+                                    // 2 Halaman
+                                    if ($halaman + 1 < $jml_halaman + 1) {
+                                    ?>
+                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman + 1 ?>"><?php echo $halaman + 1 ?></a></li>
+                                    <?php
+                                    }
+                                    if ($halaman + 2 < $jml_halaman + 1) {
+                                    ?>
+                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman + 2 ?>"><?php echo $halaman + 2 ?></a></li>
+                                        <?php
+                                    }
+
+                                    if ($halaman < $jml_halaman - 2) {
+                                        if ($halaman < $jml_halaman - 3) {
+                                        ?>
+                                            <li class="page-item"><a>...</a></li>
+
+                                        <?php
+                                        }
+                                        ?>
+                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $jml_halaman ?>"><?php echo $jml_halaman ?></a></li>
+                                    <?php
+                                    }
+
+
+                                    if ($halaman != $jml_halaman) {
+                                    ?>
+                                        <li class="page-item">
+                                            <a class="page-link" href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $next ?>">Next</a>
+                                        </li>
+                                    <?php
+                                    }
+
+                                    // for ($i = 1; $i <= $jml_halaman; $i++)
+                                    //     if ($i != $halaman) {
+                                    //         echo "<li class='page-item'><a class='page-link' href=\"single_page_tag.php?tag=$tag_news&halaman=$i\">$i</a></li>";
+                                    //     } else {
+                                    //         echo "<li class='page-item active'><a class='page-link'>$i</a></i>";
+                                    //     }
+
+                                    // NEXT
+
+                                    ?>
+                                </ul>
+                            <?php
+
+                            } ?>
+
                         </div>
                     </div>
                 </div>
@@ -330,12 +569,75 @@ $get_news = mysqli_query($conn, "SELECT tag FROM news_content WHERE media = 'new
                                 <?php
                                 $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' ORDER BY jml_view DESC LIMIT 5 ");
                                 while ($data = mysqli_fetch_array($get_data)) {
-
                                 ?>
                                     <li>
-                                        <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="<?php echo $data['c_image']; ?>"> </a>
+                                        <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="
+                                        <?php
+                                        $link = substr($data['c_image'], 0, 4);
+                                        if ($link != 'http') {
+                                            echo '../admin/public/image/' . $data['c_image'];
+                                        } else {
+                                            echo $data['c_image'];
+                                        }
+                                        ?>"> </a>
                                             <div class="media-header">
-                                                <span style="font-size: 13px;"><?php echo '<b>' . $data['media_name'] . '</b>' ?> | <?php echo substr($data['c_datetime'], 0, 10); ?> | views : <?php echo $data['jml_view']; ?></span>
+                                                <span style="font-size: 13px;"><?php echo '<b>' . $data['media_name'] . '</b>' ?> |
+                                                    <?php
+                                                    $db_tahun_2 = substr($data['c_datetime'], 0, 4);
+                                                    $db_bulan_2 = substr($data['c_datetime'], 5, 2);
+                                                    $db_tanggal_2 = substr($data['c_datetime'], 8, 2);
+                                                    // tambah 10 jam menyesuaikan waktu indonesia
+                                                    $db_jam_2 = (intval(substr($data['c_datetime'], 12, 1))+10).substr($data['c_datetime'], 13, 7);
+                                                    switch ($db_bulan_2) {
+                                                        case '01':
+                                                            $db_bulan_2 = "Januari";
+                                                            break;
+
+                                                        case '02':
+                                                            $db_bulan_2 = "Februari";
+                                                            break;
+
+                                                        case '03':
+                                                            $db_bulan_2 = "Maret";
+                                                            break;
+
+                                                        case '04':
+                                                            $db_bulan_2 = "April";
+                                                            break;
+
+                                                        case '05':
+                                                            $db_bulan_2 = "Mei";
+                                                            break;
+
+                                                        case '06':
+                                                            $db_bulan_2 = "Juni";
+                                                            break;
+
+                                                        case '07':
+                                                            $db_bulan_2 = "Juli";
+                                                            break;
+
+                                                        case '08':
+                                                            $db_bulan_2 = "Agustus";
+                                                            break;
+
+                                                        case '09':
+                                                            $db_bulan_2 = "September";
+                                                            break;
+
+                                                        case '10':
+                                                            $db_bulan_2 = "Oktober";
+                                                            break;
+
+                                                        case '11':
+                                                            $db_bulan_2 = "November";
+                                                            break;
+
+                                                        case '12':
+                                                            $db_bulan_2 = "Desember";
+                                                            break;
+                                                    }
+                                                    echo "$db_tanggal_2 " . substr($db_bulan_2, 0, 3) . " $db_tahun_2"; ?> | views : <?php echo $data['jml_view']; ?></span>
                                             </div>
                                             <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"><?php echo $data['title']; ?></a> </div>
                                         </div>
@@ -410,7 +712,22 @@ $get_news = mysqli_query($conn, "SELECT tag FROM news_content WHERE media = 'new
                         </div>
                         <div class="single_sidebar wow fadeInDown">
                             <h2><span>Sponsor</span></h2>
-                            <a class="sideAdd" href="#"><img src="../images/bintang_sma.jpg" alt=""></a>
+                            <a class="sideAdd" href="https://pocarisweat.id/bintangsma/" target="_blank"><img src="../images/bintang_sma.jpg" alt=""></a>
+                        </div>
+                        <div class="single_sidebar wow fadeInDown">
+                            <h2><span>PORTAL NEWS</span></h2>
+                            <ul class="wow fadeInDown ">
+                                <?php
+                                $query = mysqli_query($conn, "SELECT DISTINCT media_name, link FROM news_content WHERE media = 'news' GROUP BY media_name ORDER BY media_name ASC ");
+                                while ($data = mysqli_fetch_array($query)) {
+                                ?>
+                                    <li class="cat-item"><a href="https://<?= parse_url($data['link'], PHP_URL_HOST); ?>" target="_blank" style="max-width: 105px ; max: height 50px; height: 50px;">
+                                            <center><img class="img-responsive mx-auto d-block" src="../images/logo_other_portal/<?= $data['media_name']; ?>.png" alt=""></center>
+                                        </a></li>
+                                <?php
+                                }
+                                ?>
+                            </ul>
                         </div>
                         <div class="single_sidebar wow fadeInDown">
                             <h2><span>Category Archive</span></h2>

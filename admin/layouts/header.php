@@ -80,7 +80,7 @@ if (!isset($_SESSION['username'])) {
           <a href="dashboard" class="nav-link">Home</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="../index.php" class="nav-link">Berita</a>
+          <a href="../index.php" target="_blank" class="nav-link">Berita</a>
         </li>
       </ul>
 

@@ -96,6 +96,16 @@
             </ul>
           </li>
           <li class="nav-item">
+            <a href="pesan" class="nav-link">
+              <i class="nav-icon far fa-envelope"></i>
+              <p>
+                Pesan
+                <!-- <span class="badge badge-info right">2</span> -->
+                <!-- <i class="right fas fa-angle-left"></i> -->
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="logout" class="nav-link">
               <i class="nav-icon fas fa-power-off"></i>
               <p>

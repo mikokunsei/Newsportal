@@ -57,6 +57,23 @@ include '../config/connection.php'
                     </ul>
                   </div>
                 </li>
+                <li>
+                  <div class="dropdown">
+                    <a href="" class=" dropdown-toggle" type="button" data-toggle="dropdown">News by Media
+                      <span class=""></span></a>
+                    <ul class="dropdown-menu">
+                      <?php
+
+                      $query_media = mysqli_query($conn, "SELECT media_name FROM news_content WHERE media = 'news' GROUP BY media_name");
+                      while ($data_media = mysqli_fetch_array($query_media)) {
+                      ?>
+                        <li>
+                          <a href="single_page_media.php?media=<?= $data_media['media_name'] ?>"><?php echo $data_media['media_name'] ?></a>
+                        </li>
+                      <?php } ?>
+                    </ul>
+                  </div>
+                </li>
                 <li><a href="contact.php">Contact</a></li>
               </ul>
             </div>
@@ -192,7 +209,15 @@ include '../config/connection.php'
               while ($data = mysqli_fetch_array($get_data)) {
                 // print_r($data);
               ?>
-                <li><a href="single_page.php?id=<?= $data['id'] ?>"><img src="<?php echo $data['c_image']; ?>" alt=""><?php echo $data['title']; ?></a></li>
+                <li><a href="single_page.php?id=<?= $data['id'] ?>"><img src="
+                <?php
+                $link = substr($data['c_image'], 0, 4);
+                if ($link != 'http') {
+                  echo '../admin/public/image/' . $data['c_image'];
+                } else {
+                  echo $data['c_image'];
+                }
+                ?>" alt=""><?php echo $data['title']; ?></a></li>
               <?php
               }
               ?>
@@ -220,10 +245,10 @@ include '../config/connection.php'
             <div class="contact_area">
               <h2>Contact Us</h2>
               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labolore magna aliqua. Ut enim ad minim veniam. Lorem ipsum dosectetur adipisicing elit, sed do.Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-              <form action="#" class="contact_form">
-                <input class="form-control" type="text" placeholder="Name*">
-                <input class="form-control" type="email" placeholder="Email*">
-                <textarea class="form-control" cols="30" rows="10" placeholder="Message*"></textarea>
+              <form action="message.php" method="POST" class="contact_form">
+                <input class="form-control" name="nama" type="text" placeholder="Name*" required>
+                <input class="form-control" name="email" type="email" placeholder="Email*" required>
+                <textarea class="form-control" name="pesan" cols="30" rows="10" placeholder="Message*" required></textarea>
                 <input type="submit" value="Send Message">
               </form>
             </div>
@@ -235,15 +260,80 @@ include '../config/connection.php'
               <h2><span>Popular Post</span></h2>
               <ul class="spost_nav">
                 <?php
-                $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' ORDER BY jml_view DESC LIMIT 5");
+                $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' ORDER BY jml_view DESC LIMIT 5 ");
                 while ($data = mysqli_fetch_array($get_data)) {
+
                 ?>
                   <li>
-                    <div class="media wow fadeInDown"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="<?php echo $data['c_image']; ?>"> </a>
+                    <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="
+                                        <?php
+                                        $link = substr($data['c_image'], 0, 4);
+                                        if ($link != 'http') {
+                                          echo '../admin/public/image/' . $data['c_image'];
+                                        } else {
+                                          echo $data['c_image'];
+                                        }
+                                        ?>"> </a>
                       <div class="media-header">
-                        <span style="font-size: 13px;"><?php echo '<b>' . $data['media_name'] . '</b>' ?> | <?php echo substr($data['c_datetime'], 0, 10); ?> | views : <?php echo $data['jml_view']; ?></span>
+                        <span style="font-size: 13px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?php echo $data['media_name'] ?></a></b> |
+                          <?php
+
+                          $db_tahun = substr($data['c_datetime'], 0, 4);
+                          $db_bulan = substr($data['c_datetime'], 5, 2);
+                          $db_tanggal = substr($data['c_datetime'], 8, 2);
+                          $db_jam = substr($data['c_datetime'], 12, 8);
+                          switch ($db_bulan) {
+                            case '01':
+                              $db_bulan = "Januari";
+                              break;
+
+                            case '02':
+                              $db_bulan = "Februari";
+                              break;
+
+                            case '03':
+                              $db_bulan = "Maret";
+                              break;
+
+                            case '04':
+                              $db_bulan = "April";
+                              break;
+
+                            case '05':
+                              $db_bulan = "Mei";
+                              break;
+
+                            case '06':
+                              $db_bulan = "Juni";
+                              break;
+
+                            case '07':
+                              $db_bulan = "Juli";
+                              break;
+
+                            case '08':
+                              $db_bulan = "Agustus";
+                              break;
+
+                            case '09':
+                              $db_bulan = "September";
+                              break;
+
+                            case '10':
+                              $db_bulan = "Oktober";
+                              break;
+
+                            case '11':
+                              $db_bulan = "November";
+                              break;
+
+                            case '12':
+                              $db_bulan = "Desember";
+                              break;
+                          }
+                          echo "$db_tanggal " . substr($db_bulan, 0, 3) . " $db_tahun"; ?> | views : <?php echo $data['jml_view']; ?></span>
                       </div>
-                      <div class="media-body"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" class="catg_title"><?php echo $data['title']; ?></a> </div>
+                      <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"> <?php echo $data['title']; ?></a> </div>
                     </div>
                   </li>
                 <?php
@@ -272,7 +362,7 @@ include '../config/connection.php'
                 while ($data = mysqli_fetch_array($get_data)) {
                   $canal = $data['c_canal'];
                 ?>
-                  <li><a href="#"><?php echo ucfirst($canal) ?></a></li>
+                  <li><a href="single_page_cat.php?c_canal=<?= $canal ?>"><?php echo ucfirst($canal) ?></a></li>
                 <?php
                 }
                 ?>

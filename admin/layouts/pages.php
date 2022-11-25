@@ -58,6 +58,18 @@ if (isset($_GET['page'])) {
         case 'deleteberita':
             include "action/delete-berita.php";
             break;
+        
+        case 'pesan':
+            include "content/pesan.php";
+            break;
+
+        case 'detailpesan';
+            include "content/detail-pesan.php";
+            break;
+
+        case 'alert';
+            include "content/404.php";
+            break;
 
         default:
 

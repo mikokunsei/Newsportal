@@ -54,7 +54,7 @@
                                             <tr>
                                                 <td><?php echo $no++; ?></td>
                                                 <td>
-                                                    <a href="../pages/single_page.php?id=<?= $data['id'] ?>"><?php echo $data['id']; ?></a>
+                                                    <a href="../pages/single_page.php?id=<?= $data['id'] ?>" target="_blank"><?php echo $data['id']; ?></a>
                                                 </td>
                                                 <td><?php echo $data['title']; ?></td>
                                                 <td><?php echo $data['media_name']; ?></td>
@@ -105,12 +105,12 @@
                                     <tfoot>
                                         <tr>
                                             <th scope="col" width="1%">No</th>
-                                            <th scope="col">Nama</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Komentar</th>
-                                            <th scope="col">Tanggal</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Berita</th>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Judul</th>
+                                            <th scope="col">Media</th>
+                                            <th scope="col">Kategori</th>
+                                            <th scope="col" width="5%">Sumber</th>
+                                            <th scope="col">View</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </tfoot>
