@@ -122,7 +122,7 @@
     },
     subtitle: {
       align: 'center',
-      text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
+      // text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
     },
     accessibility: {
       announceNewData: {
@@ -194,7 +194,7 @@
       text: 'Data Berita by Kategori. Tahun 2022'
     },
     subtitle: {
-      text: 'Click the slices to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
+      // text: 'Click the slices to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
     },
 
     accessibility: {

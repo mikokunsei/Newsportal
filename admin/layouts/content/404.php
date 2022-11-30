@@ -28,7 +28,7 @@
 
           <p>
             We could not find the page you were looking for.
-            Meanwhile, you may <a href="dashboard">return to dashboard.</a>
+            Meanwhile, you may <a href="javascript:history.go(-1)">return to previous page.</a>
           </p>
 
         </div>

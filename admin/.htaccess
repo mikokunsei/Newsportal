@@ -14,12 +14,23 @@ RewriteRule ^tambahpengguna$ index.php?page=tambahpengguna [L]
 RewriteRule ^tambahberita$ index.php?page=tambahberita [L]
 RewriteRule ^alert$ index.php?page=alert [L]
 
+RewriteRule ^kategori-halaman-(.*)$ index.php?page=kategori&halaman=$1 [L]
+RewriteRule ^berita-halaman-(.*)$ index.php?page=berita&halaman=$1 [L]
+#RewriteRule ^berita-halaman-(.*)-search-(.*)$ index.php?page=berita&halaman=$1&search=$2 [L]
+#RewriteRule ^berita(.*)? index.php?page=berita&search=$1 [L]
+#RewriteRule ^berita-(.*)-(.*)$ index.php?page=berita&search=$1&halaman=$2 [L]
+
+RewriteRule ^login-(.*)$ login.php?page=login&pesan=$1 [L] 
+
+RewriteRule ^pengguna-(.*)$ index.php?page=pengguna&pesan=$1 [L]
+RewriteRule ^tambahpengguna-(.*)-username-(.*)-email-(.*)$ index.php?page=tambahpengguna&pesan=$1&username=$2&email=$3 [L] 
+RewriteRule ^editpengguna-(.*)-pesan-(.*)$ index.php?page=editpengguna&id=$1&pesan=$2 [L]
 
 RewriteRule ^komentar$ index.php?page=komentar [L]
 RewriteRule ^berita$ index.php?page=berita [L]
 RewriteRule ^pesan$ index.php?page=pesan [L]
 
-RewriteRule ^editkomentar-(.*)$ index.php?page=editkomentar&id=$1 [L]
+
 RewriteRule ^deletekomentar-(.*)$ index.php?page=deletekomentar&id=$1 [L]
 
 RewriteRule ^editpengguna-(.*)$ index.php?page=editpengguna&id=$1 [L]

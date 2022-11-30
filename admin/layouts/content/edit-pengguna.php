@@ -2,7 +2,6 @@
 
 include '../config/connection.php';
 
-error_reporting(0);
 
 if (isset($_GET['id'])) {
     if ($_GET['id'] != "") {
@@ -18,14 +17,22 @@ if (isset($_GET['id'])) {
     header("location:pengguna");
 }
 
-if ($_SESSION['role'] == 'user' or $id == 1) {
+if ($_SESSION['role'] == 'user' and $id == 1) { ?>
 
-
-?>
     <script>
         window.location.href = "../admin/alert"
     </script>
 
+<?php
+} elseif ($_SESSION['role'] == 'user') { ?>
+    <script>
+        window.location.href = "../admin/alert"
+    </script>
+<?php
+} elseif ($_SESSION['role'] == 'manager' and $id == 1) { ?>
+    <script>
+        window.location.href = "../admin/alert"
+    </script>
     <?php
 } elseif ($_SESSION['role'] == 'admin' or 'manager') {
 
@@ -56,6 +63,20 @@ if ($_SESSION['role'] == 'user' or $id == 1) {
                                         </div>
 
                                         <div class="card-body">
+                                            <?php
+                                            $pesan_username = "";
+                                            $pesan_confirm = "";
+                                            if (isset($_GET['pesan'])) {
+                                                if ($_GET['pesan'] == 'gagal-username') {
+                                                    $pesan_username = "<span style='color:red;'>Username telah digunakan</span>";
+                                                } elseif ($_GET['pesan'] == 'gagal-confirm') {
+                                                    $pesan_confirm = "<span style='color:red;'>Password tidak sesuai</span>";
+                                                }
+                                            }
+
+                                            // echo $_GET['pesan'];
+
+                                            ?>
                                             <form action="action/update-user.php" method="POST" enctype="multipart/form-data">
                                                 <div class="container">
                                                     <div class="form-group row">
@@ -63,8 +84,13 @@ if ($_SESSION['role'] == 'user' or $id == 1) {
                                                             Username
                                                         </label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" class="form-control" name="username" id="" value="<?php echo $row['username'] ?>">
+                                                            <?php if ($_SESSION['role'] == 'manager') { ?>
+                                                                <input type="text" class="form-control" name="username" id="" disabled value="<?php echo $row['username'] ?>">
+                                                            <?php } else { ?>
+                                                                <input type="text" class="form-control" name="username" id="" value="<?php echo $row['username'] ?>">
+                                                            <?php } ?>
                                                             <input type="hidden" name="id" class="form-control" value="<?php echo $row['id']; ?>" id="">
+                                                            <?php echo $pesan_username; ?>
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
@@ -89,24 +115,27 @@ if ($_SESSION['role'] == 'user' or $id == 1) {
                                                         </label>
                                                         <div class="col-sm-10">
                                                             <input type="password" class="form-control" name="password_confirmation" id="" placeholder="Konfirmasi Password">
+                                                            <?php echo $pesan_confirm; ?>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group row">
-                                                        <label for="role" class="col-sm-2 col-form-label">
-                                                            User Role Typle
-                                                        </label>
-                                                        <div class="col-sm-2">
-                                                            <select class="form-control" name="role" id="exampleFormControlSelect1">
-                                                                <option value="" selected disabled hidden>Pilih Role</option>
-                                                                <option value="manager" <?php if ($row['role'] == 'manager') {
-                                                                                            echo 'selected';
-                                                                                        } ?>>Manager</option>
-                                                                <option value="user" <?php if ($row['role'] == 'user') {
-                                                                                            echo 'selected';
-                                                                                        } ?>>User</option>
-                                                            </select>
+                                                    <?php if ($_SESSION['username'] != $row['username']) { ?>
+                                                        <div class="form-group row">
+                                                            <label for="role" class="col-sm-2 col-form-label">
+                                                                User Role Type
+                                                            </label>
+                                                            <div class="col-sm-2">
+                                                                <select class="form-control" name="role" id="exampleFormControlSelect1">
+                                                                    <option value="" selected disabled hidden>Pilih Role</option>
+                                                                    <option value="manager" <?php if ($row['role'] == 'manager') {
+                                                                                                echo 'selected';
+                                                                                            } ?>>Manager</option>
+                                                                    <option value="user" <?php if ($row['role'] == 'user') {
+                                                                                                echo 'selected';
+                                                                                            } ?>>User</option>
+                                                                </select>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    <?php } ?>
                                                 </div>
                                                 <div class="card-footer">
                                                     <button type="submit" class="btn btn-info">Submit</button>
@@ -121,8 +150,12 @@ if ($_SESSION['role'] == 'user' or $id == 1) {
                 </section>
             </div>
         </div>
-    <?php } ?>
-<?php } else { ?>
+    <?php } else { ?>
+        <script>
+            window.location.href = "../admin/alert"
+        </script>
+    <?php }
+} else { ?>
     <script>
         window.location.href = "../admin/alert"
     </script>

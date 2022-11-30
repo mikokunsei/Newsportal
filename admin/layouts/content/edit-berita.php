@@ -3,7 +3,7 @@
 include '../config/connection.php';
 
 // Turn off all error reporting 
-error_reporting(0);
+// error_reporting(0);
 // error_reporting(E_ERROR | E_PARSE);
 
 if (isset($_GET['id'])) {
@@ -16,18 +16,13 @@ if (isset($_GET['id'])) {
         $data = mysqli_fetch_assoc($query);
     } else {
         echo "ID tidak ditemukan !";
-       
     }
 } else {
     echo "ID tidak ditemukan !";
-   
 }
 
 if ($_SESSION['role'] == 'admin' or 'manager') {
-
     if ($_GET['id'] == $data['id']) {
-
-
 ?>
 
         <div class="wrapper">
@@ -155,15 +150,11 @@ if ($_SESSION['role'] == 'admin' or 'manager') {
         </div>
 
 
-    <?php
-
-    } else {
-
-    ?>
-        <script>window.location.href = "../admin/alert"</script>
+    <?php } else { ?>
+        <script>
+            window.location.href = "../admin/alert"
+        </script>
 <?php
-
     }
 }
-
 ?>

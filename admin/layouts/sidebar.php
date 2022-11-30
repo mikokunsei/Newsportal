@@ -3,7 +3,7 @@
     <!-- Brand Logo -->
     <a href="dashboard" class="brand-link">
       <img src="../assets/css/images/purple_loading.gif" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Admin</span>
+      <span class="brand-text font-weight-light">NewsFeed</span>
     </a>
 
     <!-- Sidebar -->
@@ -70,6 +70,12 @@
                   <p>Tabel Berita</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="komentar" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Komentar</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">
@@ -85,12 +91,6 @@
                 <a href="pengguna" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pengguna</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="komentar" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Komentar</p>
                 </a>
               </li>
             </ul>

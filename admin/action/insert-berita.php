@@ -14,7 +14,8 @@ if (isset($_POST['judul'])) {
 
 
     if ($gambar_size > 2097152) {
-        echo "File gambar lebih dari 2MB";
+        echo '<script language="javascript" type="text/javascript">alert("Ukuran File lebih dari 2MB !");</script>';
+        echo '<script>window.location.href = "../tambahberita"</script>';
     } else {
         $izin_ekstensi = array('png', 'jpg', 'jpeg');
 
@@ -36,24 +37,27 @@ if (isset($_POST['judul'])) {
                 $query = mysqli_query($conn, $sql);
 
                 if ($query) {
-                    echo '<script language="javascript" type="text/javascript">alert("Berhasil Menambahkan Berita!");</script>';
-                    echo '<script>window.location.href = "http://localhost/newsportal/admin/berita"</script>';
+                    echo '<script language="javascript" type="text/javascript">alert("Berhasil menambahkan berita!");</script>';
+                    echo '<script>window.location.href = "../berita"</script>';
                 } else {
-                    echo "Gagal";
+                    echo '<script language="javascript" type="text/javascript">alert("Gagal menambahkan berita!");</script>';
+                    echo '<script>window.location.href = "../tambahberita"</script>';
                 }
             } else {
                 $sql = "INSERT INTO news_content (title, c_canal, c_image, txt, media_name, media) VALUES ('$judul', '$kategori_berita', '$gambar_nama_baru', '$isi', '$media', '$news') ";
                 $query = mysqli_query($conn, $sql);
 
                 if ($query) {
-                    echo '<script language="javascript" type="text/javascript">alert("Berhasil Menambahkan Berita!");</script>';
-                    echo '<script>window.location.href = "http://localhost/newsportal/admin/berita"</script>';
+                    echo '<script language="javascript" type="text/javascript">alert("Berhasil menambahkan berita!");</script>';
+                    echo '<script>window.location.href = "../berita"</script>';
                 } else {
-                    echo "Gagal";
+                    echo '<script language="javascript" type="text/javascript">alert("Gagal menambahkan berita!");</script>';
+                    echo '<script>window.location.href = "../tambahberita"</script>';
                 }
             }
         } else {
-            echo "Ekstensi tidak sesuai";
+            echo '<script language="javascript" type="text/javascript">alert("Ekstensi gambar tidak sesuai !");</script>';
+            echo '<script>window.location.href = "../tambahberita"</script>';
         }
     }
 

@@ -38,6 +38,9 @@ if (!isset($_SESSION['username'])) {
   <link rel="stylesheet" href="template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
+  <!-- icon -->
+  <link rel="icon" href="../public/image/icon/vitech_asia.png" type="image/png">
+
   <style>
     #editor {
       width: 1000px;

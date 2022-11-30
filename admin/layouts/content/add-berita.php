@@ -68,7 +68,8 @@ if ($_SESSION['role'] == 'admin' or 'manager') {
                                                         <div class="imgWrap" style="margin-bottom: 25px ;">
                                                             <img src="https://via.placeholder.com/200x150.png?text=image" style="width : 350px ; height: 250px;" id="imgView" class="img img-fluid" >
                                                         </div>
-                                                        <input type="file" name="image" id="inputFile" class="form-control" accept="image/*" >
+                                                        <span>* Ekstensi file PNG, JPG, JPEG max 2MB</span>
+                                                        <input type="file" name="image" id="inputFile" class="form-control" accept="image/*" required>
                                                         <!-- <label class="custom-file-label" for="inputFile">Choose file</label> -->
                                                     </div>
                                                 </div>

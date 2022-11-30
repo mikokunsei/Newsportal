@@ -29,6 +29,9 @@ include "../config/connection.php";
   <link rel="stylesheet" type="text/css" href="../assets/css/jquery.fancybox.css">
   <link rel="stylesheet" type="text/css" href="../assets/css/theme.css">
   <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+
+  <link rel="icon" href="../admin/public/image/icon/vitech_asia.png" type="image/png">
+
   <!--[if lt IE 9]>
 <script src="../assets/js/html5shiv.min.js"></script>
 <script src="../assets/js/respond.min.js"></script>
@@ -253,7 +256,7 @@ include "../config/connection.php";
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12">
           <div class="header_bottom">
-            <div class="logo_area"><a href="../index.php" class="logo"><img src="../images/logo.jpg" alt=""></a></div>
+            <div class="logo_area"><a href="../index.php" class="logo"><img src="../admin/public/image/icon/logo-vta.png" alt=""></a></div>
             <!-- <div class="add_banner"><a href="#"><img src="../images/purple_panorama.jpg" style="width: 745 px;" alt=""></a></div> -->
           </div>
         </div>
@@ -649,7 +652,7 @@ include "../config/connection.php";
                   if ($halaman != 1) {
                   ?>
                     <li class="page-item">
-                      <a class="page-link" href="single_page_cat.php?cat=<?= $cat_news ?>&halaman=<?= $previous ?>">Previous</a>
+                      <a class="page-link" href="single_page_cat.php?c_canal=<?= $cat_news ?>&halaman=<?= $previous ?>">Previous</a>
                     </li>
                   <?php
                   }
@@ -657,7 +660,7 @@ include "../config/connection.php";
                   // 1 Halaman dan titik
                   if ($halaman > 3) {
                   ?>
-                    <li class="page-item"><a href="single_page_cat.php?cat=<?= $cat_news ?>&halaman=1">1</a></li>
+                    <li class="page-item"><a href="single_page_cat.php?c_canal=<?= $cat_news ?>&halaman=1">1</a></li>
                     <?php
                     if ($halaman > 4) {
                     ?>
@@ -669,13 +672,13 @@ include "../config/connection.php";
                   // 2 Halaman
                   if ($halaman - 2 > 0) {
                     ?>
-                    <li class="page-item"><a href="single_page_cat.php?cat=<?= $cat_news ?>&halaman=<?= $halaman - 2 ?>"><?php echo $halaman - 2 ?></a></li>
+                    <li class="page-item"><a href="single_page_cat.php?c_canal=<?= $cat_news ?>&halaman=<?= $halaman - 2 ?>"><?php echo $halaman - 2 ?></a></li>
                   <?php
                   }
 
                   if ($halaman - 1 > 0) {
                   ?>
-                    <li class="page-item"><a href="single_page_cat.php?cat=<?= $cat_news ?>&halaman=<?= $halaman - 1 ?>"><?php echo $halaman - 1 ?></a></li>
+                    <li class="page-item"><a href="single_page_cat.php?c_canal=<?= $cat_news ?>&halaman=<?= $halaman - 1 ?>"><?php echo $halaman - 1 ?></a></li>
                   <?php
                   }
                   ?>
@@ -688,12 +691,12 @@ include "../config/connection.php";
                   // 2 Halaman
                   if ($halaman + 1 < $jml_halaman + 1) {
                   ?>
-                    <li class="page-item"><a href="single_page_cat.php?cat=<?= $cat_news ?>&halaman=<?= $halaman + 1 ?>"><?php echo $halaman + 1 ?></a></li>
+                    <li class="page-item"><a href="single_page_cat.php?c_canal=<?= $cat_news ?>&halaman=<?= $halaman + 1 ?>"><?php echo $halaman + 1 ?></a></li>
                   <?php
                   }
                   if ($halaman + 2 < $jml_halaman + 1) {
                   ?>
-                    <li class="page-item"><a href="single_page_cat.php?cat=<?= $cat_news ?>&halaman=<?= $halaman + 2 ?>"><?php echo $halaman + 2 ?></a></li>
+                    <li class="page-item"><a href="single_page_cat.php?c_canal=<?= $cat_news ?>&halaman=<?= $halaman + 2 ?>"><?php echo $halaman + 2 ?></a></li>
                     <?php
                   }
 
@@ -705,7 +708,7 @@ include "../config/connection.php";
                     <?php
                     }
                     ?>
-                    <li class="page-item"><a href="single_page_cat.php?cat=<?= $cat_news ?>&halaman=<?= $jml_halaman ?>"><?php echo $jml_halaman ?></a></li>
+                    <li class="page-item"><a href="single_page_cat.php?c_canal=<?= $cat_news ?>&halaman=<?= $jml_halaman ?>"><?php echo $jml_halaman ?></a></li>
                   <?php
                   }
 
@@ -713,7 +716,7 @@ include "../config/connection.php";
                   if ($halaman != $jml_halaman) {
                   ?>
                     <li class="page-item">
-                      <a class="page-link" href="single_page_cat.php?cat=<?= $cat_news ?>&halaman=<?= $next ?>">Next</a>
+                      <a class="page-link" href="single_page_cat.php?c_canal=<?= $cat_news ?>&halaman=<?= $next ?>">Next</a>
                     </li>
                   <?php
                   }

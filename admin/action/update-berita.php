@@ -2,6 +2,8 @@
 
 include '../config/connection.php';
 
+// error_reporting(0);
+
 if (isset($_POST['id'])) {
     if ($_POST['id'] != "") {
         $id = $_POST['id'];
@@ -24,12 +26,13 @@ if (isset($_POST['id'])) {
         //     echo "gagal";
         // }
     } else {
-        // header("location:../komentar");
-        echo "ID tidak ditemukan";
+        echo '<script language="javascript" type="text/javascript">alert("Gagal ID tidak ditemukan !")</script>';
+        echo '<script>window.location.href = "berita"</script>';
     }
 
     if ($gambar_size > 2097152) {
-        echo "File gambar lebih dari 2MB";
+        echo '<script language="javascript" type="text/javascript">alert("Ukuran file gambar lebih dari 2MB !")</script>';
+        echo '<script>window.location.href = "../editberita-' . $id . '"</script>';
     } else {
 
         if ($gambar_nama != "") {
@@ -49,7 +52,7 @@ if (isset($_POST['id'])) {
                 $query_gambar = mysqli_query($conn, $sql_gambar);
                 $data_gambar = mysqli_fetch_array($query_gambar);
 
-                unlink("public/image/" . $data_gambar['c_image']);
+                unlink("../public/image/" . $data_gambar['c_image']);
 
                 move_uploaded_file($file_temp, '../public/image/' . $gambar_nama_baru);
 
@@ -59,26 +62,27 @@ if (isset($_POST['id'])) {
                     $query = mysqli_query($conn, $sql);
 
                     if ($query) {
-                        echo '<script language="javascript" type="text/javascript">alert("Berita Berhasil diubah !")</script>';
-                        echo '<script>window.location.href = "http://localhost/newsportal/admin/berita"</script>';
+                        echo '<script language="javascript" type="text/javascript">alert("Data berita berhasil diubah !")</script>';
+                        echo '<script>window.location.href = "../berita"</script>';
                     } else {
-                        echo '<script language="javascript" type="text/javascript">alert("Gagal !")</script>';
-                        echo '<script>window.location.href = "http://localhost/newsportal/admin/editberita-'.$id.'"</script>';
+                        echo '<script language="javascript" type="text/javascript">alert("Gagal mengubah data berita !")</script>';
+                        echo '<script>window.location.href = "../editberita-' . $id . '"</script>';
                     }
                 } else {
                     $sql = "UPDATE news_content SET title =  '$judul', c_canal = '$kategori_berita', c_image = '$gambar_nama_baru', txt = '$isi', media_name = '$media' WHERE id = '$id' ";
                     $query = mysqli_query($conn, $sql);
 
                     if ($query) {
-                        echo '<script language="javascript" type="text/javascript">alert("Berita Berhasil diubah !")</script>';
-                        echo '<script>window.location.href = "http://localhost/newsportal/admin/berita"</script>';
+                        echo '<script language="javascript" type="text/javascript">alert("Data berita berhasil diubah !")</script>';
+                        echo '<script>window.location.href = "../berita"</script>';
                     } else {
-                        echo '<script language="javascript" type="text/javascript">alert("Gagal !")</script>';
-                        echo '<script>window.location.href = "http://localhost/newsportal/admin/editberita-'.$id.'"</script>';
+                        echo '<script language="javascript" type="text/javascript">alert("Gagal mengubah data berita !")</script>';
+                        echo '<script>window.location.href = "../editberita-' . $id . '"</script>';
                     }
                 }
             } else {
-                echo "Ekstensi tidak sesuai";
+                echo '<script language="javascript" type="text/javascript">alert("Ekstensi gambar tidak sesuai !")</script>';
+                echo '<script>window.location.href = "../editberita-' . $id . '"</script>';
             }
         } else {
 
@@ -88,23 +92,22 @@ if (isset($_POST['id'])) {
                 $query = mysqli_query($conn, $sql);
 
                 if ($query) {
-                    // echo "Berhasil";
-                    echo '<script language="javascript" type="text/javascript">alert("Berita Berhasil diubah !")</script>';
-                    echo '<script>window.location.href = "http://localhost/newsportal/admin/berita"</script>';
+                    echo '<script language="javascript" type="text/javascript">alert("Data berita berhasil diubah !")</script>';
+                    echo '<script>window.location.href = "../berita"</script>';
                 } else {
-                    echo '<script language="javascript" type="text/javascript">alert("Gagal !")</script>';
-                    echo '<script>window.location.href = "http://localhost/newsportal/admin/editberita-'.$id.'"</script>';
+                    echo '<script language="javascript" type="text/javascript">alert("Gagal mengubah data berita !")</script>';
+                    echo '<script>window.location.href = "../editberita-' . $id . '"</script>';
                 }
             } else {
                 $sql = "UPDATE news_content SET title =  '$judul', c_canal = '$kategori_berita', txt = '$isi', media_name = '$media' WHERE id = '$id' ";
                 $query = mysqli_query($conn, $sql);
 
                 if ($query) {
-                    echo '<script language="javascript" type="text/javascript">alert("Berita Berhasil diubah !")</script>';
-                    echo '<script>window.location.href = "http://localhost/newsportal/admin/berita"</script>';
+                    echo '<script language="javascript" type="text/javascript">alert("Data berita berhasil diubah !")</script>';
+                    echo '<script>window.location.href = "../berita"</script>';
                 } else {
-                    echo '<script language="javascript" type="text/javascript">alert("Gagal !")</script>';
-                    echo '<script>window.location.href = "http://localhost/newsportal/admin/editberita-'.$id.'"</script>';
+                    echo '<script language="javascript" type="text/javascript">alert("Gagal mengubah data berita !")</script>';
+                    echo '<script>window.location.href = "../editberita-' . $id . '"</script>';
                 }
             }
         }

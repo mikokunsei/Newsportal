@@ -29,6 +29,9 @@ $get_media = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news
     <link rel="stylesheet" type="text/css" href="../assets/css/jquery.fancybox.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/theme.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+
+    <link rel="icon" href="../admin/public/image/icon/vitech_asia.png" type="image/png">
+
     <!--[if lt IE 9]>
 <script src="../assets/js/html5shiv.min.js"></script>
 <script src="../assets/js/respond.min.js"></script>
@@ -254,7 +257,7 @@ $get_media = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="header_bottom">
-                        <div class="logo_area"><a href="../index.php" class="logo"><img src="../images/logo.jpg" alt=""></a></div>
+                        <div class="logo_area"><a href="../index.php" class="logo"><img src="../admin/public/image/icon/logo-vta.png" alt=""></a></div>
                         <!-- <div class="add_banner"><a href="#"><img src="../images/purple_panorama.jpg" style="width: 745 px;" alt=""></a></div> -->
                     </div>
                 </div>
@@ -586,7 +589,63 @@ $get_media = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news
                                         }
                                         ?>"> </a>
                                             <div class="media-header">
-                                                <span style="font-size: 13px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?php echo $data['media_name'] ?></a></b> | <?php echo "$db_tanggal " . substr($db_bulan, 0, 3) . " $db_tahun"; ?> | views : <?php echo $data['jml_view']; ?></span>
+                                                <span style="font-size: 13px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?php echo $data['media_name'] ?></a></b> |
+                                                <?php
+                                                    $db_tahun_2 = substr($data['c_datetime'], 0, 4);
+                                                    $db_bulan_2 = substr($data['c_datetime'], 5, 2);
+                                                    $db_tanggal_2 = substr($data['c_datetime'], 8, 2);
+                                                    // tambah 10 jam menyesuaikan waktu indonesia
+                                                    $db_jam_2 = (intval(substr($data['c_datetime'], 12, 1))+10).substr($data['c_datetime'], 13, 7);
+                                                    switch ($db_bulan_2) {
+                                                        case '01':
+                                                            $db_bulan_2 = "Januari";
+                                                            break;
+
+                                                        case '02':
+                                                            $db_bulan_2 = "Februari";
+                                                            break;
+
+                                                        case '03':
+                                                            $db_bulan_2 = "Maret";
+                                                            break;
+
+                                                        case '04':
+                                                            $db_bulan_2 = "April";
+                                                            break;
+
+                                                        case '05':
+                                                            $db_bulan_2 = "Mei";
+                                                            break;
+
+                                                        case '06':
+                                                            $db_bulan_2 = "Juni";
+                                                            break;
+
+                                                        case '07':
+                                                            $db_bulan_2 = "Juli";
+                                                            break;
+
+                                                        case '08':
+                                                            $db_bulan_2 = "Agustus";
+                                                            break;
+
+                                                        case '09':
+                                                            $db_bulan_2 = "September";
+                                                            break;
+
+                                                        case '10':
+                                                            $db_bulan_2 = "Oktober";
+                                                            break;
+
+                                                        case '11':
+                                                            $db_bulan_2 = "November";
+                                                            break;
+
+                                                        case '12':
+                                                            $db_bulan_2 = "Desember";
+                                                            break;
+                                                    }
+                                                    echo "$db_tanggal_2 " . substr($db_bulan_2, 0, 3) . " $db_tahun_2"; ?> | views : <?php echo $data['jml_view']; ?></span>
                                             </div>
                                             <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"> <?php echo $data['title']; ?></a> </div>
                                         </div>

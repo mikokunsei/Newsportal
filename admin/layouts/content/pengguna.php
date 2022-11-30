@@ -26,6 +26,18 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
+                                <?php if (isset($_GET['pesan'])) {
+                                    if ($_GET['pesan'] == 'ditambahkan') { ?>
+                                        <div class="alert alert-success" role="alert">
+                                            Pengguna Berhasil ditambahkan
+                                        </div>
+                                    <?php } elseif ($_GET['pesan'] == 'gagal') { ?>
+                                        <div class="alert alert-success" role="alert">
+                                            Gagal Menambahkan Pengguna
+                                        </div>
+                                <?php }
+                                }
+                                ?>
                                 <?php if ($_SESSION['role'] == 'user') { ?>
                                 <?php } else { ?>
                                     <a href="tambahpengguna" class="btn btn-primary mb-2">Tambah Pengguna</a>
@@ -54,11 +66,14 @@
                                         include '../config/connection.php';
                                         $no = 1;
 
-                                        $get_data = mysqli_query($conn, "SELECT * FROM tb_users");
+                                        if ($_SESSION['role'] == 'user') {
+                                            $get_data = mysqli_query($conn, "SELECT * FROM tb_users WHERE id != 1");
+                                        } else {
+                                            $get_data = mysqli_query($conn, "SELECT * FROM tb_users");
+                                        }
                                         while ($data = mysqli_fetch_assoc($get_data)) {
                                             $data_id = $data['id'];
                                         ?>
-
                                             <tr>
                                                 <?php if ($_SESSION['role'] == 'user') { ?>
                                                     <td><?php echo $no++; ?></td>
@@ -72,20 +87,14 @@
                                                     <td><?php echo ucfirst($data['role']); ?></td>
                                                     <td>
                                                         <?php
-                                                        if ($data['role'] == 'admin') {
+                                                        if ($_SESSION['role'] == 'manager' and $data['role'] == 'admin') {
                                                             // echo "Limited Access";
                                                         ?>
                                                             <i>Not Allowed</i>
-                                                        <?php } elseif ($_SESSION['role'] == 'user') { ?>
-                                                            <a href="editpengguna-<?php echo $data_id ?>" class="btn btn-warning text-white disabled">Edit</a>
-                                                            <a href="deletepengguna-<?php echo $data_id ?>" class="btn btn-danger disabled">Delete</a>
-                                                        <?php } elseif ($_SESSION['role'] == 'manager') { ?>
-                                                            <a href="editpengguna-<?php echo $data_id ?>" class="btn btn-warning text-white">Edit</a>
-                                                            <a href="deletepengguna-<?php echo $data_id ?>" class="btn btn-danger">Delete</a>
-                                                        <?php } elseif ($_SESSION['role'] == 'admin') { ?>
+                                                        <?php } elseif ($_SESSION['role'] == 'admin' or 'manager') { ?>
                                                             <div class="container">
                                                                 <a href="editpengguna-<?php echo $data_id ?>" class="btn btn-warning text-white">Edit</a>
-                                                                <a href="" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?php echo $data_id ?>" >Delete</a>
+                                                                <a href="" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?php echo $data_id ?>">Delete</a>
                                                                 <div class="modal fade" id="modal_delete<?php echo $data_id ?>">
                                                                     <div class="modal-dialog modal-md">
                                                                         <div class="modal-content">
@@ -94,7 +103,6 @@
                                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                             </div>
                                                                             <div class="modal-body">
-                                                                                <?php print_r($data); ?>
                                                                                 <h5 style="text-align:center;">Yakin ingin menghapus data ?</h5>
                                                                             </div>
                                                                             <div class="modal-footer">

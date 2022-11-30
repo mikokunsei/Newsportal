@@ -33,6 +33,9 @@ include "../config/connection.php";
     <link rel="stylesheet" type="text/css" href="../assets/css/jquery.fancybox.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/theme.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+
+    <link rel="icon" href="../admin/public/image/icon/vitech_asia.png" type="image/png">
+
     <!--[if lt IE 9]>
 <script src="../assets/js/html5shiv.min.js"></script>
 <script src="../assets/js/respond.min.js"></script>
@@ -243,7 +246,7 @@ include "../config/connection.php";
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="header_bottom">
-                        <div class="logo_area"><a href="../index.php" class="logo"><img src="../images/logo.jpg" alt=""></a></div>
+                        <div class="logo_area"><a href="../index.php" class="logo"><img src="../admin/public/image/icon/logo-vta.png" alt=""></a></div>
                         <!-- <div class="add_banner"><a href="#"><img src="../images/purple_panorama.jpg" style="width: 745 px;" alt=""></a></div> -->
                     </div>
                 </div>

@@ -1,7 +1,13 @@
 <?php
-if ($_SESSION['role'] == 'admin' OR 'manager') {
-?>
 
+include "../config/connection.php";
+
+if ($_SESSION['role'] == 'user') {
+?>
+    <script>
+        window.location.href = "../admin/alert"
+    </script>
+<?php } elseif ($_SESSION['role'] == 'admin' or 'manager') { ?>
     <div class="wrapper">
         <div class="content-wrapper">
             <section class="content-header">
@@ -27,6 +33,28 @@ if ($_SESSION['role'] == 'admin' OR 'manager') {
                                     </div>
 
                                     <div class="card-body">
+                                        <!-- <div class="alert alert-danger" id="gagal" role="alert" style="display:none;">
+                                            Gagal 
+                                        </div> -->
+                                        <?php
+
+                                        $pesan_username = "";
+                                        $pesan_confirm = "";
+                                        if (isset($_GET['pesan'])) {
+                                            if ($_GET['pesan'] == 'gagal-username') {
+                                                $pesan_username = "<span style='color:red;'>Username telah digunakan</span>";
+                                            } elseif ($_GET['pesan'] == 'gagal-confirm') {
+                                                $pesan_confirm = "<span style='color:red;'>Password tidak sesuai</span>";
+                                            }
+                                        }
+                                        if (isset($_GET['username']) and isset($_GET['email'])) {
+                                            $username = 'value="' . $_GET['username'] . '"';
+                                            $email = 'value="' . $_GET['email'] . '"';
+                                        } else {
+                                            $username = "";
+                                            $email = "";
+                                        }
+                                        ?>
                                         <form action="action/insert-user.php" method="POST" enctype="multipart/form-data">
                                             <div class="container">
                                                 <div class="form-group row">
@@ -34,7 +62,8 @@ if ($_SESSION['role'] == 'admin' OR 'manager') {
                                                         Username
                                                     </label>
                                                     <div class="col-sm-10">
-                                                        <input type="text" class="form-control" name="username" id="" placeholder="Masukkan Username" required>
+                                                        <input type="text" class="form-control" name="username" id="" <?php echo $username; ?> placeholder="Masukkan Username" required>
+                                                        <?php echo $pesan_username; ?>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -42,7 +71,7 @@ if ($_SESSION['role'] == 'admin' OR 'manager') {
                                                         Email
                                                     </label>
                                                     <div class="col-sm-10">
-                                                        <input type="email" class="form-control" name="email" id="" placeholder="Masukkan Email" required>
+                                                        <input type="email" class="form-control" name="email" id="" <?php echo $email; ?> placeholder="Masukkan Email" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -59,6 +88,7 @@ if ($_SESSION['role'] == 'admin' OR 'manager') {
                                                     </label>
                                                     <div class="col-sm-10">
                                                         <input type="password" class="form-control" name="password_confirmation" id="" placeholder="Konfirmasi Password" required>
+                                                        <?php echo $pesan_confirm; ?>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -87,14 +117,8 @@ if ($_SESSION['role'] == 'admin' OR 'manager') {
             </section>
         </div>
     </div>
-
-<?php
-} else { ?>
-    <div class="wrapper">
-        <div class="content-wrapper" style="text-align:center;">
-            <section class="content">
-                <i>Not Allowed</i>
-            </section>
-        </div>
-    </div>
+<?php } else { ?>
+    <script>
+        window.location.href = "../admin/alert"
+    </script>
 <?php } ?>

@@ -7,8 +7,10 @@ if (isset($_GET['id'])) {
 
 include "../config/connection.php";
 
+error_reporting(0);
+
 $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_view+1 WHERE id = '$id_news'");
-$query = mysqli_query($conn, "SELECT * FROM news_content WHERE id = '$id_news'");
+$query = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND id = '$id_news'");
 $data = mysqli_fetch_array($query);
 
 ?>
@@ -18,7 +20,18 @@ $data = mysqli_fetch_array($query);
 <html>
 
 <head>
+  <?php 
+  if ($data['id'] == $id_news) {
+  ?>
   <title><?php echo $data['title']; ?></title>
+  <?php 
+  } else {
+  ?>
+  <title>Not Found</title>
+  <?php 
+  }
+  ?>
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,6 +44,9 @@ $data = mysqli_fetch_array($query);
   <link rel="stylesheet" type="text/css" href="../assets/css/jquery.fancybox.css">
   <link rel="stylesheet" type="text/css" href="../assets/css/theme.css">
   <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+
+  <link rel="icon" href="../admin/public/image/icon/vitech_asia.png" type="image/png">
+
   <!--[if lt IE 9]>
 <script src="../assets/js/html5shiv.min.js"></script>
 <script src="../assets/js/respond.min.js"></script>
@@ -38,16 +54,16 @@ $data = mysqli_fetch_array($query);
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
-<!-- image content single page -->
+  <!-- image content single page -->
   <style>
     .image {
-      display:block;
-      margin-left:auto; 
-      margin-right:auto; 
-      text-align:center;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
     }
 
-    img{
+    img {
       max-width: 300px;
       max-height: auto;
     }
@@ -249,7 +265,7 @@ $data = mysqli_fetch_array($query);
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12">
           <div class="header_bottom">
-            <div class="logo_area"><a href="../index.php" class="logo"><img src="../images/logo.jpg" alt=""></a></div>
+            <div class="logo_area"><a href="../index.php" class="logo"><img src="../admin/public/image/icon/logo-vta.png" alt=""></a></div>
             <!-- <div class="add_banner"><a href="#"><img src="../images/purple_panorama.jpg" style="width: 745 px;" alt=""></a></div> -->
           </div>
         </div>
@@ -330,6 +346,23 @@ $data = mysqli_fetch_array($query);
     <section id="contentSection">
       <div class="row">
         <div class="col-lg-8 col-mdf-8 col-sm-8">
+          <?php
+          $query = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND id = '$id_news'");
+          $data = mysqli_fetch_array($query);
+
+          if ($id_news != $data['id']) {
+          ?>
+            <div class="left_content">
+              <div class="error_page">
+                <h3>We Are Sorry</h3>
+                <h1>404</h1>
+                <p>Unfortunately, the content you were looking for could not be found. It may be temporarily unavailable, moved or no longer exists</p>
+                <span></span> <a href="../index.php" class="wow fadeInLeftBig">Go to home page</a>
+              </div>
+            </div>
+          <?php
+          }
+          ?>
           <div class="left_content">
             <?php
             $get_content = mysqli_query($conn, "SELECT * FROM news_content WHERE id = '$id_news' ");
@@ -351,7 +384,7 @@ $data = mysqli_fetch_array($query);
                     $db_bulan = substr($data_content['c_datetime'], 5, 2);
                     $db_tanggal = substr($data_content['c_datetime'], 8, 2);
                     // tambah 10 jam menyesuaikan waktu indonesia
-                    $db_jam = (intval(substr($data['c_datetime'], 12, 1))+10).substr($data['c_datetime'], 13, 7);
+                    $db_jam = (intval(substr($data['c_datetime'], 12, 1)) + 10) . substr($data['c_datetime'], 13, 7);
                     switch ($db_bulan) {
                       case '01':
                         $db_bulan = "Januari";
@@ -619,7 +652,62 @@ $data = mysqli_fetch_array($query);
                     }
                     ?>"> </a>
                       <div class="media-header">
-                        <span style="font-size: 13px;"><?php echo '<b>' . $data_popular['media_name'] . '</b>' ?> | <?php echo "$db_tanggal " . substr($db_bulan, 0, 3) . " $db_tahun"; ?> | views : <?php echo $data_popular['jml_view']; ?></span>
+                        <span style="font-size: 13px;"><?php echo '<b>' . $data_popular['media_name'] . '</b>' ?> |
+                          <?php
+                          $db_tahun = substr($data_popular['c_datetime'], 0, 4);
+                          $db_bulan = substr($data_popular['c_datetime'], 5, 2);
+                          $db_tanggal = substr($data_popular['c_datetime'], 8, 2);
+                          $db_jam = substr($data_popular['c_datetime'], 12, 8);
+                          switch ($db_bulan) {
+                            case '01':
+                              $db_bulan = "Januari";
+                              break;
+
+                            case '02':
+                              $db_bulan = "Februari";
+                              break;
+
+                            case '03':
+                              $db_bulan = "Maret";
+                              break;
+
+                            case '04':
+                              $db_bulan = "April";
+                              break;
+
+                            case '05':
+                              $db_bulan = "Mei";
+                              break;
+
+                            case '06':
+                              $db_bulan = "Juni";
+                              break;
+
+                            case '07':
+                              $db_bulan = "Juli";
+                              break;
+
+                            case '08':
+                              $db_bulan = "Agustus";
+                              break;
+
+                            case '09':
+                              $db_bulan = "September";
+                              break;
+
+                            case '10':
+                              $db_bulan = "Oktober";
+                              break;
+
+                            case '11':
+                              $db_bulan = "November";
+                              break;
+
+                            case '12':
+                              $db_bulan = "Desember";
+                              break;
+                          }
+                          echo "$db_tanggal " . substr($db_bulan, 0, 3) . " $db_tahun"; ?> | views : <?php echo $data_popular['jml_view']; ?></span>
                       </div>
                       <div class="media-body"> <a href="single_page.php?id=<?= $data_popular['id'] ?>" class="catg_title"><?php echo $data_popular['title']; ?></a> </div>
                     </div>
@@ -701,10 +789,12 @@ $data = mysqli_fetch_array($query);
               <ul class="wow fadeInDown">
                 <?php
                 $query = mysqli_query($conn, "SELECT DISTINCT media_name, link FROM news_content WHERE media = 'news' GROUP BY media_name ORDER BY media_name ASC ");
-                while ($data = mysqli_fetch_array($query)){
+                while ($data = mysqli_fetch_array($query)) {
                 ?>
-                  <li class="cat-item"><a href="https://<?= parse_url($data['link'], PHP_URL_HOST); ?>" target="_blank" style="max-width: 105px ; max: height 50px; height: 50px;"><center><img class="img-responsive mx-auto d-block" src="../images/logo_other_portal/<?= $data['media_name'];?>.png" alt=""></center></a></li>
-                <?php 
+                  <li class="cat-item"><a href="https://<?= parse_url($data['link'], PHP_URL_HOST); ?>" target="_blank" style="max-width: 105px ; max: height 50px; height: 50px;">
+                      <center><img class="img-responsive mx-auto d-block" src="../images/logo_other_portal/<?= $data['media_name']; ?>.png" alt=""></center>
+                    </a></li>
+                <?php
                 }
                 ?>
               </ul>

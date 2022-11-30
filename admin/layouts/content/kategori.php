@@ -35,13 +35,6 @@
                                             <th scope="col" width="1%">No</th>
                                             <th scope="col">Nama Media</th>
                                             <th scope="col">Jumlah Berita</th>
-                                            <!-- <th scope="col">NPM</th>
-                                            <th scope="col">Kelas</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">No.Hp</th>
-                                            <th scope="col" width="20%">Foto</th>
-                                            <th scope="col" width="20%">Alamat</th>
-                                            <th scope="col" width="20%">Action</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -62,15 +55,8 @@
                                     <tfoot>
                                     <tr style="text-align:center ;">
                                         <th scope="col" width="1%">No</th>
-                                        <th scope="col">Nama</th>
+                                        <th scope="col">Nama Media</th>
                                         <th scope="col">Jumlah Berita</th>
-                                        <!-- <th scope="col">NPM</th>
-                                        <th scope="col">Kelas</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">No.Hp</th>
-                                        <th scope="col" width="20%">Foto</th>
-                                        <th scope="col" width="20%">Alamat</th>
-                                        <th scope="col" width="20%">Action</th> -->
                                     </tr>
                                     </tfoot>
                                 </table>
