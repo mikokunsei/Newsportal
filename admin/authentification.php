@@ -39,7 +39,7 @@ $check_data = mysqli_num_rows($get_data);
 $query_username = mysqli_query($conn , "SELECT * FROM tb_users WHERE username = '$username'") ;
 $check_username = mysqli_num_rows($query_username);
 
-$query_password = mysqli_query($conn , "SELECT * FROM tb_users WHERE username = 'admin123'") ;
+$query_password = mysqli_query($conn , "SELECT * FROM tb_users WHERE username = '$username'") ;
 $check_password = mysqli_fetch_array($query_password);
 
 
