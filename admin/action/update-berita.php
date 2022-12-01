@@ -13,6 +13,7 @@ if (isset($_POST['id'])) {
         $gambar_size = $_FILES['image']['size'];
         $isi = htmlspecialchars(htmlentities($_POST['isi']));
         $media = $_POST['media'];
+        $tanggal_berita = $_POST['tanggal'];
         $sumber = $_POST['sumber'];
 
         // $sql = "UPDATE tb_comments SET status = '$status' WHERE id = '$id'";
@@ -58,7 +59,7 @@ if (isset($_POST['id'])) {
 
                 if ($sumber != "") {
 
-                    $sql = "UPDATE news_content SET title = '$judul', c_canal = '$kategori_berita', c_image = '$gambar_nama_baru', txt = '$isi', media_name = '$media', link = '$sumber' WHERE id = '$id'";
+                    $sql = "UPDATE news_content SET title = '$judul', c_canal = '$kategori_berita', c_image = '$gambar_nama_baru', txt = '$isi', media_name = '$media', c_datetime = '$tanggal_berita', link = '$sumber' WHERE id = '$id'";
                     $query = mysqli_query($conn, $sql);
 
                     if ($query) {
@@ -69,7 +70,7 @@ if (isset($_POST['id'])) {
                         echo '<script>window.location.href = "../editberita-' . $id . '"</script>';
                     }
                 } else {
-                    $sql = "UPDATE news_content SET title =  '$judul', c_canal = '$kategori_berita', c_image = '$gambar_nama_baru', txt = '$isi', media_name = '$media' WHERE id = '$id' ";
+                    $sql = "UPDATE news_content SET title =  '$judul', c_canal = '$kategori_berita', c_image = '$gambar_nama_baru', txt = '$isi', media_name = '$media', c_datetime = '$tanggal_berita'  WHERE id = '$id' ";
                     $query = mysqli_query($conn, $sql);
 
                     if ($query) {
@@ -88,7 +89,7 @@ if (isset($_POST['id'])) {
 
             if ($sumber != "") {
 
-                $sql = "UPDATE news_content SET title = '$judul', c_canal = '$kategori_berita', txt = '$isi', media_name = '$media', link = '$sumber' WHERE id = '$id'";
+                $sql = "UPDATE news_content SET title = '$judul', c_canal = '$kategori_berita', txt = '$isi', media_name = '$media', c_datetime = '$tanggal_berita', link = '$sumber' WHERE id = '$id'";
                 $query = mysqli_query($conn, $sql);
 
                 if ($query) {
@@ -99,7 +100,7 @@ if (isset($_POST['id'])) {
                     echo '<script>window.location.href = "../editberita-' . $id . '"</script>';
                 }
             } else {
-                $sql = "UPDATE news_content SET title =  '$judul', c_canal = '$kategori_berita', txt = '$isi', media_name = '$media' WHERE id = '$id' ";
+                $sql = "UPDATE news_content SET title =  '$judul', c_canal = '$kategori_berita', txt = '$isi', media_name = '$media', c_datetime = '$tanggal_berita' WHERE id = '$id' ";
                 $query = mysqli_query($conn, $sql);
 
                 if ($query) {

@@ -9,6 +9,7 @@ if (isset($_POST['judul'])) {
     $gambar_size = $_FILES['image']['size'];
     $isi = htmlspecialchars(htmlentities($_POST['isi']));
     $media = $_POST['media'];
+    $tanggal_berita = $_POST['tanggal'];
     $sumber = $_POST['sumber'];
     $news = $_POST['news'];
 
@@ -33,7 +34,7 @@ if (isset($_POST['judul'])) {
 
             if ($sumber != "") {
 
-                $sql = "INSERT INTO news_content (title, c_canal, c_image, txt, media_name, link, media) VALUES ('$judul', '$kategori_berita', '$gambar_nama_baru', '$isi', '$media', '$sumber', '$news') ";
+                $sql = "INSERT INTO news_content (title, c_canal, c_image, txt, media_name, c_datetime, link, media) VALUES ('$judul', '$kategori_berita', '$gambar_nama_baru', '$isi', '$media', '$tanggal_berita', '$sumber', '$news') ";
                 $query = mysqli_query($conn, $sql);
 
                 if ($query) {
@@ -44,7 +45,7 @@ if (isset($_POST['judul'])) {
                     echo '<script>window.location.href = "../tambahberita"</script>';
                 }
             } else {
-                $sql = "INSERT INTO news_content (title, c_canal, c_image, txt, media_name, media) VALUES ('$judul', '$kategori_berita', '$gambar_nama_baru', '$isi', '$media', '$news') ";
+                $sql = "INSERT INTO news_content (title, c_canal, c_image, txt, media_name, c_datetime, media) VALUES ('$judul', '$kategori_berita', '$gambar_nama_baru', '$isi', '$media', '$tanggal_berita', '$news') ";
                 $query = mysqli_query($conn, $sql);
 
                 if ($query) {

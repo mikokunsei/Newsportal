@@ -66,7 +66,7 @@ if ($_SESSION['role'] == 'admin' or 'manager') {
                                                     </label>
                                                     <div class="col-sm-10">
                                                         <div class="imgWrap" style="margin-bottom: 25px ;">
-                                                            <img src="https://via.placeholder.com/200x150.png?text=image" style="width : 350px ; height: 250px;" id="imgView" class="img img-fluid" >
+                                                            <img src="https://via.placeholder.com/200x150.png?text=image" style="width : 350px ; height: 250px;" id="imgView" class="img img-fluid">
                                                         </div>
                                                         <span>* Ekstensi file PNG, JPG, JPEG max 2MB</span>
                                                         <input type="file" name="image" id="inputFile" class="form-control" accept="image/*" required>
@@ -90,11 +90,25 @@ if ($_SESSION['role'] == 'admin' or 'manager') {
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
+                                                    <label for="tanggal" class="col-sm-2 col-form-label">
+                                                        Tanggal dan Waktu
+                                                    </label>
+                                                    <div class="col-sm-2.5">
+                                                        <?php 
+                                                        date_default_timezone_set("Asia/Jakarta");
+                                                        $current_date = date("Y-m-d");
+                                                        $current_time = date("h:i:s");
+                                                        // echo $current_date."T". $current_time ;
+                                                        ?>
+                                                        <input type="datetime-local" class="form-control" max="<?= $current_date."T". $current_time ; ?>" name="tanggal" id="" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
                                                     <label for="sumber" class="col-sm-2 col-form-label">
                                                         Sumber
                                                     </label>
                                                     <div class="col-sm-10">
-                                                        <input type="text" class="form-control" name="sumber" id="" placeholder="Masukkan sumber" >
+                                                        <input type="text" class="form-control" name="sumber" id="" placeholder="Masukkan sumber">
                                                     </div>
                                                 </div>
                                             </div>

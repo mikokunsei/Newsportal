@@ -28,13 +28,13 @@
                                     <thead>
                                         <tr>
                                             <th scope="col" width="1%">No</th>
-                                            <th scope="col">ID</th>
+                                            <!-- <th scope="col">ID</th> -->
                                             <th scope="col">Nama</th>
                                             <th scope="col">Email</th>
-                                            <th scope="col" width="40%">Komentar</th>
+                                            <th scope="col" width="10%">Komentar</th>
                                             <th scope="col" width="10%">Tanggal</th>
                                             <th scope="col" width="10%">Status</th>
-                                            <th scope="col">Berita</th>
+                                            <th scope="col" width="25%">Berita</th>
                                             <th scope="col" width="17%">Action</th>
                                         </tr>
                                     </thead>
@@ -44,7 +44,8 @@
 
                                         $no = 1;
                                         $sql = "SELECT tb_comments.id, tb_comments.nama, tb_comments.email, 
-                                                    tb_comments.komentar, tb_comments.tgl, tb_comments.status, news_content.id AS news_id
+                                                    tb_comments.komentar, tb_comments.tgl, tb_comments.status,
+                                                    news_content.id AS news_id, news_content.title AS news_title
                                                     FROM tb_comments
                                                     JOIN news_content
                                                     ON tb_comments.news_id = news_content.id
@@ -55,7 +56,6 @@
                                         ?>
                                             <tr>
                                                 <td><?php echo $no++; ?></td>
-                                                <td><?php echo $data_id; ?></td>
                                                 <td><?php echo $data_comment['nama']; ?></td>
                                                 <td><?php echo $data_comment['email']; ?></td>
                                                 <td><?php echo $data_comment['komentar']; ?></td>
@@ -84,7 +84,7 @@
                                                     ?>
                                                 </td>
                                                 <td>
-                                                    <a href="../pages/single_page.php?id=<?= $data_comment['news_id'] ?>" target="_blank"><?php echo $data_comment['news_id']; ?></a>
+                                                    <a href="../pages/single_page.php?id=<?= $data_comment['news_id'] ?>" target="_blank"><?php echo $data_comment['news_title']; ?></a>
                                                 </td>
                                                 <td>
                                                     <?php
@@ -129,7 +129,7 @@
                                     <tfoot>
                                         <tr>
                                             <th scope="col" width="1%">No</th>
-                                            <th scope="col">ID</th>
+                                            <!-- <th scope="col">ID</th> -->
                                             <th scope="col">Nama</th>
                                             <th scope="col">Email</th>
                                             <th scope="col">Komentar</th>

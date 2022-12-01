@@ -119,29 +119,33 @@
                                             $data_id = $data['id'];
                                         ?>
                                             <tr>
-                                                <td><?php echo $no++; ?></td>
+                                                <td><?= $no++; ?></td>
                                                 <td>
-                                                    <a href="../pages/single_page.php?id=<?= $data['id'] ?>" target="_blank"><?php echo $data['id']; ?></a>
+                                                    <?= $data['id']; ?>
                                                 </td>
-                                                <td><?php echo $data['title']; ?></td>
-                                                <td><?php echo $data['media_name']; ?></td>
-                                                <td><?php echo $data['c_canal']; ?></td>
-                                                <td><?php echo $data['link']; ?></td>
-                                                <td><?php echo $data['jml_view']; ?></td>
+                                                <td>
+                                                    <a href="../pages/single_page.php?id=<?= $data['id'] ?>" target="_blank"><?= $data['title']; ?></a>
+                                                </td>
+                                                <td><?= $data['media_name']; ?></td>
+                                                <td><?= $data['c_canal']; ?></td>
+                                                <td>
+                                                    <a href="<?= $data['link']; ?>" target="_blank"><?= $data['link']; ?></a>
+                                                </td>
+                                                <td><?= $data['jml_view']; ?></td>
                                                 <td>
                                                     <?php
                                                     if ($_SESSION['role'] == 'admin' or 'manager') {
                                                     ?>
                                                         <div class="container">
-                                                            <a href="editberita-<?php echo $data_id ?>" style="width: 70px ;" class="btn btn-warning">Edit</a>
+                                                            <a href="editberita-<?= $data_id ?>" style="width: 70px ;" class="btn btn-warning">Edit</a>
                                                             <?php
                                                             if ($_SESSION['role'] != 'user') {
                                                             ?>
-                                                                <a href="" style="width: 70px ;" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?php echo $data_id ?>">Delete</a>
+                                                                <a href="" style="width: 70px ;" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?= $data_id ?>">Delete</a>
                                                             <?php
                                                             }
                                                             ?>
-                                                            <div class="modal fade" id="modal_delete<?php echo $data_id ?>">
+                                                            <div class="modal fade" id="modal_delete<?= $data_id ?>">
                                                                 <div class="modal-dialog modal-md">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
@@ -154,7 +158,7 @@
                                                                         <div class="modal-footer">
                                                                             <div class="row">
                                                                                 <div class="col" style="text-align:center ;">
-                                                                                    <a href="deleteberita-<?php echo $data_id ?>" class="btn btn-danger" id="delete_berita">Hapus</a>
+                                                                                    <a href="deleteberita-<?= $data_id ?>" class="btn btn-danger" id="delete_berita">Hapus</a>
                                                                                     <a href="" class="btn btn-primary" data-dismiss="modal">Kembali</a>
                                                                                 </div>
                                                                             </div>
@@ -203,9 +207,9 @@
                                                     <?php if ($search) {
                                                         $search = $_GET['search'];
                                                     ?>
-                                                        <a class="page-link" href="index.php?page=berita&halaman=<?php echo $halaman - 1 ?>&search=<?= $search ?>">Previous</a>
+                                                        <a class="page-link" href="index.php?page=berita&halaman=<?= $halaman - 1 ?>&search=<?= $search ?>">Previous</a>
                                                     <?php } else { ?>
-                                                        <a class="page-link" href="berita-halaman-<?php echo $halaman - 1 ?>">Previous</a>
+                                                        <a class="page-link" href="berita-halaman-<?= $halaman - 1 ?>">Previous</a>
                                                     <?php } ?>
                                                 </li>
                                             <?php
@@ -238,9 +242,9 @@
                                                     <?php if ($search) {
                                                         $search = $_GET['search'];
                                                     ?>
-                                                        <a class="page-link" href="index.php?page=berita&halaman=<?php echo $halaman - 1 ?>&search=<?= $search ?>&kolom=<?= $kolom ?>"><?php echo $halaman - 2 ?></a>
+                                                        <a class="page-link" href="index.php?page=berita&halaman=<?= $halaman - 1 ?>&search=<?= $search ?>&kolom=<?= $kolom ?>"><?= $halaman - 2 ?></a>
                                                     <?php } else { ?>
-                                                        <a class="page-link" href="berita-halaman-<?php echo $halaman - 2 ?>"><?php echo $halaman - 2 ?></a>
+                                                        <a class="page-link" href="berita-halaman-<?= $halaman - 2 ?>"><?= $halaman - 2 ?></a>
                                                     <?php } ?>
                                                 </li>
                                             <?php
@@ -252,9 +256,9 @@
                                                     <?php if ($search) {
                                                         $search = $_GET['search'];
                                                     ?>
-                                                        <a class="page-link" href="index.php?page=berita&halaman=<?php echo $halaman - 1 ?>&search=<?= $search ?>&kolom=<?= $kolom ?>"><?php echo $halaman - 1 ?></a>
+                                                        <a class="page-link" href="index.php?page=berita&halaman=<?= $halaman - 1 ?>&search=<?= $search ?>&kolom=<?= $kolom ?>"><?= $halaman - 1 ?></a>
                                                     <?php } else { ?>
-                                                        <a class="page-link" href="berita-halaman-<?php echo $halaman - 1 ?>"><?php echo $halaman - 1 ?></a>
+                                                        <a class="page-link" href="berita-halaman-<?= $halaman - 1 ?>"><?= $halaman - 1 ?></a>
                                                     <?php } ?>
                                                 </li>
                                             <?php
@@ -262,7 +266,7 @@
                                             ?>
 
                                             <!-- CURRENT -->
-                                            <li class="page-item active"><a class="page-link"><?php echo $halaman; ?></a></li>
+                                            <li class="page-item active"><a class="page-link"><?= $halaman; ?></a></li>
 
                                             <?php
 
@@ -273,9 +277,9 @@
                                                     <?php if ($search) {
                                                         $search = $_GET['search'];
                                                     ?>
-                                                        <a class="page-link" href="index.php?page=berita&halaman=<?php echo $halaman + 1 ?>&search=<?= $search ?>&kolom=<?= $kolom ?>"><?php echo $halaman + 1 ?></a>
+                                                        <a class="page-link" href="index.php?page=berita&halaman=<?= $halaman + 1 ?>&search=<?= $search ?>&kolom=<?= $kolom ?>"><?= $halaman + 1 ?></a>
                                                     <?php } else { ?>
-                                                        <a class="page-link" href="berita-halaman-<?php echo $halaman + 1 ?>"><?php echo $halaman + 1 ?></a>
+                                                        <a class="page-link" href="berita-halaman-<?= $halaman + 1 ?>"><?= $halaman + 1 ?></a>
                                                     <?php } ?>
                                                 </li>
                                             <?php
@@ -286,9 +290,9 @@
                                                     <?php if ($search) {
                                                         $search = $_GET['search'];
                                                     ?>
-                                                        <a class="page-link" href="index.php?page=berita&halaman=<?php echo $halaman + 2 ?>&search=<?= $search ?>&kolom=<?= $kolom ?>"><?php echo $halaman + 2 ?></a>
+                                                        <a class="page-link" href="index.php?page=berita&halaman=<?= $halaman + 2 ?>&search=<?= $search ?>&kolom=<?= $kolom ?>"><?= $halaman + 2 ?></a>
                                                     <?php } else { ?>
-                                                        <a class="page-link" href="berita-halaman-<?php echo $halaman + 2 ?>"><?php echo $halaman + 2 ?></a>
+                                                        <a class="page-link" href="berita-halaman-<?= $halaman + 2 ?>"><?= $halaman + 2 ?></a>
                                                     <?php } ?>
                                                 </li>
                                                 <?php
@@ -306,9 +310,9 @@
                                                     <?php if ($search) {
                                                         $search = $_GET['search'];
                                                     ?>
-                                                        <a class="page-link" href="index.php?page=berita&halaman=<?php echo $jml_halaman ?>&search=<?= $search ?>&kolom=<?= $kolom ?>"><?php echo $jml_halaman ?></a>
+                                                        <a class="page-link" href="index.php?page=berita&halaman=<?= $jml_halaman ?>&search=<?= $search ?>&kolom=<?= $kolom ?>"><?= $jml_halaman ?></a>
                                                     <?php } else { ?>
-                                                        <a class="page-link" href="berita-halaman-<?php echo $jml_halaman ?>"><?php echo $jml_halaman ?></a>
+                                                        <a class="page-link" href="berita-halaman-<?= $jml_halaman ?>"><?= $jml_halaman ?></a>
                                                     <?php } ?>
                                                 </li>
                                             <?php
@@ -321,9 +325,9 @@
                                                     <?php if ($search) {
                                                         $search = $_GET['search'];
                                                     ?>
-                                                        <a class="page-link" href="index.php?page=berita&halaman=<?php echo $halaman + 1 ?>&search=<?= $search ?>&kolom=<?= $kolom ?>">Next</a>
+                                                        <a class="page-link" href="index.php?page=berita&halaman=<?= $halaman + 1 ?>&search=<?= $search ?>&kolom=<?= $kolom ?>">Next</a>
                                                     <?php } else { ?>
-                                                        <a class="page-link" href="berita-halaman-<?php echo $halaman + 1 ?>">Next</a>
+                                                        <a class="page-link" href="berita-halaman-<?= $halaman + 1 ?>">Next</a>
                                                     <?php } ?>
                                                 </li>
                                             <?php

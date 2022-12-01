@@ -31,12 +31,15 @@
 
         $pesan_password = "";
         $pesan_username = "";
+        $pesan_captcha = "";
 
         if (isset($_GET['pesan'])) {
           if ($_GET['pesan'] == 'gagal-password') {
             $pesan_password = "<span style='color:red;'>Wrong Password</span>";
           } elseif ($_GET['pesan'] == 'gagal-username') {
             $pesan_username = "<span style='color:red;'>Invalid Username</span>";
+          } elseif ($_GET['pesan'] == 'gagal-captcha') {
+            $pesan_captcha = "<span style='color:red;'>Incorrect Captcha !</span>";
           }
         }
         ?>
@@ -60,6 +63,27 @@
                 <span class="fas fa-lock"></span>
               </div>
             </div>
+          </div>
+          <div class="input-group">
+            <div class="captcha">
+              <?php
+
+              session_start();
+
+              $char = strtoupper(substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz"), 0, 4));
+              $str = rand(1, 7) . rand(1, 7) . $char;
+
+              $_SESSION['captcha_id'] = $str;
+              ?>
+              <?php
+              echo "<h3>" . $_SESSION['captcha_id'] . "</h3>";
+              ?>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <label for="captcha" class="text-info">Captcha : <?php echo $pesan_captcha; ?>
+              <input type="text" class="form-control" name="captcha" id="captcha" placeholder="type here..." required>
+            </label>
           </div>
           <div class="row">
             <!-- <div class="col-8">

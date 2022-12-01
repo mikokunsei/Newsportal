@@ -102,6 +102,7 @@ if ($_SESSION['role'] == 'admin' or 'manager') {
                                                             }
                                                             ?>" style="width : 350px ; height: 250px;" id="imgView" class="img img-fluid">
                                                             </div>
+                                                            <span>* Ekstensi file PNG, JPG, JPEG max 2MB</span>
                                                             <input type="file" name="image" id="inputFile" class="form-control" accept="image/*">
                                                             <!-- <label class="custom-file-label" for="inputFile">Choose file</label> -->
                                                         </div>
@@ -124,6 +125,20 @@ if ($_SESSION['role'] == 'admin' or 'manager') {
                                                         </label>
                                                         <div class="col-sm-10">
                                                             <input type="text" class="form-control" name="media" id="" placeholder="Masukkan media" value="<?php echo $data['media_name']; ?>" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="tanggal" class="col-sm-2 col-form-label">
+                                                            Tanggal dan Waktu
+                                                        </label>
+                                                        <div class="col-sm-2.5">
+                                                            <?php
+                                                            date_default_timezone_set("Asia/Jakarta");
+                                                            $current_date = date("Y-m-d");
+                                                            $current_time = date("h:i:s");
+                                                            // echo $current_date."T". $current_time ;
+                                                            ?>
+                                                            <input type="datetime-local" class="form-control" max="<?= $current_date."T". $current_time ; ?>" name="tanggal" id="" value="<?php echo $data['c_datetime']; ?>" required>
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
