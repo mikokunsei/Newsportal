@@ -7,8 +7,13 @@ if (isset($_GET['c_canal']) || ($_GET['halaman'])) {
 
 include "../config/connection.php";
 
+$query_cat = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_canal = '$cat_news'");
+$data_cat = mysqli_fetch_array($query_cat);
 
-
+if ($cat_news != $data_cat['c_canal']) {
+  header("location:404.php");
+} else {
+ 
 ?>
 
 
@@ -247,10 +252,13 @@ include "../config/connection.php";
                 $tanggal = date('d');
                 $tahun = date('Y');
                 //menampilkan hari tanggal bulan dan tahun
-                echo "<br/>$hari, $tanggal  $bulan  $tahun";
+                echo "$hari, $tanggal  $bulan  $tahun";
                 ?>
 
               </p>
+              <form class="search" style="width:100% ;" action="../action/search.php" method="GET">
+                <input type="search" name="search" class="form-control-sm-3" style="margin-top:10px; margin-right:20px ; padding:5px;" placeholder="Cari Berita...">
+              </form>
             </div>
           </div>
         </div>
@@ -306,7 +314,7 @@ include "../config/connection.php";
               while ($data = mysqli_fetch_array($get_data)) {
                 // print_r($data);
               ?>
-                <li><a href="single_page.php?id=<?= $data['id'] ?>"><img src="
+                <li><a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"><img src="
                 <?php
                 $link = substr($data['c_image'], 0, 4);
                 if ($link != 'http') {
@@ -360,7 +368,7 @@ include "../config/connection.php";
               // print_r($data);
               $date_news = $data['c_datetime'];
             ?>
-              <div class="single_iteam"> <a href="single_page.php?id=<?= $data['id'] ?>"> <img src="
+              <div class="single_iteam"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"> <img src="
               <?php
               $link = substr($data['c_image'], 0, 4);
               if ($link != 'http') {
@@ -370,7 +378,7 @@ include "../config/connection.php";
               }
               ?>" alt=""></a>
                 <div class="slider_article">
-                  <h2><a class="slider_tittle" href="single_page.php?id=<?= $data['id'] ?>"><?php echo $data['title']; ?></a></h2>
+                  <h2><a class="slider_tittle" href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"><?php echo $data['title']; ?></a></h2>
                   <p class="text-paragraph">
                     <?php echo strip_tags(htmlspecialchars_decode(html_entity_decode($data['txt']))); ?>
                   </p>
@@ -451,7 +459,7 @@ include "../config/connection.php";
                   while ($data = mysqli_fetch_array($get_data)) {
                   ?>
                     <li>
-                      <figure class="bsbig_fig"> <a href="single_page.php?id=<?= $data['id'] ?>" class="featured_img"> <img alt="" src="
+                      <figure class="bsbig_fig"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="featured_img"> <img alt="" src="
                       <?php
                       $link = substr($data['c_image'], 0, 4);
                       if ($link != 'http') {
@@ -460,7 +468,7 @@ include "../config/connection.php";
                         echo $data['c_image'];
                       }
                       ?>"> <span class="overlay"></span> </a>
-                        <figcaption> <a href="single_page.php?id=<?= $data['id'] ?>"><?php echo $data['title']; ?></a> </figcaption>
+                        <figcaption> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"><?php echo $data['title']; ?></a> </figcaption>
                         <span style="font-size: 14px;"><?php echo '<b>' . $data['media_name'] . '</b>' ?> |
                           <?php
                           $db_tahun_2 = substr($data['c_datetime'], 0, 4);
@@ -558,7 +566,7 @@ include "../config/connection.php";
                   ?>
                     <li>
                       <div class="media wow fadeInDown">
-                        <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left">
+                        <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left">
                           <img alt="" src="
                           <?php
                           $link = substr($data['c_image'], 0, 4);
@@ -630,7 +638,7 @@ include "../config/connection.php";
                               ?>
                             </span>
                           </div>
-                          <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"><?php echo $data['title']; ?></a>
+                          <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?php echo $data['title']; ?></a>
                         </div>
                       </div>
                     </li>
@@ -749,7 +757,7 @@ include "../config/connection.php";
 
                 ?>
                   <li>
-                    <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="
+                    <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left"> <img alt="" src="
                     <?php
                     $link = substr($data['c_image'], 0, 4);
                     if ($link != 'http') {
@@ -816,7 +824,7 @@ include "../config/connection.php";
                           }
                           echo "$db_tanggal_4 " . substr($db_bulan_4, 0, 3) . " $db_tahun_4"; ?> | views : <?php echo $data['jml_view']; ?></span>
                       </div>
-                      <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"><?php echo $data['title']; ?></a> </div>
+                      <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?php echo $data['title']; ?></a> </div>
                     </div>
                   </li>
                 <?php
@@ -977,6 +985,11 @@ include "../config/connection.php";
   <script src="../assets/js/jquery.newsTicker.min.js"></script>
   <script src="../assets/js/jquery.fancybox.pack.js"></script>
   <script src="../assets/js/custom.js"></script>
+  <script src="../assets/js/tambahan.js"></script>
 </body>
 
 </html>
+
+<?php 
+}
+?>

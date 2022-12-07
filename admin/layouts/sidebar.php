@@ -49,6 +49,18 @@
               <p>
                 Berita
                 <i class="right fas fa-angle-left"></i>
+                <?php
+                include "../config/connection.php";
+
+                $query_comment = mysqli_query($conn, "SELECT COUNT(notif) as jml_comment FROM tb_comments WHERE notif = 1");
+                $data_comment = mysqli_fetch_array($query_comment);
+
+                if ($data_comment['jml_comment'] == 0) {
+                  # code...
+                } else {
+                ?>
+                  <span class="badge badge-info right"><?= $data_comment['jml_comment'] ?></span>
+                <?php } ?>
               </p>
             </a>
             <ul class="nav nav-treeview">
@@ -74,6 +86,13 @@
                 <a href="komentar" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Komentar</p>
+                  <?php 
+                  if ($data_comment['jml_comment'] == 0) {
+                    # code...
+                  } else {
+                  ?>
+                    <span class="badge badge-info right"><?= $data_comment['jml_comment'] ?></span>
+                  <?php } ?>
                 </a>
               </li>
             </ul>
@@ -100,7 +119,18 @@
               <i class="nav-icon far fa-envelope"></i>
               <p>
                 Pesan
-                <!-- <span class="badge badge-info right">2</span> -->
+                <?php
+                include "../config/connection.php";
+
+                $query_msg = mysqli_query($conn, "SELECT COUNT(notif) as jml_message FROM tb_messages WHERE notif = 1");
+                $data_msg = mysqli_fetch_array($query_msg);
+
+                if ($data_msg['jml_message'] == 0) {
+                  # code...
+                } else {
+                ?>
+                  <span class="badge badge-info right"><?= $data_msg['jml_message'] ?></span>
+                <?php } ?>
                 <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>

@@ -1,23 +1,20 @@
 <?php
-if (isset($_GET['tag']) || ($_GET['halaman'])) {
-    $tag_news = $_GET['tag'];
+if (isset($_GET['search'])) {
+    $search_news = $_GET['search'];
 } else {
-    die("Error, No Tag Selected !");
+    die("Error, Media Not Found !");
 }
 
 include "../config/connection.php";
 
-// echo $tag_news;
+$get_search = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND title LIKE '%$search_news%' ");
+$data_search = mysqli_fetch_array($get_search);
 
-$query = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND tag LIKE '%$tag_news%'");
-$data = mysqli_fetch_array($query);
-// array offset value null
-$tag_picked = $data['tag'];
+$text_search = $data_search['title'];
 
-$exist_tag = preg_match("/$tag_news/i", $tag_picked);
+$exist_text = preg_match("/$search_news/i", $text_search);
 
-
-if ($exist_tag == false) {
+if ($exist_text == false) {
     header("location:404.php");
 } else {
 
@@ -28,7 +25,7 @@ if ($exist_tag == false) {
 <html>
 
 <head>
-    <title>Pages by tag : <?php echo $tag_news; ?></title>
+    <title>NewsFeed | Pages | By Search</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -51,6 +48,21 @@ if ($exist_tag == false) {
 
     <style>
         .text-paragraph {
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /* multiple ellipse */
+            display: -webkit-box !important;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .text-paragraph p {
+            background: none repeat scroll 0 0 rgba(0, 0, 0, 0.4);
+            color: #fff;
+            padding: 3px;
+            display: inline-block;
+
             overflow: hidden;
             text-overflow: ellipsis;
             /* multiple ellipse */
@@ -245,10 +257,13 @@ if ($exist_tag == false) {
                                 $tanggal = date('d');
                                 $tahun = date('Y');
                                 //menampilkan hari tanggal bulan dan tahun
-                                echo "<br/>$hari, $tanggal  $bulan  $tahun";
+                                echo "$hari, $tanggal  $bulan  $tahun";
                                 ?>
 
                             </p>
+                            <form class="search" style="width:100% ;" action="../action/search.php" method="GET">
+                                <input type="search" name="search" class="form-control-sm-3" style="margin-top:10px; margin-right:20px ; padding:5px;" placeholder="Cari Berita...">
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -338,12 +353,12 @@ if ($exist_tag == false) {
                     <div class="left_content">
                         <div class="single_page">
                             <?php
-                            $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND tag LIKE '%$tag_news%'");
+                            $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND title LIKE '%$search_news%'");
                             $data = mysqli_fetch_array($get_data);
                             ?>
                             <ol class="breadcrumb">
                                 <li><a href="../index.php">Home</a></li>
-                                <li class="active"><a href="single_page_tag.php?tag=<?php echo $tag_news ?>"><?php echo ucfirst($tag_news); ?></a></li>
+                                <li class="active"><a href="single_page_search.php?search=<?php echo $search_news ?>"><?php echo ucfirst($search_news); ?></a></li>
                             </ol>
                         </div>
                     </div>
@@ -352,7 +367,7 @@ if ($exist_tag == false) {
                     <div class="left_content">
                         <div class="single_post_content">
 
-                            <h2><span><?php echo $tag_news ?></span></h2>
+                            <h2><span>Hasil Pencarian : <?php echo $search_news ?></span></h2>
 
 
                             <div class="single_post_content">
@@ -360,45 +375,47 @@ if ($exist_tag == false) {
                                     <?php
 
                                     $batas = 12;
-                                    $halaman = isset($_GET['halaman']) && is_numeric($_GET['halaman']) ? $_GET['halaman'] : 1;
-                                    // if (empty($halaman)) {
+                                    $halaman = isset($_GET['halaman']) ? (int)$_GET['halaman'] : 1;
+                                    // if (empty($halaman) | $halaman < 1) {
                                     //     $posisi = 0;
-                                    //     $hahlaman = 1;
+                                    //     $halaman = 1;
                                     // } else {
                                     //     $posisi = ($halaman - 1) * $batas;
-                                    //     echo "<b>$posisi</b> </br>";
                                     // }
                                     $posisi = ($halaman > 1) ? ($halaman * $batas) - $batas : 0;
 
-                                    $get_data_tag = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND tag LIKE '%$tag_news%'");
-                                    $jml_data = mysqli_num_rows($get_data_tag);
+
+                                    $get_data_search = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND title LIKE '%$search_news%'");
+                                    $jml_data = mysqli_num_rows($get_data_search);
                                     $jml_halaman = ceil($jml_data / $batas);
 
-                                    $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND tag LIKE '%$tag_news%' ORDER BY c_datetime DESC limit $posisi, $batas ");
-                                    while ($data = mysqli_fetch_array($get_data)) {
 
+
+                                    $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND title LIKE '%$search_news%' ORDER BY c_datetime DESC limit $posisi, $batas ");
+                                    while ($data = mysqli_fetch_array($get_data)) {
                                     ?>
                                         <li>
                                             <div class="list-news wow fadeInRight">
                                                 <div class="media wow fadeInDown">
                                                     <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left">
                                                         <img alt="" src="
-                                                    <?php
-                                                    $link = substr($data['c_image'], 0, 4);
-                                                    if ($link != 'http') {
-                                                        echo '../admin/public/image/' . $data['c_image'];
-                                                    } else {
-                                                        echo $data['c_image'];
-                                                    }
-                                                    ?>">
+                                                        <?php
+                                                        $link = substr($data['c_image'], 0, 4);
+                                                        if ($link != 'http') {
+                                                            echo '../admin/public/image/' . $data['c_image'];
+                                                        } else {
+                                                            echo $data['c_image'];
+                                                        }
+                                                        ?>">
                                                     </a>
                                                     <div class="media-body">
-                                                        <span><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?php echo $data['media_name'] ?></a></b> |
+                                                        <span><b> <a href="single_page_search.php?search=<?= $data['media_name'] ?>"><?php echo $data['media_name'] ?></a></b> |
                                                             <?php
                                                             $db_tahun = substr($data['c_datetime'], 0, 4);
                                                             $db_bulan = substr($data['c_datetime'], 5, 2);
                                                             $db_tanggal = substr($data['c_datetime'], 8, 2);
-                                                            $db_jam = substr($data['c_datetime'], 12, 8);
+                                                            // tambah 10 jam menyesuaikan waktu indonesia
+                                                            $db_jam = (intval(substr($data['c_datetime'], 12, 1)) + 10) . substr($data['c_datetime'], 13, 7);
                                                             switch ($db_bulan) {
                                                                 case '01':
                                                                     $db_bulan = "Januari";
@@ -449,7 +466,8 @@ if ($exist_tag == false) {
                                                                     break;
                                                             }
                                                             echo "$db_tanggal $db_bulan $db_tahun [$db_jam]";
-                                                            ?></span>
+                                                            ?>
+                                                        </span>
                                                         <h5>
                                                             <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"> <?php echo $data['title']; ?> </a>
                                                         </h5>
@@ -465,110 +483,100 @@ if ($exist_tag == false) {
                                     }
                                     ?>
                                 </ul>
-
-                                <?php
-                                // echo "jumlah halaman : " . $jml_halaman . "</br>";
-                                // echo "jumlah data : " . $jml_data . "</br>";
-                                // echo "halaman : " . $halaman . "</br>";
-                                // echo "posisi data ke : " . $posisi . "</br>";
+                                <?php if ($jml_halaman > 0) {
                                 ?>
+                                    <ul class="pagination">
+                                        <?php
+                                        $previous = $halaman - 1;
+                                        $next = $halaman + 1;
 
+                                        // PREVIOUS
+                                        if ($halaman != 1) {
+                                        ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="single_page_search.php?search=<?= $search_news ?>&halaman=<?= $previous ?>">Previous</a>
+                                            </li>
+                                        <?php
+                                        }
+
+                                        // 1 Halaman dan titik
+                                        if ($halaman > 3) {
+                                        ?>
+                                            <li class="page-item"><a href="single_page_search.php?search=<?= $search_news ?>&halaman=1">1</a></li>
+                                            <?php
+                                            if ($halaman > 4) {
+                                            ?>
+                                                <li class="page-item"><a>...</a></li>
+                                            <?php
+                                            }
+                                        }
+
+                                        // 2 Halaman
+                                        if ($halaman - 2 > 0) {
+                                            ?>
+                                            <li class="page-item"><a href="single_page_search.php?search=<?= $search_news ?>&halaman=<?= $halaman - 2 ?>"><?php echo $halaman - 2 ?></a></li>
+                                        <?php
+                                        }
+
+                                        if ($halaman - 1 > 0) {
+                                        ?>
+                                            <li class="page-item"><a href="single_page_search.php?search=<?= $search_news ?>&halaman=<?= $halaman - 1 ?>"><?php echo $halaman - 1 ?></a></li>
+                                        <?php
+                                        }
+                                        ?>
+
+                                        <!-- CURRENT -->
+                                        <li class="page-item active"><a><?php echo $halaman; ?></a></li>
+
+                                        <?php
+
+                                        // 2 Halaman
+                                        if ($halaman + 1 < $jml_halaman + 1) {
+                                        ?>
+                                            <li class="page-item"><a href="single_page_search.php?search=<?= $search_news ?>&halaman=<?= $halaman + 1 ?>"><?php echo $halaman + 1 ?></a></li>
+                                        <?php
+                                        }
+                                        if ($halaman + 2 < $jml_halaman + 1) {
+                                        ?>
+                                            <li class="page-item"><a href="single_page_search.php?search=<?= $search_news ?>&halaman=<?= $halaman + 2 ?>"><?php echo $halaman + 2 ?></a></li>
+                                            <?php
+                                        }
+
+                                        if ($halaman < $jml_halaman - 2) {
+                                            if ($halaman < $jml_halaman - 3) {
+                                            ?>
+                                                <li class="page-item"><a>...</a></li>
+
+                                            <?php
+                                            }
+                                            ?>
+                                            <li class="page-item"><a href="single_page_search.php?search=<?= $search_news ?>&halaman=<?= $jml_halaman ?>"><?php echo $jml_halaman ?></a></li>
+                                        <?php
+                                        }
+
+
+                                        if ($halaman != $jml_halaman) {
+                                        ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="single_page_search.php?search=<?= $search_news ?>&halaman=<?= $next ?>">Next</a>
+                                            </li>
+                                        <?php
+                                        }
+
+                                        // for ($i = 1; $i <= $jml_halaman; $i++)
+                                        //     if ($i != $halaman) {
+                                        //         echo "<li class='page-item'><a class='page-link' href=\"single_page_tag.php?tag=$tag_news&halaman=$i\">$i</a></li>";
+                                        //     } else {
+                                        //         echo "<li class='page-item active'><a class='page-link'>$i</a></i>";
+                                        //     }
+
+                                        // NEXT
+
+                                        ?>
+                                    </ul>
+                                <?php
+                                } ?>
                             </div>
-                            <?php if ($jml_halaman > 0) {
-                            ?>
-                                <ul class="pagination">
-                                    <?php
-                                    $previous = $halaman - 1;
-                                    $next = $halaman + 1;
-
-                                    // PREVIOUS
-                                    if ($halaman != 1) {
-                                    ?>
-                                        <li class="page-item">
-                                            <a class="page-link" href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $previous ?>">Previous</a>
-                                        </li>
-                                    <?php
-                                    }
-
-                                    // 1 Halaman dan titik
-                                    if ($halaman > 3) {
-                                    ?>
-                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=1">1</a></li>
-                                        <?php
-                                        if ($halaman > 4) {
-                                        ?>
-                                            <li class="page-item"><a>...</a></li>
-                                        <?php
-                                        }
-                                    }
-
-                                    // 2 Halaman
-                                    if ($halaman - 2 > 0) {
-                                        ?>
-                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman - 2 ?>"><?php echo $halaman - 2 ?></a></li>
-                                    <?php
-                                    }
-
-                                    if ($halaman - 1 > 0) {
-                                    ?>
-                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman - 1 ?>"><?php echo $halaman - 1 ?></a></li>
-                                    <?php
-                                    }
-                                    ?>
-
-                                    <!-- CURRENT -->
-                                    <li class="page-item active"><a><?php echo $halaman; ?></a></li>
-
-                                    <?php
-
-                                    // 2 Halaman
-                                    if ($halaman + 1 < $jml_halaman + 1) {
-                                    ?>
-                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman + 1 ?>"><?php echo $halaman + 1 ?></a></li>
-                                    <?php
-                                    }
-                                    if ($halaman + 2 < $jml_halaman + 1) {
-                                    ?>
-                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman + 2 ?>"><?php echo $halaman + 2 ?></a></li>
-                                        <?php
-                                    }
-
-                                    if ($halaman < $jml_halaman - 2) {
-                                        if ($halaman < $jml_halaman - 3) {
-                                        ?>
-                                            <li class="page-item"><a>...</a></li>
-
-                                        <?php
-                                        }
-                                        ?>
-                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $jml_halaman ?>"><?php echo $jml_halaman ?></a></li>
-                                    <?php
-                                    }
-
-
-                                    if ($halaman != $jml_halaman) {
-                                    ?>
-                                        <li class="page-item">
-                                            <a class="page-link" href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $next ?>">Next</a>
-                                        </li>
-                                    <?php
-                                    }
-
-                                    // for ($i = 1; $i <= $jml_halaman; $i++)
-                                    //     if ($i != $halaman) {
-                                    //         echo "<li class='page-item'><a class='page-link' href=\"single_page_tag.php?tag=$tag_news&halaman=$i\">$i</a></li>";
-                                    //     } else {
-                                    //         echo "<li class='page-item active'><a class='page-link'>$i</a></i>";
-                                    //     }
-
-                                    // NEXT
-
-                                    ?>
-                                </ul>
-                            <?php
-
-                            } ?>
-
                         </div>
                     </div>
                 </div>
@@ -580,6 +588,7 @@ if ($exist_tag == false) {
                                 <?php
                                 $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' ORDER BY jml_view DESC LIMIT 5 ");
                                 while ($data = mysqli_fetch_array($get_data)) {
+
                                 ?>
                                     <li>
                                         <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left"> <img alt="" src="
@@ -592,13 +601,13 @@ if ($exist_tag == false) {
                                         }
                                         ?>"> </a>
                                             <div class="media-header">
-                                                <span style="font-size: 13px;"><?php echo '<b>' . $data['media_name'] . '</b>' ?> |
+                                                <span style="font-size: 13px;"><b> <a href="single_page_search.php?search=<?= $data['media_name'] ?>"><?php echo $data['media_name'] ?></a></b> |
                                                     <?php
                                                     $db_tahun_2 = substr($data['c_datetime'], 0, 4);
                                                     $db_bulan_2 = substr($data['c_datetime'], 5, 2);
                                                     $db_tanggal_2 = substr($data['c_datetime'], 8, 2);
                                                     // tambah 10 jam menyesuaikan waktu indonesia
-                                                    $db_jam_2 = (intval(substr($data['c_datetime'], 12, 1))+10).substr($data['c_datetime'], 13, 7);
+                                                    $db_jam_2 = (intval(substr($data['c_datetime'], 12, 1)) + 10) . substr($data['c_datetime'], 13, 7);
                                                     switch ($db_bulan_2) {
                                                         case '01':
                                                             $db_bulan_2 = "Januari";
@@ -650,7 +659,7 @@ if ($exist_tag == false) {
                                                     }
                                                     echo "$db_tanggal_2 " . substr($db_bulan_2, 0, 3) . " $db_tahun_2"; ?> | views : <?php echo $data['jml_view']; ?></span>
                                             </div>
-                                            <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?php echo $data['title']; ?></a> </div>
+                                            <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"> <?php echo $data['title']; ?></a> </div>
                                         </div>
                                     </li>
                                 <?php
@@ -727,13 +736,13 @@ if ($exist_tag == false) {
                         </div>
                         <div class="single_sidebar wow fadeInDown">
                             <h2><span>PORTAL NEWS</span></h2>
-                            <ul class="wow fadeInDown ">
+                            <ul class="wow fadeInDown">
                                 <?php
                                 $query = mysqli_query($conn, "SELECT DISTINCT media_name, link FROM news_content WHERE media = 'news' GROUP BY media_name ORDER BY media_name ASC ");
                                 while ($data = mysqli_fetch_array($query)) {
                                 ?>
-                                    <li class="cat-item"><a href="https://<?= parse_url($data['link'], PHP_URL_HOST); ?>" target="_blank" style="max-width: 105px ; max: height 50px; height: 50px;">
-                                            <center><img class="img-responsive mx-auto d-block" src="../images/logo_other_portal/<?= $data['media_name']; ?>.png" alt=""></center>
+                                    <li class="cat-item"><a href="https://<?= parse_url($data['link'], PHP_URL_HOST); ?>" target="_blank" style="max-width: 105px ; max-height:50px ; height:50px;">
+                                            <center><img class="img-responsive mx-auto d-block" src="../images/logo_other_portal/<?php echo $data['media_name']; ?>.png" alt=""></center>
                                         </a></li>
                                 <?php
                                 }
@@ -752,10 +761,6 @@ if ($exist_tag == false) {
                                 <?php
                                 }
                                 ?>
-                                <!-- <li><a href="#">Blog</a></li>
-                <li><a href="#">Rss Feed</a></li>
-                <li><a href="#">Login</a></li>
-                <li><a href="#">Life &amp; Style</a></li> -->
                             </ul>
                         </div>
                     </aside>
@@ -816,6 +821,4 @@ if ($exist_tag == false) {
 
 </html>
 
-<?php 
-}
-?>
+<?php } ?>

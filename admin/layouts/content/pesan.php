@@ -42,11 +42,13 @@
                                         include '../config/connection.php';
                                         $no = 1;
 
-                                        $get_data = mysqli_query($conn, "SELECT * FROM tb_messages");
+                                        $get_data = mysqli_query($conn, "SELECT * FROM tb_messages ORDER BY tgl DESC");
                                         while ($data = mysqli_fetch_assoc($get_data)) {
                                             $data_id = $data['id'];
                                         ?>
-                                            <tr>
+                                            <tr <?php if ($data['notif'] == 1) {
+                                                echo 'style="font-weight: bold ;"';
+                                            } ?>>
                                                 <td><?php echo $no++; ?></td>
                                                 <td><?php echo $data['nama']; ?></td>
                                                 <td><?php echo $data['email']; ?></td>

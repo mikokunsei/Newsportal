@@ -2,7 +2,8 @@
 
 include "../config/connection.php";
 
-$tgl = date("Y-m-d");
+date_default_timezone_set('Asia/Jakarta');
+$tgl = date("Y-m-d H:i:s");
 $news_id = $_POST['news_id'];
 $parent_id = $_POST['comment_id'];
 $sql = "INSERT INTO tb_comments(nama, email, komentar, tgl, news_id, parent_id) 
@@ -17,7 +18,7 @@ $sql = "INSERT INTO tb_comments(nama, email, komentar, tgl, news_id, parent_id)
 $simpan = mysqli_query($conn, $sql);
 
 if ($simpan) {
-    header("location:./single_page.php?id=$news_id");
+    header("location:../pages/single_page.php?id=$news_id");
 } else {
     echo "failed";
 }

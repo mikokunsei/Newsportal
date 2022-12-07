@@ -31,7 +31,7 @@ if (isset($_POST["limit"], $_POST["start"], $_POST["idberita"])) {
 
                 $id = $row['id'];
 
-                $query_jml = "SELECT COUNT(parent_id) as jml_reply FROM tb_comments WHERE parent_id = $id  ";
+                $query_jml = "SELECT COUNT(parent_id) as jml_reply FROM tb_comments WHERE parent_id = $id AND status = 'aktif' ";
                 $result_jml = mysqli_query($conn, $query_jml);
                 $row_jml = mysqli_fetch_array($result_jml);
 
@@ -50,14 +50,14 @@ if (isset($_POST["limit"], $_POST["start"], $_POST["idberita"])) {
           <hr />
         </div>
         <div id="input_comment_<?php echo $row['id'] ?>" style="display:none;">
-          <form action="comment.php" method="POST">
+          <form action="../action/comment.php" method="POST">
             <input type="hidden" class="form-control" name="news_id" value="<?php echo $row['news_id']; ?>">
             <input type="hidden" class="form-control" name="comment_id" value="<?php echo $row['id'] ?>" id="comment_id">
             <div class="form-group">
               <input type="text" class="form-control" name="name" id="" placeholder="Masukkan nama" required>
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" name="email" id="" placeholder="Masukkan email" required>
+              <input type="email" class="form-control" name="email" id="" placeholder="Masukkan email" required>
             </div>
             <div class="form-group">
               <textarea name="comment" class="form-control" id="" cols="30" rows="5" placeholder="Komentar" required></textarea>

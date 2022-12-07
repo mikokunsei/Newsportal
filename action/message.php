@@ -2,8 +2,8 @@
 
 include '../config/connection.php';
 
-
-$tgl = date("Y-m-d h:i:s");
+date_default_timezone_set('Asia/Jakarta');
+$tgl = date("Y-m-d H:i:s");
 $sql = "INSERT INTO tb_messages (nama, email, pesan, tgl) 
         VALUES (
             '$_POST[nama]',

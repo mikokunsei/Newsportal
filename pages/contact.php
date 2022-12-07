@@ -47,17 +47,73 @@ include '../config/connection.php'
                   <div class="dropdown">
                     <a href="" class=" dropdown-toggle" type="button" data-toggle="dropdown">News by Date
                       <span class=""></span></a>
-                    <ul class="dropdown-menu">
-                      <?php
+                      <ul class="dropdown-menu">
+                                            <?php
 
-                      $query_date = mysqli_query($conn, "SELECT DISTINCT (SUBSTR(c_datetime, 1,7)) AS data_date FROM news_content WHERE media = 'news' GROUP BY c_datetime");
-                      while ($data_date = mysqli_fetch_array($query_date)) {
-                      ?>
-                        <li>
-                          <a href="pages/single_page_date.php?date=<?= $data_date['data_date'] ?>"><?php echo $data_date['data_date'] ?></a>
-                        </li>
-                      <?php } ?>
-                    </ul>
+                                            $query_date = mysqli_query($conn, "SELECT DISTINCT (SUBSTR(c_datetime, 1,7)) AS data_date FROM news_content WHERE media = 'news' GROUP BY c_datetime");
+                                            while ($data_date = mysqli_fetch_array($query_date)) {
+                                            ?>
+                                                <li>
+                                                    <a href="single_page_date.php?date=<?= $data_date['data_date'] ?>">
+                                                        <?php
+
+                                                        $date_bulan = substr($data_date['data_date'], 5, 2);
+                                                        $date_tahun = substr($data_date['data_date'], 0, 4);
+
+                                                        switch ($date_bulan) {
+                                                            case '01':
+                                                                $date_bulan = "Januari";
+                                                                break;
+
+                                                            case '02':
+                                                                $date_bulan = "Februari";
+                                                                break;
+
+                                                            case '03':
+                                                                $date_bulan = "Maret";
+                                                                break;
+
+                                                            case '04':
+                                                                $date_bulan = "April";
+                                                                break;
+
+                                                            case '05':
+                                                                $date_bulan = "Mei";
+                                                                break;
+
+                                                            case '06':
+                                                                $date_bulan = "Juni";
+                                                                break;
+
+                                                            case '07':
+                                                                $date_bulan = "Juli";
+                                                                break;
+
+                                                            case '08':
+                                                                $date_bulan = "Agustus";
+                                                                break;
+
+                                                            case '09':
+                                                                $date_bulan = "September";
+                                                                break;
+
+                                                            case '10':
+                                                                $date_bulan = "Oktober";
+                                                                break;
+
+                                                            case '11':
+                                                                $date_bulan = "November";
+                                                                break;
+
+                                                            case '12':
+                                                                $date_bulan = "Desember";
+                                                                break;
+                                                        }
+
+                                                        echo "$date_bulan $date_tahun" ?></a>
+                                                </li>
+                                            <?php } ?>
+                                        </ul>
                   </div>
                 </li>
                 <li>
@@ -156,9 +212,12 @@ include '../config/connection.php'
                 $tanggal = date('d');
                 $tahun = date('Y');
                 //menampilkan hari tanggal bulan dan tahun
-                echo "<br/>$hari, $tanggal  $bulan  $tahun";
+                echo "$hari, $tanggal  $bulan  $tahun";
                 ?>
               </p>
+              <form class="search" style="width:100% ;" action="../action/search.php" method="GET">
+                <input type="search" name="search" class="form-control-sm-3" style="margin-top:10px; margin-right:20px ; padding:5px;" placeholder="Cari Berita...">
+              </form>
             </div>
           </div>
         </div>
@@ -212,7 +271,7 @@ include '../config/connection.php'
               while ($data = mysqli_fetch_array($get_data)) {
                 // print_r($data);
               ?>
-                <li><a href="single_page.php?id=<?= $data['id'] ?>"><img src="
+                <li><a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"><img src="
                 <?php
                 $link = substr($data['c_image'], 0, 4);
                 if ($link != 'http') {
@@ -248,7 +307,7 @@ include '../config/connection.php'
             <div class="contact_area">
               <h2>Contact Us</h2>
               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labolore magna aliqua. Ut enim ad minim veniam. Lorem ipsum dosectetur adipisicing elit, sed do.Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-              <form action="message.php" method="POST" class="contact_form">
+              <form action="../action/message.php" method="POST" class="contact_form">
                 <input class="form-control" name="nama" type="text" placeholder="Name*" required>
                 <input class="form-control" name="email" type="email" placeholder="Email*" required>
                 <textarea class="form-control" name="pesan" cols="30" rows="10" placeholder="Message*" required></textarea>
@@ -268,7 +327,7 @@ include '../config/connection.php'
 
                 ?>
                   <li>
-                    <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="
+                    <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left"> <img alt="" src="
                                         <?php
                                         $link = substr($data['c_image'], 0, 4);
                                         if ($link != 'http') {
@@ -336,7 +395,7 @@ include '../config/connection.php'
                           }
                           echo "$db_tanggal " . substr($db_bulan, 0, 3) . " $db_tahun"; ?> | views : <?php echo $data['jml_view']; ?></span>
                       </div>
-                      <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"> <?php echo $data['title']; ?></a> </div>
+                      <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"> <?php echo $data['title']; ?></a> </div>
                     </div>
                   </li>
                 <?php
@@ -397,6 +456,7 @@ include '../config/connection.php'
   <script src="../assets/js/jquery.newsTicker.min.js"></script>
   <script src="../assets/js/jquery.fancybox.pack.js"></script>
   <script src="../assets/js/custom.js"></script>
+  <script src="../assets/js/tambahan.js"></script>
 </body>
 
 </html>

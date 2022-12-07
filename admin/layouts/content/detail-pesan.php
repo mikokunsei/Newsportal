@@ -14,8 +14,10 @@ if (isset($_GET['id'])) {
     }
 }
 
+$user = $_SESSION['username'];
+
 if ($_GET['id'] == $data['id'] ) {
-    
+    $update_notif = mysqli_query($conn, "UPDATE tb_messages SET notif = 0, read_by = '$user' WHERE id = '$id' ");
 ?>
 
 <div class="wrapper">

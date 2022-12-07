@@ -110,6 +110,75 @@ if (!isset($_SESSION['username'])) {
             </form>
           </div>
         </li>
+        <!-- New Comments -->
+        <li class="nav-item dropdown show">
+          <a class="nav-link" data-toggle="dropdown" id="dropdown" href="#" aria-expanded="true">
+            <i class="comments far fa-comments"></i>
+            <span class="badge badge-danger navbar-badge notif" id="notif"></span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+            <ul class="coba">
+            </ul>
+            <a href="komentar" class="dropdown-item dropdown-footer">See All Messages</a>
+          </div>
+
+        </li>
+        <!-- Notification -->
+        <li class="nav-item dropdown">
+          <?php
+          include "../config/connection.php";
+
+          $query_msg = mysqli_query($conn, "SELECT COUNT(notif) as jml_message FROM tb_messages WHERE notif = 1");
+          $data_msg = mysqli_fetch_array($query_msg);
+
+          $query_comment = mysqli_query($conn, "SELECT COUNT(notif) as jml_comment FROM tb_comments WHERE notif = 1");
+          $data_comment = mysqli_fetch_array($query_comment);
+
+
+          ?>
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="far fa-bell"></i>
+            <span class="badge badge-danger navbar-badge" style="size: 100px ;">
+              <?php
+              $jml_notif = ($data_msg['jml_message'] + $data_comment['jml_comment']);
+              echo $jml_notif;
+              ?>
+            </span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <span class="dropdown-item dropdown-header">
+              <?php
+              echo $jml_notif;
+              ?>
+              Notifications
+            </span>
+            <div class="dropdown-divider"></div>
+            <a href="pesan" class="dropdown-item">
+              <i class="fas fa-envelope mr-2"></i>
+              <?php
+              echo $data_msg['jml_message'];
+              ?>
+              new messages
+              <!-- <span class="float-right text-muted text-sm">3 mins</span> -->
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="komentar" class="dropdown-item">
+              <i class="fas fa-comments mr-2"></i>
+              <?php
+              echo $data_comment['jml_comment'];
+              ?>
+              comments
+              <!-- <span class="float-right text-muted text-sm">12 hours</span> -->
+            </a>
+            <!-- <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-file mr-2"></i> 3 new reports
+              <span class="float-right text-muted text-sm">2 days</span>
+            </a> -->
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+          </div>
+        </li>
 
         <li class="nav-item">
           <a class="nav-link" data-widget="fullscreen" href="#" role="button">

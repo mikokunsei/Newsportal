@@ -9,10 +9,16 @@ include "../config/connection.php";
 
 // echo $date_news;
 
-$get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_datetime LIKE '$date_news'");
+$get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_datetime LIKE '$date_news%'");
+$data_date = mysqli_fetch_array($get_news);
+$date_custom = substr($data_date['c_datetime'], 0, 7);
 
+if ($date_news != $date_custom) {
+    header("location:404.php");
+} else {
 
 ?>
+
 
 
 <!DOCTYPE html>
@@ -235,10 +241,13 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
                                 $tanggal = date('d');
                                 $tahun = date('Y');
                                 //menampilkan hari tanggal bulan dan tahun
-                                echo "<br/>$hari, $tanggal  $bulan  $tahun";
+                                echo "$hari, $tanggal  $bulan  $tahun";
                                 ?>
 
                             </p>
+                            <form class="search" style="width:100% ;" action="../action/search.php" method="GET">
+                                <input type="search" name="search" class="form-control-sm-3" style="margin-top:10px; margin-right:20px ; padding:5px;" placeholder="Cari Berita...">
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -292,7 +301,7 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
                             while ($data = mysqli_fetch_array($get_data)) {
                                 // print_r($data);
                             ?>
-                                <li><a href="single_page.php?id=<?= $data['id'] ?>"><img src="
+                                <li><a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"><img src="
                                 <?php
                                 $link = substr($data['c_image'], 0, 4);
                                 if ($link != 'http') {
@@ -428,7 +437,7 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
                                         <li>
                                             <div class="list-news wow fadeInRight">
                                                 <div class="media wow fadeInDown">
-                                                    <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left">
+                                                    <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left">
                                                         <img alt="" src="
                                                         <?php
                                                         $link = substr($data['c_image'], 0, 4);
@@ -500,7 +509,7 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
 
                                                             ?></span>
                                                         <h5>
-                                                            <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"> <?php echo $data['title']; ?> </a>
+                                                            <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"> <?php echo $data['title']; ?> </a>
                                                         </h5>
                                                         <p class="text-paragraph">
                                                             <?php echo strip_tags(htmlspecialchars_decode(html_entity_decode($data['txt']))); ?>
@@ -625,7 +634,7 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
 
                                 ?>
                                     <li>
-                                        <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" class="media-left"> <img alt="" src="
+                                        <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left"> <img alt="" src="
                                         <?php
                                         $link = substr($data['c_image'], 0, 4);
                                         if ($link != 'http') {
@@ -694,7 +703,7 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
                                                     }
                                                     echo "$db_tanggal_3 " . substr($db_bulan_3, 0, 3) . " $db_tahun_3"; ?> | views : <?php echo $data['jml_view']; ?></span>
                                             </div>
-                                            <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" class="catg_title"> <?php echo $data['title']; ?></a> </div>
+                                            <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"> <?php echo $data['title']; ?></a> </div>
                                         </div>
                                     </li>
                                 <?php
@@ -855,6 +864,11 @@ $get_news = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news'
     <script src="../assets/js/jquery.newsTicker.min.js"></script>
     <script src="../assets/js/jquery.fancybox.pack.js"></script>
     <script src="../assets/js/custom.js"></script>
+    <script src="../assets/js/tambahan.js"></script>
 </body>
 
 </html>
+
+<?php 
+}
+?>

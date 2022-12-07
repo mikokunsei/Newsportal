@@ -90,14 +90,22 @@ if ($_SESSION['role'] == 'admin' or 'manager') {
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
+                                                    <label for="tag" class="col-sm-2 col-form-label">
+                                                        Tag
+                                                    </label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" name="tag" id="" placeholder="Masukkan tag">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
                                                     <label for="tanggal" class="col-sm-2 col-form-label">
                                                         Tanggal dan Waktu
                                                     </label>
-                                                    <div class="col-sm-2.5">
+                                                    <div class="col-sm-3">
                                                         <?php 
                                                         date_default_timezone_set("Asia/Jakarta");
                                                         $current_date = date("Y-m-d");
-                                                        $current_time = date("h:i:s");
+                                                        $current_time = date("H:i:s");
                                                         // echo $current_date."T". $current_time ;
                                                         ?>
                                                         <input type="datetime-local" class="form-control" max="<?= $current_date."T". $current_time ; ?>" name="tanggal" id="" required>

@@ -31,7 +31,7 @@
                                             <!-- <th scope="col">ID</th> -->
                                             <th scope="col">Nama</th>
                                             <th scope="col">Email</th>
-                                            <th scope="col" width="10%">Komentar</th>
+                                            <th scope="col" width="25%">Komentar</th>
                                             <th scope="col" width="10%">Tanggal</th>
                                             <th scope="col" width="10%">Status</th>
                                             <th scope="col" width="25%">Berita</th>
@@ -44,7 +44,7 @@
 
                                         $no = 1;
                                         $sql = "SELECT tb_comments.id, tb_comments.nama, tb_comments.email, 
-                                                    tb_comments.komentar, tb_comments.tgl, tb_comments.status,
+                                                    tb_comments.komentar, tb_comments.tgl, tb_comments.status, tb_comments.notif,
                                                     news_content.id AS news_id, news_content.title AS news_title
                                                     FROM tb_comments
                                                     JOIN news_content
@@ -54,32 +54,47 @@
                                         while ($data_comment = mysqli_fetch_assoc($get_comment)) {
                                             $data_id = $data_comment['id'];
                                         ?>
-                                            <tr>
-                                                <td><?php echo $no++; ?></td>
+                                            <tr id="data-komentar-<?= $data_comment['id']; ?>" <?php
+                                                if ($data_comment['notif'] == 1) {
+                                                ?> style="font-weight: bold ;" <?php
+                                                                            }
+                                                                                ?>>
+                                                <td>
+                                                    <?php echo $no++; ?>
+                                                </td>
                                                 <td><?php echo $data_comment['nama']; ?></td>
                                                 <td><?php echo $data_comment['email']; ?></td>
-                                                <td><?php echo $data_comment['komentar']; ?></td>
+                                                <td>
+                                                    <?php
+                                                    $komentar =  $data_comment['komentar'];
+
+                                                    if (str_word_count($komentar) < 10) {
+                                                        echo $komentar;
+                                                    } else {
+                                                        echo implode(' ', array_slice(explode(' ', $komentar), 0, 10)) . "...";
+                                                    }
+                                                    ?></td>
                                                 <td><?php echo $data_comment['tgl']; ?></td>
                                                 <td>
-                                                    <?php 
+                                                    <?php
                                                     if ($_SESSION['role'] != 'user') {
                                                     ?>
-                                                    <select class="form-control " id="datastatus" name="status" data-id="<?php echo $data_comment['id'] ?>">
-                                                        <?php
-                                                        $sql_status = "SELECT status FROM tb_comments GROUP BY status";
-                                                        $query_status = mysqli_query($conn, $sql_status);
-                                                        while ($status = mysqli_fetch_array($query_status)) {
-                                                        ?>
-                                                            <option value="<?php echo $status['status'] ?>" <?php if ($status['status'] == $data_comment['status']) {
-                                                                                                                echo 'selected';
-                                                                                                            } ?>><?php echo $status['status'] ?></option>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                    <?php 
+                                                        <select class="form-control " id="datastatus" name="status" data-id="<?php echo $data_comment['id'] ?>">
+                                                            <?php
+                                                            $sql_status = "SELECT status FROM tb_comments GROUP BY status";
+                                                            $query_status = mysqli_query($conn, $sql_status);
+                                                            while ($status = mysqli_fetch_array($query_status)) {
+                                                            ?>
+                                                                <option value="<?php echo $status['status'] ?>" <?php if ($status['status'] == $data_comment['status']) {
+                                                                                                                    echo 'selected';
+                                                                                                                } ?>><?php echo $status['status'] ?></option>
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    <?php
                                                     } else {
-                                                        echo $data_comment['status'] ;
+                                                        echo $data_comment['status'];
                                                     }
                                                     ?>
                                                 </td>
@@ -91,7 +106,26 @@
                                                     if ($_SESSION['role'] != 'user') {
                                                     ?>
                                                         <div class="container">
-                                                            <a href="" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?php echo $data_id ?>">Delete</a>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <a href="" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?php echo $data_id ?>">Delete</a>
+                                                                </div>
+                                                                <div class="col" style="display: flex;justify-content: center;align-items: center;">
+                                                                    <br>
+                                                                    <input type="checkbox" name="notif" id="notif" style="width: 25px ; height:25px;" data-id="<?= $data_comment['id']; ?>" 
+                                                                    <?php
+                                                                    if ($data_comment['notif'] != 1) {
+                                                                        
+                                                                    ?>
+                                                                    checked
+                                                                    <?php
+                                                                    } else {
+                                                                        
+                                                                    }
+                                                                    ?>
+                                                                    >
+                                                                </div>
+                                                            </div>
                                                             <div class="modal fade" id="modal_delete<?php echo $data_id ?>">
                                                                 <div class="modal-dialog modal-md">
                                                                     <div class="modal-content">

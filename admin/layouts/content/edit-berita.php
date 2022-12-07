@@ -52,14 +52,14 @@ if ($_SESSION['role'] == 'admin' or 'manager') {
                                         <div class="card-body">
                                             <form action="action/update-berita.php" method="POST" enctype="multipart/form-data">
                                                 <div class="container">
-                                                    <input type="hidden" name="id" class="form-control" value="<?php echo $data['id']; ?>" id="">
+                                                    <input type="hidden" name="id" class="form-control" value="<?= $data['id']; ?>" id="">
                                                     <input type="hidden" class="form-control" name="news" value="news">
                                                     <div class="form-group row">
                                                         <label for="judul" class="col-sm-2 col-form-label">
                                                             Judul
                                                         </label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" class="form-control" name="judul" id="" placeholder="Masukkan Judul" value="<?php echo $data['title'] ?>">
+                                                            <input type="text" class="form-control" name="judul" id="" placeholder="Masukkan Judul" value="<?= $data['title'] ?>">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
@@ -76,9 +76,9 @@ if ($_SESSION['role'] == 'admin' or 'manager') {
                                                                 while ($category = mysqli_fetch_array($query_kategori)) {
                                                                 ?>
 
-                                                                    <option value="<?php echo $category['c_canal'] ?>" <?php if ($category['c_canal'] == $data['c_canal']) {
+                                                                    <option value="<?= $category['c_canal'] ?>" <?php if ($category['c_canal'] == $data['c_canal']) {
                                                                                                                             echo 'selected';
-                                                                                                                        } ?>><?php echo $category['c_canal'] ?></option>
+                                                                                                                        } ?>><?= $category['c_canal'] ?></option>
 
                                                                 <?php
                                                                 }
@@ -124,21 +124,29 @@ if ($_SESSION['role'] == 'admin' or 'manager') {
                                                             Media
                                                         </label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" class="form-control" name="media" id="" placeholder="Masukkan media" value="<?php echo $data['media_name']; ?>" required>
+                                                            <input type="text" class="form-control" name="media" id="" placeholder="Masukkan media" value="<?= $data['media_name']; ?>" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="tag" class="col-sm-2 col-form-label">
+                                                            Tag
+                                                        </label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" name="tag" id="" placeholder="Masukkan tag" value="<?= $data['tag'];?>">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="tanggal" class="col-sm-2 col-form-label">
                                                             Tanggal dan Waktu
                                                         </label>
-                                                        <div class="col-sm-2.5">
+                                                        <div class="col-sm-3">
                                                             <?php
                                                             date_default_timezone_set("Asia/Jakarta");
                                                             $current_date = date("Y-m-d");
                                                             $current_time = date("h:i:s");
                                                             // echo $current_date."T". $current_time ;
                                                             ?>
-                                                            <input type="datetime-local" class="form-control" max="<?= $current_date."T". $current_time ; ?>" name="tanggal" id="" value="<?php echo $data['c_datetime']; ?>" required>
+                                                            <input type="datetime-local" class="form-control" max="<?= $current_date."T". $current_time ; ?>" name="tanggal" id="" value="<?= $data['c_datetime']; ?>" required>
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
@@ -146,7 +154,7 @@ if ($_SESSION['role'] == 'admin' or 'manager') {
                                                             Sumber
                                                         </label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" class="form-control" name="sumber" id="" placeholder="Masukkan sumber" value="<?php echo $data['link']; ?>">
+                                                            <input type="text" class="form-control" name="sumber" id="" placeholder="Masukkan sumber" value="<?= $data['link']; ?>">
                                                         </div>
                                                     </div>
                                                 </div>

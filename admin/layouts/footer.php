@@ -297,6 +297,127 @@
   })
 </script>
 
+<!-- CHECKBOX READ NOTIF -->
+<script>
+  $(document).on("change", "#notif", function(e) {
+    var id = $(this).data('id');
+
+    if (this.checked) {
+      document.getElementById('data-komentar-' + id).style = 'font-weight: normal;';
+      var notif = 0;
+    } else {
+      document.getElementById('data-komentar-' + id).style = 'font-weight: bold;';
+      var notif = 1;
+    }
+
+    $.ajax({
+      type: "POST",
+      url: "../admin/action/update-notif.php",
+      data: {
+        notif: notif,
+        id: id
+      },
+      // dataType: "dataType",
+      success: function(response) {
+        console.log(id, response, notif)
+
+      }
+    });
+
+  });
+</script>
+
+<!-- Load Notif Comments 1 -->
+<!-- <script>
+  $(document).ready(function() {
+    selesai();
+  });
+
+  function selesai() {
+    setTimeout(function() {
+      jumlah();
+      komentar();
+      selesai();
+    }, 400);
+  }
+
+  function jumlah() {
+    $.getJSON("../admin/action/load-notif.php", function(datas) {
+      $(".notif").html(datas.jumlah);
+    });
+  }
+
+  function komentar() {
+    $.getJSON("../admin/action/load-komentar.php", function(data) {
+      $(".coba").empty();
+      // var no = 1;
+      $.each(data.result, function() {
+        // console.log(data.result)
+        $(".coba").append(
+          "<a href='#' class='dropdown-item'><div class='media'><div class='media-body'><h3 class='dropdown-item-title'>" +
+          this['nama'] + "<span class='float-right text-sm text-danger'></span></h3><p class='text-sm'>" +
+          this['komentar'] + "</p><p class='text-sm text-muted'><i class='far fa-clock mr-1'></i>" +
+          this['tgl'] + "</p></div></div></a><div class='dropdown-divider'></div>");
+      });
+    });
+  }
+</script> -->
+
+<!-- Load Notif Comments 2 -->
+<script>
+  $(document).ready(function() {
+
+    // updating the view with notifications using ajax
+
+    function load_unseen_notification(view = '')
+
+    {
+
+      $.ajax({
+
+        url: "../admin/action/fetch.php",
+        method: "POST",
+        data: {
+          view: view
+        },
+        dataType: "json",
+        success: function(data)
+
+        {
+
+          $('.coba').html(data.notification);
+
+          if (data.unseen_notification > 0) {
+            $('#notif').html(data.unseen_notification);
+          }
+
+        }
+
+      });
+
+    }
+
+    load_unseen_notification();
+
+
+    // load new notifications
+
+    $(document).on('click', '#dropdown', function() {
+
+      $('#notif').html('');
+
+      load_unseen_notification('yes');
+
+    });
+
+    setInterval(function() {
+
+      load_unseen_notification();;
+
+    }, 5000);
+
+  });
+</script>
 
 <!-- DROPDOWN UPDATE STATUS -->
 <script>
@@ -312,7 +433,7 @@
         id: id
       },
       success: function(result) {
-        alert("Data Komentar ID : "+id+" Berhasil di Update");
+        alert("Data Komentar ID : " + id + " Berhasil di Update");
         // $("#display").html(result);
         // setTimeout(function() { // wait for 5 secs(2)
         //   location.reload(); // then reload the page.(3)

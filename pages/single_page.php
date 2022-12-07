@@ -7,28 +7,31 @@ if (isset($_GET['id'])) {
 
 include "../config/connection.php";
 
-error_reporting(0);
+// error_reporting(0);
 
-$update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_view+1 WHERE id = '$id_news'");
+// $update_viewer = mysqli_query($conn, "UPDATE news_content SET jml_view = jml_view+1 WHERE id = '$id_news'");
 $query = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND id = '$id_news'");
 $data = mysqli_fetch_array($query);
 
-?>
+if ($id_news != $data['id']) {
+    header("location:404.php");
+} else {
 
+?>
 
 <!DOCTYPE html>
 <html>
 
 <head>
-  <?php 
+  <?php
   if ($data['id'] == $id_news) {
   ?>
-  <title><?php echo $data['title']; ?></title>
-  <?php 
+    <title><?php echo $data['title']; ?></title>
+  <?php
   } else {
   ?>
-  <title>Not Found</title>
-  <?php 
+    <title>Not Found</title>
+  <?php
   }
   ?>
 
@@ -260,6 +263,9 @@ $data = mysqli_fetch_array($query);
 
                 ?>
               </p>
+              <form class="search" style="width:100% ;" action="../action/search.php" method="GET">
+                <input type="search" name="search" class="form-control-sm-3" style="margin-top:10px; margin-right:20px ; padding:5px;" placeholder="Cari Berita...">
+              </form>
             </div>
           </div>
         </div>
@@ -314,7 +320,7 @@ $data = mysqli_fetch_array($query);
               while ($data_ticker = mysqli_fetch_array($get_ticker)) {
                 // print_r($data_ticker);
               ?>
-                <li><a href="single_page.php?id=<?= $data_ticker['id'] ?>"><img src="
+                <li><a href="single_page.php?id=<?= $data_ticker['id'] ?>" onclick="updateViews('<?= $data_ticker['id'] ?>')"><img src="
                 <?php
                 $link = substr($data_ticker['c_image'], 0, 4);
                 if ($link != 'http') {
@@ -350,18 +356,6 @@ $data = mysqli_fetch_array($query);
           $query = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND id = '$id_news'");
           $data = mysqli_fetch_array($query);
 
-          if ($id_news != $data['id']) {
-          ?>
-            <div class="left_content">
-              <div class="error_page">
-                <h3>We Are Sorry</h3>
-                <h1>404</h1>
-                <p>Unfortunately, the content you were looking for could not be found. It may be temporarily unavailable, moved or no longer exists</p>
-                <span></span> <a href="../index.php" class="wow fadeInLeftBig">Go to home page</a>
-              </div>
-            </div>
-          <?php
-          }
           ?>
           <div class="left_content">
             <?php
@@ -435,6 +429,12 @@ $data = mysqli_fetch_array($query);
                         break;
                     }
                     echo "$db_tanggal $db_bulan $db_tahun [$db_jam]";
+                    ?>
+                  </span>
+                  <span>
+                    <i class="fa fa-eye"></i>
+                    <?php
+                    echo $data_content['jml_view'] . " views";
                     ?>
                   </span>
                   <a href="single_page_cat.php?c_canal=<?= $data_content['c_canal'] ?>"><i class="fa fa-tags"></i><?php echo ucfirst($canal); ?></a>
@@ -556,7 +556,7 @@ $data = mysqli_fetch_array($query);
                         </h3>
                       </div>
                       <div class="panel-body">
-                        <form action="comment.php" method="POST">
+                        <form action="../action/comment.php" method="POST">
                           <input type="hidden" name="news_id" value="<?php echo $data_content['id']; ?>">
                           <div class="form-group">
                             <input type="text" class="form-control" name="name" id="" placeholder="Masukkan nama" required>
@@ -595,23 +595,25 @@ $data = mysqli_fetch_array($query);
 
 
                     $data_tag = $data_content['tag'];
-                    $explode_tag = explode(',', $data_tag);
+                    // $explode_tag = explode(',', $data_tag);
 
-                    // echo var_dump($explode_tag);
+                    $comma = "/,/i";
+                    $replace =  preg_replace($comma, "%' OR '%", $data_tag);
+                    $final_string =   "%". $replace ."%";
+
+                    // echo $final_string;
 
                     for ($i = 0; $i < count($explode_tag); $i++) {
 
-                      //  $part = str_replace($explode_tag[$i], "<p>".$explode_tag[$i]."</p>", $explode_tag[$i]);
-                      // echo  $explode_tag[$i];
-                      $get_related = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND tag LIKE '%$explode_tag[$i]%' ORDER BY rand() LIMIT 3 ");
+                      //  $part = str_replace($explode_tag[$i], "<p>".$explode_tag[$i]." OR </p>", $explode_tag[$i]);
+                      $get_related = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND tag LIKE '$final_string' ORDER BY rand() LIMIT 3 ");
+                      
                     }
-
-                    // $tag = print_r($explode_tag);
 
                     while ($data_related = mysqli_fetch_array($get_related)) {
                     ?>
                       <li>
-                        <div class="media"> <a class="media-left" href="single_page.php?id=<?= $data_related['id'] ?>"> <img src="
+                        <div class="media"> <a class="media-left" href="single_page.php?id=<?= $data_related['id'] ?>" onclick="updateViews('<?= $data_related['id'] ?>')"> <img src="
                         <?php
                         $link = substr($data_related['c_image'], 0, 4);
                         if ($link != 'http') {
@@ -620,7 +622,7 @@ $data = mysqli_fetch_array($query);
                           echo $data_related['c_image'];
                         }
                         ?>" alt=""> </a>
-                          <div class="media-body"> <a class="catg_title" href="single_page.php?id=<?= $data_related['id'] ?>"> <?php echo $data_related['title']; ?></a> </div>
+                          <div class="media-body"> <a class="catg_title" href="single_page.php?id=<?= $data_related['id'] ?>" onclick="updateViews('<?= $data_related['id'] ?>')"> <?php echo $data_related['title']; ?></a> </div>
                         </div>
                       </li>
                     <?php } ?>
@@ -642,7 +644,7 @@ $data = mysqli_fetch_array($query);
 
                 ?>
                   <li>
-                    <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data_popular['id'] ?>" class="media-left"> <img alt="" src="
+                    <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data_popular['id'] ?>" onclick="updateViews('<?= $data_popular['id'] ?>')" class="media-left"> <img alt="" src="
                     <?php
                     $link = substr($data_popular['c_image'], 0, 4);
                     if ($link != 'http') {
@@ -709,7 +711,7 @@ $data = mysqli_fetch_array($query);
                           }
                           echo "$db_tanggal " . substr($db_bulan, 0, 3) . " $db_tahun"; ?> | views : <?php echo $data_popular['jml_view']; ?></span>
                       </div>
-                      <div class="media-body"> <a href="single_page.php?id=<?= $data_popular['id'] ?>" class="catg_title"><?php echo $data_popular['title']; ?></a> </div>
+                      <div class="media-body"> <a href="single_page.php?id=<?= $data_popular['id'] ?>" id="updateViews" onclick="updateViews('<?= $data_popular['id'] ?>')" class="catg_title"><?php echo $data_popular['title']; ?></a> </div>
                     </div>
                   </li>
                 <?php
@@ -871,167 +873,148 @@ $data = mysqli_fetch_array($query);
   <script src="../assets/js/jquery.newsTicker.min.js"></script>
   <script src="../assets/js/jquery.fancybox.pack.js"></script>
   <script src="../assets/js/custom.js"></script>
+  <script src="../assets/js/tambahan.js"></script>
+
+  <script>
+    //----------------LOAD KOMENTAR-----------------
+    $(document).ready(function() {
+
+      var limit = 2;
+      var start = 0;
+      var idberita = $('#idberita').val();
+      var action = 'inactive';
+
+      // show_variable(limit, start, idberita);
+
+      function load_country_data(limit, start, idberita) {
+        $.ajax({
+          url: "load_comment.php",
+          method: "POST",
+          data: {
+            limit: limit,
+            start: start,
+            idberita: idberita
+          },
+          cache: false,
+          success: function(data) {
+
+            //   show_variable(limit, start, idberita);
+
+            $('#load_data').append(data);
+            if (data == '') {
+              $('#load_data_message').html("<button type='button' class='btn disabled' style=' background-color: grey; color: white ; border-radius:10px; margin-left:40%;'>Tidak ada komentar</button>");
+              action = 'active';
+            } else {
+              $('#load_data_message').html("<button type='button' class='btn' style=' background-color: #d083cf; color: white ; border-radius:10px; margin-left:45%;'>Load More</button>");
+              action = "inactive";
+            }
+          }
+        });
+      }
+
+      if (action == 'inactive') {
+        action = 'active';
+        load_country_data(limit, start, idberita);
+      }
+
+      $('#load_data_message').on('click', function() {
+
+        if ($(window).scrollTop() + $(window).height() > $("#load_data").height() && action == 'inactive') {
+          action = 'active';
+          start = start + limit;
+          setTimeout(function() {
+            load_country_data(limit, start, idberita);
+          }, 500);
+        }
+      });
+
+
+    });
+
+    //   function show_variable(a, b, c) {
+
+    //     console.log(a)
+    //     console.log(b)
+    //     console.log(c)
+
+    //   }
+
+
+    function reply_comment(id) {
+
+      // console.log(id)
+      // document.getElementById("test").innerHTML = id;
+      $("#input_comment_" + id).show()
+      // $("#load_comment_"+id).hide()
+
+    }
+
+    function cancel_comment(id) {
+
+      $("#input_comment_" + id).hide()
+    }
+
+    function show_comment(id) {
+
+      $("#input_comment_" + id).hide()
+      $("#show_replies_" + id).hide()
+
+      var limit = 2;
+      var start = 0;
+      var comment_id = id;
+      var action = 'inactive';
+
+      function load_country_data(limit, start, idberita) {
+        $.ajax({
+          url: "load_reply.php",
+          method: "POST",
+          data: {
+            limit: limit,
+            start: start,
+            comment_id: comment_id
+          },
+          cache: false,
+          success: function(data) {
+
+            //   show_variable(limit, start, comment_id);
+
+            $('#load_comment_' + id).append(data);
+            if (data == '') {
+              $('#load_data_comment_' + id).html("<button type='button' class='btn disabled' style=' background-color: grey; color: white ; border-radius:10px; margin-left:40%;'>Tidak ada komentar</button>");
+              action = 'active';
+            } else {
+              $('#load_data_comment_' + id).html("<button type='button' class='btn' style=' background-color: #d083cf; color: white ; border-radius:10px; margin-left:45%;'>Load More</button>");
+              action = "inactive";
+            }
+
+          }
+        });
+      }
+
+      if (action == 'inactive') {
+        action = 'active';
+        load_country_data(limit, start, id);
+      }
+
+      $('#load_data_comment_' + id).on('click', function() {
+
+        if ($(window).scrollTop() + $(window).height() > $("#load_comment" + id).height() && action == 'inactive') {
+          action = 'active';
+          start = start + limit;
+          setTimeout(function() {
+            load_country_data(limit, start, id);
+          }, 500);
+        }
+      });
+
+    }
+  </script>
 
 
 </body>
 
 </html>
 
-<!-- <script type="text/javascript">
-  $(document).ready(function() {
-    $(document).on('click', '#btn_load_comment', function() {
-      var last_id = $(this).data("id");
-      $('#btn_load_comment').html("Loading...");
-      $.ajax({
-        url: "single_page.php",
-        method: "POST",
-        data: {
-          last_id: last_id
-        },
-        dataType: "text",
-        success: function(data) {
-          $('#remove_comment').remove();
-          $('#load_comment').append(data);
-        }
-      });
-    });
-  });
-</script> -->
-
-
-<!-- LOAD COMMENTS -->
-<script>
-  $(document).ready(function() {
-
-    var limit = 2;
-    var start = 0;
-    var idberita = $('#idberita').val();
-    var action = 'inactive';
-
-    show_variable(limit, start, idberita);
-
-    function load_country_data(limit, start, idberita) {
-      $.ajax({
-        url: "load_comment.php",
-        method: "POST",
-        data: {
-          limit: limit,
-          start: start,
-          idberita: idberita
-        },
-        cache: false,
-        success: function(data) {
-
-          show_variable(limit, start, idberita);
-
-          $('#load_data').append(data);
-          if (data == '') {
-            $('#load_data_message').html("<button type='button' class='btn disabled' style=' background-color: grey; color: white ; border-radius:10px; margin-left:40%;'>Tidak ada komentar</button>");
-            action = 'active';
-          } else {
-            $('#load_data_message').html("<button type='button' class='btn' style=' background-color: #d083cf; color: white ; border-radius:10px; margin-left:45%;'>Load More</button>");
-            action = "inactive";
-          }
-        }
-      });
-    }
-
-    if (action == 'inactive') {
-      action = 'active';
-      load_country_data(limit, start, idberita);
-    }
-
-    $('#load_data_message').on('click', function() {
-
-      if ($(window).scrollTop() + $(window).height() > $("#load_data").height() && action == 'inactive') {
-        action = 'active';
-        start = start + limit;
-        setTimeout(function() {
-          load_country_data(limit, start, idberita);
-        }, 500);
-      }
-    });
-
-
-  });
-
-  function show_variable(a, b, c) {
-
-    console.log(a)
-    console.log(b)
-    console.log(c)
-
-  }
-
-
-
-
-  function reply_comment(id) {
-
-    // console.log(id)
-    // document.getElementById("test").innerHTML = id;
-    $("#input_comment_" + id).show()
-    // $("#load_comment_"+id).hide()
-
-  }
-
-  function cancel_comment(id) {
-
-    $("#input_comment_" + id).hide()
-  }
-
-  function show_comment(id) {
-
-    $("#input_comment_" + id).hide()
-    $("#show_replies_" + id).hide()
-
-    var limit = 2;
-    var start = 0;
-    var comment_id = id;
-    var action = 'inactive';
-
-    function load_country_data(limit, start, idberita) {
-      $.ajax({
-        url: "load_reply.php",
-        method: "POST",
-        data: {
-          limit: limit,
-          start: start,
-          comment_id: comment_id
-        },
-        cache: false,
-        success: function(data) {
-
-          show_variable(limit, start, comment_id);
-
-          $('#load_comment_' + id).append(data);
-          if (data == '') {
-            $('#load_data_comment_' + id).html("<button type='button' class='btn disabled' style=' background-color: grey; color: white ; border-radius:10px; margin-left:40%;'>Tidak ada komentar</button>");
-            action = 'active';
-          } else {
-            $('#load_data_comment_' + id).html("<button type='button' class='btn' style=' background-color: #d083cf; color: white ; border-radius:10px; margin-left:45%;'>Load More</button>");
-            action = "inactive";
-          }
-
-        }
-      });
-    }
-
-    if (action == 'inactive') {
-      action = 'active';
-      load_country_data(limit, start, id);
-    }
-
-    $('#load_data_comment_' + id).on('click', function() {
-
-      if ($(window).scrollTop() + $(window).height() > $("#load_comment" + id).height() && action == 'inactive') {
-        action = 'active';
-        start = start + limit;
-        setTimeout(function() {
-          load_country_data(limit, start, id);
-        }, 500);
-      }
-    });
-
-  }
-</script>
+<?php 
+}
+?>
