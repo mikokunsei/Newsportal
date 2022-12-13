@@ -43,9 +43,7 @@ include "../config/connection.php";
 
               ?>
               <span class="info-box-number">
-                <?php
-                echo $data_total['total_berita'];
-                ?>
+                <?= $data_total['total_berita']; ?>
                 <small>Bertia</small>
               </span>
             </div>
@@ -67,7 +65,7 @@ include "../config/connection.php";
               $data_komentar = mysqli_fetch_array($query_komentar);
 
               ?>
-              <span class="info-box-number"><?php echo $data_komentar['jml_komentar']; ?>
+              <span class="info-box-number"><?= $data_komentar['jml_komentar']; ?>
                 <small>Komentar</small>
               </span>
             </div>
@@ -88,7 +86,7 @@ include "../config/connection.php";
               $query_media = mysqli_query($conn, $sql_media);
               $data_media = mysqli_fetch_array($query_media);
               ?>
-              <span class="info-box-number"><?php echo $data_media['jml_media']; ?>
+              <span class="info-box-number"><?= $data_media['jml_media']; ?>
                 <small>Media</small>
               </span>
             </div>
@@ -110,7 +108,7 @@ include "../config/connection.php";
               $data_pengguna = mysqli_fetch_array($query_pengguna);
 
               ?>
-              <span class="info-box-number"><?php echo $data_pengguna['jml_pengguna']; ?>
+              <span class="info-box-number"><?= $data_pengguna['jml_pengguna']; ?>
                 <small>Pengguna</small>
               </span>
             </div>

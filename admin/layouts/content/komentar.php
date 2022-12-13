@@ -60,10 +60,10 @@
                                                                             }
                                                                                 ?>>
                                                 <td>
-                                                    <?php echo $no++; ?>
+                                                    <?= $no++; ?>
                                                 </td>
-                                                <td><?php echo $data_comment['nama']; ?></td>
-                                                <td><?php echo $data_comment['email']; ?></td>
+                                                <td><?= $data_comment['nama']; ?></td>
+                                                <td><?= $data_comment['email']; ?></td>
                                                 <td>
                                                     <?php
                                                     $komentar =  $data_comment['komentar'];
@@ -74,20 +74,20 @@
                                                         echo implode(' ', array_slice(explode(' ', $komentar), 0, 10)) . "...";
                                                     }
                                                     ?></td>
-                                                <td><?php echo $data_comment['tgl']; ?></td>
+                                                <td><?= $data_comment['tgl']; ?></td>
                                                 <td>
                                                     <?php
                                                     if ($_SESSION['role'] != 'user') {
                                                     ?>
-                                                        <select class="form-control " id="datastatus" name="status" data-id="<?php echo $data_comment['id'] ?>">
+                                                        <select class="form-control " id="datastatus" name="status" data-id="<?= $data_comment['id'] ?>">
                                                             <?php
-                                                            $sql_status = "SELECT status FROM tb_comments GROUP BY status";
+                                                            $sql_status = "SELECT * FROM status_comments GROUP BY status";
                                                             $query_status = mysqli_query($conn, $sql_status);
                                                             while ($status = mysqli_fetch_array($query_status)) {
                                                             ?>
-                                                                <option value="<?php echo $status['status'] ?>" <?php if ($status['status'] == $data_comment['status']) {
+                                                                <option value="<?= $status['status'] ?>" <?php if ($status['status'] == $data_comment['status']) {
                                                                                                                     echo 'selected';
-                                                                                                                } ?>><?php echo $status['status'] ?></option>
+                                                                                                                } ?>><?= $status['status'] ?></option>
                                                             <?php
                                                             }
                                                             ?>
@@ -99,7 +99,7 @@
                                                     ?>
                                                 </td>
                                                 <td>
-                                                    <a href="../pages/single_page.php?id=<?= $data_comment['news_id'] ?>" target="_blank"><?php echo $data_comment['news_title']; ?></a>
+                                                    <a href="../pages/single_page.php?id=<?= $data_comment['news_id'] ?>" target="_blank"><?= $data_comment['news_title']; ?></a>
                                                 </td>
                                                 <td>
                                                     <?php
@@ -108,7 +108,7 @@
                                                         <div class="container">
                                                             <div class="row">
                                                                 <div class="col">
-                                                                    <a href="" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?php echo $data_id ?>">Delete</a>
+                                                                    <a href="" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?= $data_id ?>">Delete</a>
                                                                 </div>
                                                                 <div class="col" style="display: flex;justify-content: center;align-items: center;">
                                                                     <br>
@@ -126,7 +126,7 @@
                                                                     >
                                                                 </div>
                                                             </div>
-                                                            <div class="modal fade" id="modal_delete<?php echo $data_id ?>">
+                                                            <div class="modal fade" id="modal_delete<?= $data_id ?>">
                                                                 <div class="modal-dialog modal-md">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
@@ -139,7 +139,7 @@
                                                                         <div class="modal-footer">
                                                                             <div class="row">
                                                                                 <div class="col" style="text-align:center ;">
-                                                                                    <a href="deletekomentar-<?php echo $data_id ?>" class="btn btn-danger" id="delete_user">Hapus</a>
+                                                                                    <a href="deletekomentar-<?= $data_id ?>" class="btn btn-danger" id="delete_user">Hapus</a>
                                                                                     <a href="" class="btn btn-primary" data-dismiss="modal">Kembali</a>
                                                                                 </div>
                                                                             </div>

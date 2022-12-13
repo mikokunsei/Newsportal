@@ -49,14 +49,14 @@
                                             <tr <?php if ($data['notif'] == 1) {
                                                 echo 'style="font-weight: bold ;"';
                                             } ?>>
-                                                <td><?php echo $no++; ?></td>
-                                                <td><?php echo $data['nama']; ?></td>
-                                                <td><?php echo $data['email']; ?></td>
-                                                <td><?php echo $data['pesan']; ?></td>
-                                                <td><?php echo $data['tgl']; ?></td>
+                                                <td><?= $no++; ?></td>
+                                                <td><?= $data['nama']; ?></td>
+                                                <td><?= $data['email']; ?></td>
+                                                <td><?= $data['pesan']; ?></td>
+                                                <td><?= $data['tgl']; ?></td>
                                                 <td>
                                                     <div class="container">
-                                                        <a href="detailpesan-<?php echo $data['id'] ?>" class="btn btn-primary text-white">Detail</a>
+                                                        <a href="detailpesan-<?= $data['id'] ?>" class="btn btn-primary text-white">Detail</a>
                                                     </div>
                                                 </td>
                                             <?php } ?>

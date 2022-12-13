@@ -76,15 +76,15 @@
                                         ?>
                                             <tr>
                                                 <?php if ($_SESSION['role'] == 'user') { ?>
-                                                    <td><?php echo $no++; ?></td>
-                                                    <td><?php echo $data['username']; ?></td>
-                                                    <td><?php echo $data['email']; ?></td>
-                                                    <td><?php echo ucfirst($data['role']); ?></td>
+                                                    <td><?= $no++; ?></td>
+                                                    <td><?= $data['username']; ?></td>
+                                                    <td><?= $data['email']; ?></td>
+                                                    <td><?= ucfirst($data['role']); ?></td>
                                                 <?php } else { ?>
-                                                    <td><?php echo $no++; ?></td>
-                                                    <td><?php echo $data['username']; ?></td>
-                                                    <td><?php echo $data['email']; ?></td>
-                                                    <td><?php echo ucfirst($data['role']); ?></td>
+                                                    <td><?= $no++; ?></td>
+                                                    <td><?= $data['username']; ?></td>
+                                                    <td><?= $data['email']; ?></td>
+                                                    <td><?= ucfirst($data['role']); ?></td>
                                                     <td>
                                                         <?php
                                                         if ($_SESSION['role'] == 'manager' and $data['role'] == 'admin') {
@@ -93,9 +93,9 @@
                                                             <i>Not Allowed</i>
                                                         <?php } elseif ($_SESSION['role'] == 'admin' or 'manager') { ?>
                                                             <div class="container">
-                                                                <a href="editpengguna-<?php echo $data_id ?>" class="btn btn-warning text-white">Edit</a>
-                                                                <a href="" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?php echo $data_id ?>">Delete</a>
-                                                                <div class="modal fade" id="modal_delete<?php echo $data_id ?>">
+                                                                <a href="editpengguna-<?= $data_id ?>" class="btn btn-warning text-white">Edit</a>
+                                                                <a href="" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete<?= $data_id ?>">Delete</a>
+                                                                <div class="modal fade" id="modal_delete<?= $data_id ?>">
                                                                     <div class="modal-dialog modal-md">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
@@ -108,7 +108,7 @@
                                                                             <div class="modal-footer">
                                                                                 <div class="row">
                                                                                     <div class="col" style="text-align:center ;">
-                                                                                        <a href="deletepengguna-<?php echo $data_id ?>" class="btn btn-danger" id="delete_user">Hapus</a>
+                                                                                        <a href="deletepengguna-<?= $data_id ?>" class="btn btn-danger" id="delete_user">Hapus</a>
                                                                                         <a href="" class="btn btn-primary" data-dismiss="modal">Kembali</a>
                                                                                     </div>
                                                                                 </div>

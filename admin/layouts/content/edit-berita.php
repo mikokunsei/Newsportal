@@ -113,9 +113,7 @@ if ($_SESSION['role'] == 'admin' or 'manager') {
                                                         </label>
                                                         <div id="editor" class="col-sm-10">
                                                             <textarea class="form-control" name="isi" id="isi" cols="30" rows="10">
-                                                            <?php
-                                                            echo htmlspecialchars_decode(html_entity_decode($data['txt']));
-                                                            ?>
+                                                            <?= htmlspecialchars_decode(html_entity_decode($data['txt'])); ?>
                                                         </textarea>
                                                         </div>
                                                     </div>

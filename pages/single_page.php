@@ -26,7 +26,7 @@ if ($id_news != $data['id']) {
   <?php
   if ($data['id'] == $id_news) {
   ?>
-    <title><?php echo $data['title']; ?></title>
+    <title><?= $data['title']; ?></title>
   <?php
   } else {
   ?>
@@ -79,7 +79,7 @@ if ($id_news != $data['id']) {
   <div id="status">&nbsp;</div>
 </div> -->
 
-  <input type="hidden" id="idberita" value="<?php echo $_GET['id']; ?>">
+  <input type="hidden" id="idberita" value="<?= $_GET['id']; ?>">
   <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
   <div class="container">
     <header id="header">
@@ -174,7 +174,7 @@ if ($id_news != $data['id']) {
                       while ($data_media = mysqli_fetch_array($query_media)) {
                       ?>
                         <li>
-                          <a href="single_page_media.php?media=<?= $data_media['media_name'] ?>"><?php echo $data_media['media_name'] ?></a>
+                          <a href="single_page_media.php?media=<?= $data_media['media_name'] ?>"><?= $data_media['media_name'] ?></a>
                         </li>
                       <?php } ?>
                     </ul>
@@ -290,7 +290,7 @@ if ($id_news != $data['id']) {
             while ($data_cat_canal = mysqli_fetch_array($get_cat_canal)) {
 
             ?>
-              <li><a href="../pages/single_page_cat.php?c_canal=<?= $data_cat_canal['c_canal'] ?>"><?php echo $data_cat_canal['c_canal']; ?></a></li>
+              <li><a href="../pages/single_page_cat.php?c_canal=<?= $data_cat_canal['c_canal'] ?>"><?= $data_cat_canal['c_canal']; ?></a></li>
 
             <?php
             }
@@ -328,7 +328,7 @@ if ($id_news != $data['id']) {
                 } else {
                   echo $data_ticker['c_image'];
                 }
-                ?>" alt=""><?php echo $data_ticker['title']; ?></a></li>
+                ?>" alt=""><?= $data_ticker['title']; ?></a></li>
               <?php
               }
               ?>
@@ -366,11 +366,11 @@ if ($id_news != $data['id']) {
               <div class="single_page">
                 <ol class="breadcrumb">
                   <li><a href="../index.php">Home</a></li>
-                  <li class="active"><a href="single_page_cat.php?c_canal=<?= $data_content['c_canal'] ?>"><?php echo ucfirst($canal); ?></a></li>
+                  <li class="active"><a href="single_page_cat.php?c_canal=<?= $data_content['c_canal'] ?>"><?= ucfirst($canal); ?></a></li>
 
                 </ol>
-                <h1><?php echo $data_content['title']; ?></h1>
-                <div class="post_commentbox"> <a href="single_page_media.php?media=<?= $data_content['media_name'] ?>"><i class="fa fa-user"></i><?php echo $data_content['media_name']; ?></a>
+                <h1><?= $data_content['title']; ?></h1>
+                <div class="post_commentbox"> <a href="single_page_media.php?media=<?= $data_content['media_name'] ?>"><i class="fa fa-user"></i><?= $data_content['media_name']; ?></a>
                   <span>
                     <i class="fa fa-calendar"></i>
                     <?php
@@ -437,7 +437,7 @@ if ($id_news != $data['id']) {
                     echo $data_content['jml_view'] . " views";
                     ?>
                   </span>
-                  <a href="single_page_cat.php?c_canal=<?= $data_content['c_canal'] ?>"><i class="fa fa-tags"></i><?php echo ucfirst($canal); ?></a>
+                  <a href="single_page_cat.php?c_canal=<?= $data_content['c_canal'] ?>"><i class="fa fa-tags"></i><?= ucfirst($canal); ?></a>
                 </div>
                 <div class="single_page_content"> <img class="image" style="display:block; margin-left:auto; margin-right:auto; text-align:center" src="
                 <?php
@@ -470,7 +470,7 @@ if ($id_news != $data['id']) {
                       <?php
                       if ($data_content['link'] != null) {
                       ?>
-                        <a href="<?php echo $data_content['link']; ?>" target="_blank"><?php echo $data_content['link']; ?></a>
+                        <a href="<?= $data_content['link']; ?>" target="_blank"><?= $data_content['link']; ?></a>
 
                       <?php } else {
                       ?>
@@ -533,7 +533,7 @@ if ($id_news != $data['id']) {
 
                           ?>
 
-                            <?php echo $data_jml['jml_komentar']; ?>
+                            <?= $data_jml['jml_komentar']; ?>
                             Komentar
                           <?php
                           }
@@ -557,7 +557,7 @@ if ($id_news != $data['id']) {
                       </div>
                       <div class="panel-body">
                         <form action="../action/comment.php" method="POST">
-                          <input type="hidden" name="news_id" value="<?php echo $data_content['id']; ?>">
+                          <input type="hidden" name="news_id" value="<?= $data_content['id']; ?>">
                           <div class="form-group">
                             <input type="text" class="form-control" name="name" id="" placeholder="Masukkan nama" required>
                           </div>
@@ -622,7 +622,7 @@ if ($id_news != $data['id']) {
                           echo $data_related['c_image'];
                         }
                         ?>" alt=""> </a>
-                          <div class="media-body"> <a class="catg_title" href="single_page.php?id=<?= $data_related['id'] ?>" onclick="updateViews('<?= $data_related['id'] ?>')"> <?php echo $data_related['title']; ?></a> </div>
+                          <div class="media-body"> <a class="catg_title" href="single_page.php?id=<?= $data_related['id'] ?>" onclick="updateViews('<?= $data_related['id'] ?>')"> <?= $data_related['title']; ?></a> </div>
                         </div>
                       </li>
                     <?php } ?>
@@ -654,7 +654,7 @@ if ($id_news != $data['id']) {
                     }
                     ?>"> </a>
                       <div class="media-header">
-                        <span style="font-size: 13px;"><?php echo '<b>' . $data_popular['media_name'] . '</b>' ?> |
+                        <span style="font-size: 13px;"><?= '<b>' . $data_popular['media_name'] . '</b>' ?> |
                           <?php
                           $db_tahun = substr($data_popular['c_datetime'], 0, 4);
                           $db_bulan = substr($data_popular['c_datetime'], 5, 2);
@@ -709,9 +709,9 @@ if ($id_news != $data['id']) {
                               $db_bulan = "Desember";
                               break;
                           }
-                          echo "$db_tanggal " . substr($db_bulan, 0, 3) . " $db_tahun"; ?> | views : <?php echo $data_popular['jml_view']; ?></span>
+                          echo "$db_tanggal " . substr($db_bulan, 0, 3) . " $db_tahun"; ?> | views : <?= $data_popular['jml_view']; ?></span>
                       </div>
-                      <div class="media-body"> <a href="single_page.php?id=<?= $data_popular['id'] ?>" id="updateViews" onclick="updateViews('<?= $data_popular['id'] ?>')" class="catg_title"><?php echo $data_popular['title']; ?></a> </div>
+                      <div class="media-body"> <a href="single_page.php?id=<?= $data_popular['id'] ?>" id="updateViews" onclick="updateViews('<?= $data_popular['id'] ?>')" class="catg_title"><?= $data_popular['title']; ?></a> </div>
                     </div>
                   </li>
                 <?php
@@ -733,7 +733,7 @@ if ($id_news != $data['id']) {
                     while ($data = mysqli_fetch_array($get_data)) {
                       $canal = $data['c_canal'];
                     ?>
-                      <li class="cat-item"><a href="single_page_cat.php?c_canal=<?= $data['c_canal'] ?>"><?php echo ucfirst($canal); ?></a></li>
+                      <li class="cat-item"><a href="single_page_cat.php?c_canal=<?= $data['c_canal'] ?>"><?= ucfirst($canal); ?></a></li>
                     <?php
                     }
                     ?>
@@ -764,12 +764,12 @@ if ($id_news != $data['id']) {
                         <div class="media wow fadeInRight">
                           <div class="media-body">
                             <h4>
-                              <a href="mailto:<?php echo $data_comment['email']; ?>">
-                                <?php echo $data_comment['nama']; ?>
+                              <a href="mailto:<?= $data_comment['email']; ?>">
+                                <?= $data_comment['nama']; ?>
                               </a>
                               <br>
                             </h4>
-                            <?php echo $data_comment['komentar']; ?> [<?php echo $data_comment['tgl']; ?>]
+                            <?= $data_comment['komentar']; ?> [<?= $data_comment['tgl']; ?>]
                             <hr>
                           </div>
                         </div>
@@ -809,7 +809,7 @@ if ($id_news != $data['id']) {
                 while ($data_cat_ar = mysqli_fetch_array($get_cat_ar)) {
                   $canal = $data_cat_ar['c_canal'];
                 ?>
-                  <li><a href="single_page_cat.php?c_canal=<?= $data_cat_ar['c_canal'] ?>"><?php echo ucfirst($canal) ?></a></li>
+                  <li><a href="single_page_cat.php?c_canal=<?= $data_cat_ar['c_canal'] ?>"><?= ucfirst($canal) ?></a></li>
                 <?php
                 }
                 ?>
@@ -841,7 +841,7 @@ if ($id_news != $data['id']) {
                 while ($data_cat_bot = mysqli_fetch_array($get_cat_bot)) {
                   $canal = $data_cat_bot['c_canal'];
                 ?>
-                  <li><a href="single_page_cat.php?c_canal=<?= $data_cat_bot['c_canal'] ?>"><?php echo ucfirst($canal) ?></a></li>
+                  <li><a href="single_page_cat.php?c_canal=<?= $data_cat_bot['c_canal'] ?>"><?= ucfirst($canal) ?></a></li>
                 <?php
                 }
                 ?>

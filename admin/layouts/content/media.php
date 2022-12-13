@@ -58,9 +58,9 @@
                     while ($data = mysqli_fetch_array($get_data)) {
                   ?>
                       <tr style="text-align:center ;">
-                          <td><?php echo $no++; ?></td>
-                          <td><?php echo $data['media_name'];?></td>
-                          <td><?php echo $data['jumlah_media'].' berita';?></td>
+                          <td><?= $no++; ?></td>
+                          <td><?= $data['media_name'];?></td>
+                          <td><?= $data['jumlah_media'].' berita';?></td>
                          
                       </tr>
                     <?php } ?>

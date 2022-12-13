@@ -414,7 +414,7 @@
 
       load_unseen_notification();;
 
-    }, 5000);
+    }, 200);
 
   });
 </script>

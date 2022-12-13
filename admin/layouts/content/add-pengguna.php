@@ -62,8 +62,8 @@ if ($_SESSION['role'] == 'user') {
                                                         Username
                                                     </label>
                                                     <div class="col-sm-10">
-                                                        <input type="text" class="form-control" name="username" id="" <?php echo $username; ?> placeholder="Masukkan Username" required>
-                                                        <?php echo $pesan_username; ?>
+                                                        <input type="text" class="form-control" name="username" id="" <?= $username; ?> placeholder="Masukkan Username" required>
+                                                        <?= $pesan_username; ?>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -71,7 +71,7 @@ if ($_SESSION['role'] == 'user') {
                                                         Email
                                                     </label>
                                                     <div class="col-sm-10">
-                                                        <input type="email" class="form-control" name="email" id="" <?php echo $email; ?> placeholder="Masukkan Email" required>
+                                                        <input type="email" class="form-control" name="email" id="" <?= $email; ?> placeholder="Masukkan Email" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -88,7 +88,7 @@ if ($_SESSION['role'] == 'user') {
                                                     </label>
                                                     <div class="col-sm-10">
                                                         <input type="password" class="form-control" name="password_confirmation" id="" placeholder="Konfirmasi Password" required>
-                                                        <?php echo $pesan_confirm; ?>
+                                                        <?= $pesan_confirm; ?>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">

@@ -28,7 +28,7 @@ if ($exist_tag == false) {
 <html>
 
 <head>
-    <title>Pages by tag : <?php echo $tag_news; ?></title>
+    <title>Pages by tag : <?= $tag_news; ?></title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -160,7 +160,7 @@ if ($exist_tag == false) {
                                             while ($data_media = mysqli_fetch_array($query_media)) {
                                             ?>
                                                 <li>
-                                                    <a href="single_page_media.php?media=<?= $data_media['media_name'] ?>"><?php echo $data_media['media_name'] ?></a>
+                                                    <a href="single_page_media.php?media=<?= $data_media['media_name'] ?>"><?= $data_media['media_name'] ?></a>
                                                 </li>
                                             <?php } ?>
                                         </ul>
@@ -272,7 +272,7 @@ if ($exist_tag == false) {
                         $get_data = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news'");
                         while ($data = mysqli_fetch_array($get_data)) {
                         ?>
-                            <li><a href="single_page_cat.php?c_canal=<?= $data['c_canal'] ?>"><?php echo $data['c_canal']; ?></a></li>
+                            <li><a href="single_page_cat.php?c_canal=<?= $data['c_canal'] ?>"><?= $data['c_canal']; ?></a></li>
 
                         <?php
                         }
@@ -310,7 +310,7 @@ if ($exist_tag == false) {
                                 } else {
                                     echo $data['c_image'];
                                 }
-                                ?>" alt=""><?php echo $data['title']; ?></a></li>
+                                ?>" alt=""><?= $data['title']; ?></a></li>
                             <?php
                             }
                             ?>
@@ -343,7 +343,7 @@ if ($exist_tag == false) {
                             ?>
                             <ol class="breadcrumb">
                                 <li><a href="../index.php">Home</a></li>
-                                <li class="active"><a href="single_page_tag.php?tag=<?php echo $tag_news ?>"><?php echo ucfirst($tag_news); ?></a></li>
+                                <li class="active"><a href="single_page_tag.php?tag=<?= $tag_news ?>"><?= ucfirst($tag_news); ?></a></li>
                             </ol>
                         </div>
                     </div>
@@ -352,7 +352,7 @@ if ($exist_tag == false) {
                     <div class="left_content">
                         <div class="single_post_content">
 
-                            <h2><span><?php echo $tag_news ?></span></h2>
+                            <h2><span><?= $tag_news ?></span></h2>
 
 
                             <div class="single_post_content">
@@ -393,7 +393,7 @@ if ($exist_tag == false) {
                                                     ?>">
                                                     </a>
                                                     <div class="media-body">
-                                                        <span><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?php echo $data['media_name'] ?></a></b> |
+                                                        <span><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
                                                             <?php
                                                             $db_tahun = substr($data['c_datetime'], 0, 4);
                                                             $db_bulan = substr($data['c_datetime'], 5, 2);
@@ -451,10 +451,10 @@ if ($exist_tag == false) {
                                                             echo "$db_tanggal $db_bulan $db_tahun [$db_jam]";
                                                             ?></span>
                                                         <h5>
-                                                            <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"> <?php echo $data['title']; ?> </a>
+                                                            <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"> <?= $data['title']; ?> </a>
                                                         </h5>
                                                         <p class="text-paragraph">
-                                                            <?php echo strip_tags(htmlspecialchars_decode(html_entity_decode($data['txt']))); ?>
+                                                            <?= strip_tags(htmlspecialchars_decode(html_entity_decode($data['txt']))); ?>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -505,31 +505,31 @@ if ($exist_tag == false) {
                                     // 2 Halaman
                                     if ($halaman - 2 > 0) {
                                         ?>
-                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman - 2 ?>"><?php echo $halaman - 2 ?></a></li>
+                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman - 2 ?>"><?= $halaman - 2 ?></a></li>
                                     <?php
                                     }
 
                                     if ($halaman - 1 > 0) {
                                     ?>
-                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman - 1 ?>"><?php echo $halaman - 1 ?></a></li>
+                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman - 1 ?>"><?= $halaman - 1 ?></a></li>
                                     <?php
                                     }
                                     ?>
 
                                     <!-- CURRENT -->
-                                    <li class="page-item active"><a><?php echo $halaman; ?></a></li>
+                                    <li class="page-item active"><a><?= $halaman; ?></a></li>
 
                                     <?php
 
                                     // 2 Halaman
                                     if ($halaman + 1 < $jml_halaman + 1) {
                                     ?>
-                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman + 1 ?>"><?php echo $halaman + 1 ?></a></li>
+                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman + 1 ?>"><?= $halaman + 1 ?></a></li>
                                     <?php
                                     }
                                     if ($halaman + 2 < $jml_halaman + 1) {
                                     ?>
-                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman + 2 ?>"><?php echo $halaman + 2 ?></a></li>
+                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $halaman + 2 ?>"><?= $halaman + 2 ?></a></li>
                                         <?php
                                     }
 
@@ -541,7 +541,7 @@ if ($exist_tag == false) {
                                         <?php
                                         }
                                         ?>
-                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $jml_halaman ?>"><?php echo $jml_halaman ?></a></li>
+                                        <li class="page-item"><a href="single_page_tag.php?tag=<?= $tag_news ?>&halaman=<?= $jml_halaman ?>"><?= $jml_halaman ?></a></li>
                                     <?php
                                     }
 
@@ -592,7 +592,7 @@ if ($exist_tag == false) {
                                         }
                                         ?>"> </a>
                                             <div class="media-header">
-                                                <span style="font-size: 13px;"><?php echo '<b>' . $data['media_name'] . '</b>' ?> |
+                                                <span style="font-size: 13px;"><?= '<b>' . $data['media_name'] . '</b>' ?> |
                                                     <?php
                                                     $db_tahun_2 = substr($data['c_datetime'], 0, 4);
                                                     $db_bulan_2 = substr($data['c_datetime'], 5, 2);
@@ -648,9 +648,9 @@ if ($exist_tag == false) {
                                                             $db_bulan_2 = "Desember";
                                                             break;
                                                     }
-                                                    echo "$db_tanggal_2 " . substr($db_bulan_2, 0, 3) . " $db_tahun_2"; ?> | views : <?php echo $data['jml_view']; ?></span>
+                                                    echo "$db_tanggal_2 " . substr($db_bulan_2, 0, 3) . " $db_tahun_2"; ?> | views : <?= $data['jml_view']; ?></span>
                                             </div>
-                                            <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?php echo $data['title']; ?></a> </div>
+                                            <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a> </div>
                                         </div>
                                     </li>
                                 <?php
@@ -672,7 +672,7 @@ if ($exist_tag == false) {
                                         while ($data = mysqli_fetch_array($get_data)) {
                                             $canal = $data['c_canal'];
                                         ?>
-                                            <li class="cat-item"><a href="single_page_cat.php?c_canal=<?= $canal ?>"><?php echo ucfirst($canal); ?></a></li>
+                                            <li class="cat-item"><a href="single_page_cat.php?c_canal=<?= $canal ?>"><?= ucfirst($canal); ?></a></li>
                                         <?php
                                         }
                                         ?>
@@ -703,12 +703,12 @@ if ($exist_tag == false) {
                                                 <div class="media wow fadeInRight">
                                                     <div class="media-body">
                                                         <h4>
-                                                            <a href="mailto:<?php echo $data_comment['email']; ?>">
-                                                                <?php echo $data_comment['nama']; ?>
+                                                            <a href="mailto:<?= $data_comment['email']; ?>">
+                                                                <?= $data_comment['nama']; ?>
                                                             </a>
                                                             <br>
                                                         </h4>
-                                                        <?php echo $data_comment['komentar']; ?> [<?php echo $data_comment['tgl']; ?>]
+                                                        <?= $data_comment['komentar']; ?> [<?= $data_comment['tgl']; ?>]
                                                         <hr>
                                                     </div>
                                                 </div>
@@ -748,7 +748,7 @@ if ($exist_tag == false) {
                                 while ($data_cat_ar = mysqli_fetch_array($get_cat_ar)) {
                                     $canal = $data_cat_ar['c_canal'];
                                 ?>
-                                    <li><a href="single_page_cat.php?c_canal=<?= $data_cat_ar['c_canal'] ?>"><?php echo ucfirst($canal) ?></a></li>
+                                    <li><a href="single_page_cat.php?c_canal=<?= $data_cat_ar['c_canal'] ?>"><?= ucfirst($canal) ?></a></li>
                                 <?php
                                 }
                                 ?>
@@ -779,7 +779,7 @@ if ($exist_tag == false) {
                                 while ($data = mysqli_fetch_array($get_data)) {
                                     $canal = $data['c_canal'];
                                 ?>
-                                    <li><a href="single_page_cat.php?c_canal=<?= $canal ?>"><?php echo ucfirst($canal) ?></a></li>
+                                    <li><a href="single_page_cat.php?c_canal=<?= $canal ?>"><?= ucfirst($canal) ?></a></li>
                                 <?php
                                 }
                                 ?>

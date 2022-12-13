@@ -46,7 +46,7 @@
         <p class="login-box-msg">Sign in to start your session</p>
 
         <form action="authentification.php" method="POST">
-          <?php echo $pesan_username; ?>
+          <?= $pesan_username; ?>
           <div class="input-group mb-3">
             <input type="username" class="form-control" name="username" placeholder="Username" required>
             <div class="input-group-append">
@@ -55,7 +55,7 @@
               </div>
             </div>
           </div>
-          <?php echo $pesan_password ?>
+          <?= $pesan_password ?>
           <div class="input-group mb-3">
             <input type="password" class="form-control" name="password" placeholder="Password" required>
             <div class="input-group-append">
@@ -74,14 +74,13 @@
               $str = rand(1, 7) . rand(1, 7) . $char;
 
               $_SESSION['captcha_id'] = $str;
-              ?>
-              <?php
+              
               echo "<h3>" . $_SESSION['captcha_id'] . "</h3>";
               ?>
             </div>
           </div>
           <div class="input-group mb-3">
-            <label for="captcha" class="text-info">Captcha : <?php echo $pesan_captcha; ?>
+            <label for="captcha" class="text-info">Captcha : <?= $pesan_captcha; ?>
               <input type="text" class="form-control" name="captcha" id="captcha" placeholder="type here..." required>
             </label>
           </div>

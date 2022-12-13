@@ -138,35 +138,32 @@ if (!isset($_SESSION['username'])) {
           ?>
           <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="far fa-bell"></i>
-            <span class="badge badge-danger navbar-badge" style="size: 100px ;">
-              <?php
-              $jml_notif = ($data_msg['jml_message'] + $data_comment['jml_comment']);
-              echo $jml_notif;
-              ?>
-            </span>
+            <?php
+            $jml_notif = ($data_msg['jml_message'] + $data_comment['jml_comment']);
+
+            if ($jml_notif > 0) {
+            ?>
+              <span class="badge badge-danger navbar-badge" style="size: 100px ;">
+                <?= $jml_notif; ?>
+              </span>
+            <?php } ?>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <span class="dropdown-item dropdown-header">
-              <?php
-              echo $jml_notif;
-              ?>
+              <?= $jml_notif; ?>
               Notifications
             </span>
             <div class="dropdown-divider"></div>
             <a href="pesan" class="dropdown-item">
               <i class="fas fa-envelope mr-2"></i>
-              <?php
-              echo $data_msg['jml_message'];
-              ?>
+              <?= $data_msg['jml_message']; ?>
               new messages
               <!-- <span class="float-right text-muted text-sm">3 mins</span> -->
             </a>
             <div class="dropdown-divider"></div>
             <a href="komentar" class="dropdown-item">
               <i class="fas fa-comments mr-2"></i>
-              <?php
-              echo $data_comment['jml_comment'];
-              ?>
+              <?= $data_comment['jml_comment']; ?>
               comments
               <!-- <span class="float-right text-muted text-sm">12 hours</span> -->
             </a>

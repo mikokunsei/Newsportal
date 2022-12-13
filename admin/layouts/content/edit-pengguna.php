@@ -85,12 +85,12 @@ if ($_SESSION['role'] == 'user' and $id == 1) { ?>
                                                         </label>
                                                         <div class="col-sm-10">
                                                             <?php if ($_SESSION['role'] == 'manager') { ?>
-                                                                <input type="text" class="form-control" name="username" id="" disabled value="<?php echo $row['username'] ?>">
+                                                                <input type="text" class="form-control" name="username" id="" disabled value="<?= $row['username'] ?>">
                                                             <?php } else { ?>
-                                                                <input type="text" class="form-control" name="username" id="" value="<?php echo $row['username'] ?>">
+                                                                <input type="text" class="form-control" name="username" id="" value="<?= $row['username'] ?>">
                                                             <?php } ?>
-                                                            <input type="hidden" name="id" class="form-control" value="<?php echo $row['id']; ?>" id="">
-                                                            <?php echo $pesan_username; ?>
+                                                            <input type="hidden" name="id" class="form-control" value="<?= $row['id']; ?>" id="">
+                                                            <?= $pesan_username; ?>
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
@@ -98,7 +98,7 @@ if ($_SESSION['role'] == 'user' and $id == 1) { ?>
                                                             Email
                                                         </label>
                                                         <div class="col-sm-10">
-                                                            <input type="email" class="form-control" name="email" id="" value="<?php echo $row['email'] ?>">
+                                                            <input type="email" class="form-control" name="email" id="" value="<?= $row['email'] ?>">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
@@ -115,7 +115,7 @@ if ($_SESSION['role'] == 'user' and $id == 1) { ?>
                                                         </label>
                                                         <div class="col-sm-10">
                                                             <input type="password" class="form-control" name="password_confirmation" id="" placeholder="Konfirmasi Password">
-                                                            <?php echo $pesan_confirm; ?>
+                                                            <?= $pesan_confirm; ?>
                                                         </div>
                                                     </div>
                                                     <?php if ($_SESSION['username'] != $row['username']) { ?>

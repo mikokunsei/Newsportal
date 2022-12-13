@@ -127,7 +127,7 @@ include '../config/connection.php'
                                             while ($data_media = mysqli_fetch_array($query_media)) {
                                             ?>
                                                 <li>
-                                                    <a href="single_page_media.php?media=<?= $data_media['media_name'] ?>"><?php echo $data_media['media_name'] ?></a>
+                                                    <a href="single_page_media.php?media=<?= $data_media['media_name'] ?>"><?= $data_media['media_name'] ?></a>
                                                 </li>
                                             <?php } ?>
                                         </ul>
@@ -241,7 +241,7 @@ include '../config/connection.php'
                         $get_data = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news'");
                         while ($data = mysqli_fetch_array($get_data)) {
                         ?>
-                            <li><a href="single_page_cat.php?c_canal=<?= $data['c_canal'] ?>"><?php echo $data['c_canal']; ?></a></li>
+                            <li><a href="single_page_cat.php?c_canal=<?= $data['c_canal'] ?>"><?= $data['c_canal']; ?></a></li>
 
                         <?php
                         }
@@ -279,7 +279,7 @@ include '../config/connection.php'
                                 } else {
                                     echo $data['c_image'];
                                 }
-                ?>" alt=""><?php echo $data['title']; ?></a></li>
+                ?>" alt=""><?= $data['title']; ?></a></li>
                             <?php
                             }
                             ?>
@@ -333,7 +333,7 @@ include '../config/connection.php'
                                         }
                                         ?>"> </a>
                                             <div class="media-header">
-                                                <span style="font-size: 13px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?php echo $data['media_name'] ?></a></b> |
+                                                <span style="font-size: 13px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
                                                     <?php
 
                                                     $db_tahun = substr($data['c_datetime'], 0, 4);
@@ -389,9 +389,9 @@ include '../config/connection.php'
                                                             $db_bulan = "Desember";
                                                             break;
                                                     }
-                                                    echo "$db_tanggal " . substr($db_bulan, 0, 3) . " $db_tahun"; ?> | views : <?php echo $data['jml_view']; ?></span>
+                                                    echo "$db_tanggal " . substr($db_bulan, 0, 3) . " $db_tahun"; ?> | views : <?= $data['jml_view']; ?></span>
                                             </div>
-                                            <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"> <?php echo $data['title']; ?></a> </div>
+                                            <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"> <?= $data['title']; ?></a> </div>
                                         </div>
                                     </li>
                                 <?php
@@ -420,7 +420,7 @@ include '../config/connection.php'
                                 while ($data = mysqli_fetch_array($get_data)) {
                                     $canal = $data['c_canal'];
                                 ?>
-                                    <li><a href="single_page_cat.php?c_canal=<?= $canal ?>"><?php echo ucfirst($canal) ?></a></li>
+                                    <li><a href="single_page_cat.php?c_canal=<?= $canal ?>"><?= ucfirst($canal) ?></a></li>
                                 <?php
                                 }
                                 ?>

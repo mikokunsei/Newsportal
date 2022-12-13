@@ -16,10 +16,10 @@ if (isset($_POST["limit"], $_POST["start"], $_POST["comment_id"])) {
                 <li>
                     <div class="media">
                         <div class="media-content" >
-                            <h4 style="color: #99CCFF;"><?php echo $row["nama"] ?>
+                            <h4 style="color: #99CCFF;"><?= $row["nama"] ?>
                                 <br>
                             </h4>
-                            <p class="media  wow fadeInDown"><?php echo $row["komentar"] ?> [<?php echo $row["tgl"] ?>]</p>
+                            <p class="media  wow fadeInDown"><?= $row["komentar"] ?> [<?= $row["tgl"] ?>]</p>
                         </div>
                     </div>
                 </li>
