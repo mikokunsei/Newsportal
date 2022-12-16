@@ -1,6 +1,6 @@
 <?php
 
-include "../config/connection.php";
+include "config/connection.php";
 
 
 if (isset($_POST["limit"], $_POST["start"], $_POST["idberita"])) {
@@ -24,7 +24,15 @@ if (isset($_POST["limit"], $_POST["start"], $_POST["idberita"])) {
             <p id="test"></p>
             <div class="row btn-media">
               <div class="col-sm-3 col-md-2 col-lg-2 col-xl-2 ">
-                <button type="button" class="form-control" onclick="reply_comment(<?= $row['id'] ?>)" style=" background-color: #99CCFF; color: white ; border-radius:10px;">Reply</button>
+                <?php
+                if (!isset($_SESSION['nama'])) {
+                ?>
+                <!-- Tidak tampil -->
+                <?php
+                } else {
+                ?>
+                  <button type="button" class="form-control" onclick="reply_comment(<?= $row['id'] ?>)" style=" background-color: #99CCFF; color: white ; border-radius:10px;">Reply</button>
+                <?php } ?>
               </div>
               <div class="col-sm-5 col-md-4 col-lg-3 col-xl-3 ">
                 <?php
@@ -50,7 +58,7 @@ if (isset($_POST["limit"], $_POST["start"], $_POST["idberita"])) {
           <hr />
         </div>
         <div id="input_comment_<?= $row['id'] ?>" style="display:none;">
-          <form action="../action/comment.php" method="POST">
+          <form action="action/comment.php" method="POST">
             <input type="hidden" class="form-control" name="news_id" value="<?= $row['news_id']; ?>">
             <input type="hidden" class="form-control" name="comment_id" value="<?= $row['id'] ?>" id="comment_id">
             <div class="form-group">

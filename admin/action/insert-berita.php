@@ -14,11 +14,12 @@ if (isset($_POST['judul'])) {
     $sumber = $_POST['sumber'];
     $news = $_POST['news'];
 
-
+    //size ambil dari database
     if ($gambar_size > 2097152) {
         echo '<script language="javascript" type="text/javascript">alert("Ukuran File lebih dari 2MB !");</script>';
         echo '<script>window.location.href = "../tambahberita"</script>';
     } else {
+        // ekstensi ambil dari database
         $izin_ekstensi = array('png', 'jpg', 'jpeg');
 
         $pisah_ekstensi = explode('.', $gambar_nama);

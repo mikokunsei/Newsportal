@@ -68,6 +68,10 @@ if (isset($_GET['page'])) {
                 include "content/404.php";
                 break;
 
+            case 'pengaturan';
+                include "content/pengaturan.php";
+                break;
+
             default:
 
                 echo "<center><h3>Maaf, Halaman tidak ditemukan !</h3></center>";

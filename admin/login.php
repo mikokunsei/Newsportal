@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="template/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="template/dist/css/adminlte.min.css">
+  <!-- Icon Logo -->
+  <link rel="icon" href="public/image/icon/logo_icon_vta.png" type="image/png">
 </head>
 
 

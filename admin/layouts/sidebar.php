@@ -2,8 +2,15 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="dashboard" class="brand-link">
-      <img src="../assets/css/images/purple_loading.gif" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">NewsFeed</span>
+      <?php 
+      include "../config/connection.php";
+
+      $query_web = mysqli_query($conn, "SELECT * FROM web_settings WHERE id = 1");
+      $data_web = mysqli_fetch_array($query_web);
+
+      ?>
+      <img src="public/image/icon/<?= $data_web['icon'] ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light"><?= $data_web['title'] ?></span>
     </a>
 
     <!-- Sidebar -->
@@ -50,7 +57,7 @@
                 Berita
                 <i class="right fas fa-angle-left"></i>
                 <?php
-                include "../config/connection.php";
+                
 
                 $query_comment = mysqli_query($conn, "SELECT COUNT(notif) as jml_comment FROM tb_comments WHERE notif = 1");
                 $data_comment = mysqli_fetch_array($query_comment);
@@ -99,7 +106,7 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tools"></i>
+              <i class="nav-icon fas fa-user-friends"></i>
               <p>
                 Utilitas
                 <i class="right fas fa-angle-left"></i>
@@ -120,7 +127,7 @@
               <p>
                 Pesan
                 <?php
-                include "../config/connection.php";
+
 
                 $query_msg = mysqli_query($conn, "SELECT COUNT(notif) as jml_message FROM tb_messages WHERE notif = 1");
                 $data_msg = mysqli_fetch_array($query_msg);
@@ -133,6 +140,12 @@
                 <?php } ?>
                 <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="pengaturan" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>Pengaturan</p>
             </a>
           </li>
           <li class="nav-item">

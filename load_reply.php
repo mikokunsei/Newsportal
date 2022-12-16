@@ -1,6 +1,6 @@
 <?php
 
-include "../config/connection.php";
+include "config/connection.php";
 
 
 if (isset($_POST["limit"], $_POST["start"], $_POST["comment_id"])) {

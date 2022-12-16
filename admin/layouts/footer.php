@@ -1,6 +1,13 @@
 <!-- Main Footer -->
 <footer class="main-footer">
-  <strong>Copyright &copy; 2022 <a href="https://github.com/mikokunsei">Mikokunsei</a>.</strong>
+  <?php 
+  include "config/connection.php";
+
+  $query_web = mysqli_query($conn, "SELECT * FROM web_settings WHERE id = 1");
+  $data_web = mysqli_fetch_array($query_web);
+
+  ?>
+  <strong>Copyright &copy; 2022 <a href="https://github.com/mikokunsei"><?= $data_web['copyright'] ?></a>.</strong>
   All rights reserved.
   <div class="float-right d-none d-sm-inline-block">
     <b>Version</b> 3.2.0
@@ -531,6 +538,46 @@
   }
 </script>
 
+<script>
+  $("#inputFile2").change(function(event) {
+    fadeInAdd2();
+    getURL2(this);
+  });
+
+  $("#inputFile2").on('click', function(event) {
+    fadeInAdd2();
+  });
+
+  function getURL2(input2) {
+    if (input2.files && input2.files[0]) {
+      var reader2 = new FileReader();
+      var filename2 = $("#inputFile2").val();
+
+      filename2 = filename2.substring(filename2.lastIndexOf('\\') + 1);
+      reader2.onload = function(e) {
+
+        debugger;
+
+        $('#imgView2').attr('src', e.target.result);
+        $('#imgView2').hide();
+        $('#imgView2').fadeIn(500);
+        // $('.custom-file-label').text(filename);
+
+      }
+      reader2.readAsDataURL(input2.files[0]);
+    }
+    $(".alert2").removeClass("LoadAnimate").hide();
+  }
+
+  function fadeInAdd2() {
+    fadeInAlert2();
+  }
+
+  function fadeInAlert2(text2) {
+    $(".alert2").text(text2).addClass("loadAnimate");
+  }
+</script>
+
 <!-- CKEditor Classic -->
 <!-- <script>
     ClassicEditor
@@ -712,6 +759,38 @@
       'MathType'
     ]
   });
+</script>
+
+<script>
+    function toggleDark() {
+        var element = document.getElementById("body")
+        element.classList.toggle("dark-mode")
+        let dark = JSON.parse(localStorage.getItem("mikokunsei"))
+        if (dark) {
+            localStorage.setItem("mikokunsei", JSON.stringify(false))
+            console.log("Dark mode off")
+        } else {
+            localStorage.setItem("mikokunsei", JSON.stringify(true))
+            console.log("Dark mode on")
+        }
+    }
+
+    function loadDark() {
+        //default is light mode
+        console.log("dark mode is ", JSON.parse(localStorage.getItem("mikokunsei")))
+        let dark = JSON.parse(localStorage.getItem("mikokunsei"))
+        if (dark === null) {
+            localStorage.setItem("mikokunsei", JSON.stringify(false))
+            document.getElementById("switch_mode").checked = false
+        } else if (dark === true) {
+            document.getElementById("body").classList.add("dark-mode")
+            document.getElementById("switch_mode").checked = true
+        }
+    }
+</script>
+
+<script>
+    window.on("load", loadDark());
 </script>
 
 </body>

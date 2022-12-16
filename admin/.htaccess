@@ -29,6 +29,7 @@ RewriteRule ^editpengguna-(.*)-pesan-(.*)$ index.php?page=editpengguna&id=$1&pes
 RewriteRule ^komentar$ index.php?page=komentar [L]
 RewriteRule ^berita$ index.php?page=berita [L]
 RewriteRule ^pesan$ index.php?page=pesan [L]
+RewriteRule ^pengaturan$ index.php?page=pengaturan [L]
 
 
 RewriteRule ^deletekomentar-(.*)$ index.php?page=deletekomentar&id=$1 [L]

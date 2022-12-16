@@ -1,6 +1,6 @@
 <?php
 
-include '../config/connection.php'
+include 'config/connection.php'
 
 
 ?>
@@ -12,21 +12,21 @@ include '../config/connection.php'
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/animate.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/font.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/li-scroller.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/slick.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/jquery.fancybox.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/theme.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/animate.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/font.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/li-scroller.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/slick.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/theme.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
-    <link rel="icon" href="../admin/public/image/icon/vitech_asia.png" type="image/png">
+    <link rel="icon" href="admin/public/image/icon/vitech_asia.png" type="image/png">
 
     <!--[if lt IE 9]>
-<script src="../assets/js/html5shiv.min.js"></script>
-<script src="../assets/js/respond.min.js"></script>
+<script src="assets/js/html5shiv.min.js"></script>
+<script src="assets/js/respond.min.js"></script>
 <![endif]-->
 </head>
 
@@ -42,7 +42,7 @@ include '../config/connection.php'
                     <div class="header_top">
                         <div class="header_top_left">
                             <ul class="top_nav">
-                                <li><a href="../index.php">Home</a></li>
+                                <li><a href="index.php">Home</a></li>
                                 <li>
                                     <div class="dropdown">
                                         <a href="" class=" dropdown-toggle" type="button" data-toggle="dropdown">News by Date
@@ -215,7 +215,7 @@ include '../config/connection.php'
                                 echo "$hari, $tanggal  $bulan  $tahun";
                                 ?>
                             </p>
-                            <form class="search" style="width:100% ;" action="../action/search.php" method="GET">
+                            <form class="search" style="width:100% ;" action="action/search.php" method="GET">
                                 <input type="search" name="search" class="form-control-sm-3" style="margin-top:10px; margin-right:20px ; padding:5px;" placeholder="Cari Berita...">
                             </form>
                         </div>
@@ -223,8 +223,8 @@ include '../config/connection.php'
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="header_bottom">
-                        <div class="logo_area"><a href="../index.php" class="logo"><img src="../admin/public/image/icon/logo-vta.png" alt=""></a></div>
-                        <!-- <div class="add_banner"><a href="#"><img src="../images/purple_panorama.jpg" style="width: 745 px;" alt=""></a></div> -->
+                        <div class="logo_area"><a href="index.php" class="logo"><img src="admin/public/image/icon/logo-vta.png" alt=""></a></div>
+                        <!-- <div class="add_banner"><a href="#"><img src="images/purple_panorama.jpg" style="width: 745 px;" alt=""></a></div> -->
                     </div>
                 </div>
             </div>
@@ -236,7 +236,7 @@ include '../config/connection.php'
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav main_nav">
-                        <li class="active"><a href="../index.php"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
+                        <li class="active"><a href="index.php"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
                         <?php
                         $get_data = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news'");
                         while ($data = mysqli_fetch_array($get_data)) {
@@ -275,7 +275,7 @@ include '../config/connection.php'
                 <?php
                                 $link = substr($data['c_image'], 0, 4);
                                 if ($link != 'http') {
-                                    echo '../admin/public/image/' . $data['c_image'];
+                                    echo 'admin/public/image/' . $data['c_image'];
                                 } else {
                                     echo $data['c_image'];
                                 }
@@ -308,7 +308,7 @@ include '../config/connection.php'
                             <h3>We Are Sorry</h3>
                             <h1>404</h1>
                             <p>Unfortunately, the page you were looking for could not be found. It may be temporarily unavailable, moved or no longer exists</p>
-                            <span></span> <a href="../index.php" class="wow fadeInLeftBig">Go to home page</a>
+                            <span></span> <a href="index.php" class="wow fadeInLeftBig">Go to home page</a>
                         </div>
                     </div>
                 </div>
@@ -327,7 +327,7 @@ include '../config/connection.php'
                                         <?php
                                         $link = substr($data['c_image'], 0, 4);
                                         if ($link != 'http') {
-                                            echo '../admin/public/image/' . $data['c_image'];
+                                            echo 'admin/public/image/' . $data['c_image'];
                                         } else {
                                             echo $data['c_image'];
                                         }
@@ -439,20 +439,42 @@ include '../config/connection.php'
                 </div>
             </div>
             <div class="footer_bottom">
-                <p class="copyright">Copyright &copy; 2045 <a href="../index.php">NewsFeed</a></p>
+                <p class="copyright">Copyright &copy; 2045 <a href="index.php">NewsFeed</a></p>
                 <p class="developer">Developed By Wpfreeware</p>
             </div>
         </footer>
     </div>
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/js/wow.min.js"></script>
-    <script src="../assets/js/bootstrap.min.js"></script>
-    <script src="../assets/js/slick.min.js"></script>
-    <script src="../assets/js/jquery.li-scroller.1.0.js"></script>
-    <script src="../assets/js/jquery.newsTicker.min.js"></script>
-    <script src="../assets/js/jquery.fancybox.pack.js"></script>
-    <script src="../assets/js/custom.js"></script>
-    <script src="../assets/js/tambahan.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/slick.min.js"></script>
+    <script src="assets/js/jquery.li-scroller.1.0.js"></script>
+    <script src="assets/js/jquery.newsTicker.min.js"></script>
+    <script src="assets/js/jquery.fancybox.pack.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/tambahan.js"></script>
+
+    <script>
+        // UPDATE VIEWS BERITA
+        function updateViews(id) {
+            var id_news = id;
+
+            $.ajax({
+                type: "POST",
+                url: "action/update-views.php",
+                data: {
+                id: id_news
+                },
+                // dataType: "dataType",  
+                success: function(response) {
+                // alert(response)
+                console.log(response)
+                // console.log("updated")
+                // window.location.href = ("http://localhost/newsportal/single_page.php?id="+id)
+                }
+            });
+            }
+    </script>
 </body>
 
 </html>

@@ -2,6 +2,8 @@
 
 include 'config/connection.php';
 
+session_start();
+
 
 ?>
 
@@ -10,7 +12,14 @@ include 'config/connection.php';
 <html>
 
 <head>
-  <title>NewsFeed</title>
+  <?php
+  include "config/connection.php";
+
+  $query_web = mysqli_query($conn, "SELECT * FROM web_settings WHERE id = 1");
+  $data_web = mysqli_fetch_array($query_web);
+
+  ?>
+  <title><?= $data_web['title'] ?></title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,7 +33,7 @@ include 'config/connection.php';
   <link rel="stylesheet" type="text/css" href="assets/css/theme.css">
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
-  <link rel="icon" href="admin/public/image/icon/vitech_asia.png" type="image/png">
+  <link rel="shortcut icon" href="admin/public/image/icon/<?= $data_web['icon'] ?>" type="image/png">
   <!--[if lt IE 9]>
 <script src="assets/js/html5shiv.min.js"></script>
 <script src="assets/js/respond.min.js"></script>
@@ -82,7 +91,7 @@ include 'config/connection.php';
                       while ($data_date = mysqli_fetch_array($query_date)) {
                       ?>
                         <li>
-                          <a href="pages/single_page_date.php?date=<?= $data_date['data_date'] ?>">
+                          <a href="single_page_date.php?date=<?= $data_date['data_date'] ?>">
                             <?php
 
                             $date_bulan = substr($data_date['data_date'], 5, 2);
@@ -156,97 +165,123 @@ include 'config/connection.php';
                       while ($data_media = mysqli_fetch_array($query_media)) {
                       ?>
                         <li>
-                          <a href="pages/single_page_media.php?media=<?= $data_media['media_name'] ?>"><?= $data_media['media_name'] ?></a>
+                          <a href="single_page_media.php?media=<?= $data_media['media_name'] ?>"><?= $data_media['media_name'] ?></a>
                         </li>
                       <?php } ?>
                     </ul>
                   </div>
                 </li>
-                <li><a href="pages/contact.php">Contact</a></li>
+                <li><a href="contact.php">Contact</a></li>
               </ul>
             </div>
             <div class="header_top_right">
-              <p>
-                <?php
+              <div class="row">
+                <div class="col-lg-6">
+                  <form class="search" action="action/search.php" method="GET">
+                    <input type="search" name="search" class="form-control-sm-3" style="margin-top:10px; margin-right:20px ; padding:5px;" placeholder="Cari Berita...">
+                  </form>
+                </div>
+                <div class="col-lg-6">
+                  <div class="option" style="display: inline-block; margin-top: 10px; border-right: 1px solid #333;color: #fff;font-size: 11px;font-weight: bold;text-transform: uppercase;">
+                    <div class="row">
+                      <?php
+                      // $query = mysqli_query($conn, "SELECT * FROM tb_visitors");
+                      include "config/connection.php";
 
-                $hari = date('l');
-                // echo $hari . "<br/>"; //akan menampilkan nama hari sekarang dalam bahasa inggris
-                $bulan = date('m');
+                      if (!isset($_SESSION['nama'])) {
+                      ?>
+                        <a href="login.php" style="color: #fff;">Masuk</a> | <a href="layouts/register.php" style="color: #fff;">Daftar</a>
+                      <?php
+                      } else {
+                        $nama = $_SESSION['nama'];
+                      ?>
+                        <a href="profile.php" style="color: #fff;"><?= $nama ?></a> | <a href="action/logout-visitor.php" style="color: #fff;">Keluar</a>
+                      <?php } ?>
+                    </div>
+                    <div class="row">
+                      <p style="display: inline-block; border-right: 1px solid #333; color: #fff;font-size: 11px;font-weight: bold;text-transform: uppercase;">
+                        <?php
+
+                        $hari = date('l');
+                        // echo $hari . "<br/>"; //akan menampilkan nama hari sekarang dalam bahasa inggris
+                        $bulan = date('m');
 
 
-                switch ($hari) {
-                  case "Sunday":
-                    $hari = "Minggu";
-                    break;
-                  case "Monday":
-                    $hari = "Senin";
-                    break;
-                  case "Tuesday":
-                    $hari = "Selasa";
-                    break;
-                  case "Wednesday":
-                    $hari = "Rabu";
-                    break;
-                  case "Thursday":
-                    $hari = "Kamis";
-                    break;
-                  case "Friday":
-                    $hari = "Jumat";
-                    break;
-                  case "Saturday":
-                    $hari = "Sabtu";
-                    break;
-                }
+                        switch ($hari) {
+                          case "Sunday":
+                            $hari = "Minggu";
+                            break;
+                          case "Monday":
+                            $hari = "Senin";
+                            break;
+                          case "Tuesday":
+                            $hari = "Selasa";
+                            break;
+                          case "Wednesday":
+                            $hari = "Rabu";
+                            break;
+                          case "Thursday":
+                            $hari = "Kamis";
+                            break;
+                          case "Friday":
+                            $hari = "Jumat";
+                            break;
+                          case "Saturday":
+                            $hari = "Sabtu";
+                            break;
+                        }
 
-                switch ($bulan) {
-                  case "1":
-                    $bulan = "Januari";
-                    break;
-                  case "2":
-                    $bulan = "Februari";
-                    break;
-                  case "3":
-                    $bulan = "Maret";
-                    break;
-                  case "4":
-                    $bulan = "April";
-                    break;
-                  case "5":
-                    $bulan = "Mei";
-                    break;
-                  case "6":
-                    $bulan = "Juni";
-                    break;
-                  case "7":
-                    $bulan = "Juli";
-                    break;
-                  case "8":
-                    $bulan = "Agustus";
-                    break;
-                  case "9":
-                    $bulan = "September";
-                    break;
-                  case "10":
-                    $bulan = "Oktober";
-                    break;
-                  case "11":
-                    $bulan = "November";
-                    break;
-                  case "12":
-                    $bulan = "Desember";
-                    break;
-                }
-                //menampilkan format hari dalam bahasa indonesia
-                // echo "<br/>" . $hari;
-                $tanggal = date('d');
-                $tahun = date('Y');
-                //menampilkan hari tanggal bulan dan tahun
-                echo "$hari, $tanggal  $bulan  $tahun";
-                ?>
-              </p>
-              <form class="search" style="width:100% ;" action="action/search.php" method="GET">
-                <input type="search" name="search" class="form-control-sm-3" style="margin-top:10px; margin-right:20px ; padding:5px;" placeholder="Cari Berita...">
-              </form>
+                        switch ($bulan) {
+                          case "1":
+                            $bulan = "Januari";
+                            break;
+                          case "2":
+                            $bulan = "Februari";
+                            break;
+                          case "3":
+                            $bulan = "Maret";
+                            break;
+                          case "4":
+                            $bulan = "April";
+                            break;
+                          case "5":
+                            $bulan = "Mei";
+                            break;
+                          case "6":
+                            $bulan = "Juni";
+                            break;
+                          case "7":
+                            $bulan = "Juli";
+                            break;
+                          case "8":
+                            $bulan = "Agustus";
+                            break;
+                          case "9":
+                            $bulan = "September";
+                            break;
+                          case "10":
+                            $bulan = "Oktober";
+                            break;
+                          case "11":
+                            $bulan = "November";
+                            break;
+                          case "12":
+                            $bulan = "Desember";
+                            break;
+                        }
+                        //menampilkan format hari dalam bahasa indonesia
+                        // echo "<br/>" . $hari;
+                        $tanggal = date('d');
+                        $tahun = date('Y');
+                        //menampilkan hari tanggal bulan dan tahun
+                        echo "$hari, $tanggal  $bulan  $tahun";
+                        ?>
+
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <!-- <div class="logo_other" style="margin-top: 70px ; margin-bottom: 20px ; ">
@@ -305,7 +340,7 @@ include 'config/connection.php';
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12">
           <div class="header_bottom">
-            <div class="logo_area"><a href="index.php" class="logo"><img src="admin/public/image/icon/logo-vta.png" alt=""></a></div>
+            <div class="logo_area"><a href="index.php" class="logo"><img src="admin/public/image/logo/<?= $data_web['logo'] ?>" alt=""></a></div>
             <!-- <div class="add_banner"><a href="#"><img src="images/purple_panorama.jpg" style="width: 745 px;" alt=""></a></div> -->
           </div>
         </div>
@@ -323,7 +358,7 @@ include 'config/connection.php';
             $get_data = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news'");
             while ($data = mysqli_fetch_array($get_data)) {
             ?>
-              <li><a href="pages/single_page_cat.php?c_canal=<?= $data['c_canal'] ?>"><?= $data['c_canal']; ?></a></li>
+              <li><a href="single_page_cat.php?c_canal=<?= $data['c_canal'] ?>"><?= $data['c_canal']; ?></a></li>
 
             <?php
             }
@@ -337,8 +372,8 @@ include 'config/connection.php';
               <li><a href="#">Sympony</a></li>
             </ul>
           </li> -->
-            <!-- <li><a href="pages/contact.php">Contact Us</a></li>
-            <li><a href="pages/404.html">404 Page</a></li> -->
+            <!-- <li><a href="contact.php">Contact Us</a></li>
+            <li><a href="404.html">404 Page</a></li> -->
           </ul>
         </div>
       </nav>
@@ -393,7 +428,7 @@ include 'config/connection.php';
               // print_r($data);
               $date_news = $data['c_datetime'];
             ?>
-              <div class="single_iteam"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"> <img src="
+              <div class="single_iteam"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"> <img src="
               <?php
               $link = substr($data['c_image'], 0, 4);
               if ($link != 'http') {
@@ -403,11 +438,14 @@ include 'config/connection.php';
               }
               ?>" alt=""></a>
                 <div class="slider_article">
-                  <h2><a class="slider_tittle" href="pages/single_page.php?id=<?= $data['id'] ?>"><?= $data['title']; ?></a></h2>
+                  <h2><a class="slider_tittle" href="single_page.php?id=<?= $data['id'] ?>"><?= $data['title']; ?></a></h2>
                   <p class="text-paragraph">
                     <?= strip_tags(htmlspecialchars_decode(html_entity_decode($data['txt']))); ?>
                   </p>
-                  <p><a href="pages/single_page_media.php?media=<?= $data['media_name'] ?>" style="color:#fff;"><?= $data['media_name'] ?></a> | </p>
+                  <p>
+                    <a href="single_page_media.php?media=<?= $data['media_name'] ?>" style="color:#fff;"><?= $data['media_name'] ?></a>
+                    |
+                  </p>
                   <p>
                     <?php
                     $db_tahun = substr($data['c_datetime'], 0, 4);
@@ -488,7 +526,7 @@ include 'config/connection.php';
                 ?>
                   <li>
                     <div class="media">
-                      <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left">
+                      <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left">
                         <img alt="" src="
                         <?php
                         $link = substr($data['c_image'], 0, 4);
@@ -501,7 +539,7 @@ include 'config/connection.php';
                       </a>
                       <div class="media-body">
                         <div class="media-header">
-                          <span style="font-size: 14px;"> <b> <a href="pages/single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
+                          <span style="font-size: 14px;"> <b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
                             <?php
                             $db_tahun_2 = substr($data['c_datetime'], 0, 4);
                             $db_bulan_2 = substr($data['c_datetime'], 5, 2);
@@ -560,7 +598,7 @@ include 'config/connection.php';
                             echo "$db_tanggal_2 $db_bulan_2 $db_tahun_2"; ?></span>
                         </div>
                         <h5>
-                          <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a>
+                          <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a>
                         </h5>
                       </div>
                     </div>
@@ -588,7 +626,7 @@ include 'config/connection.php';
                 ?>
                   <ul class="news_catgnav  wow fadeInDown">
                     <li>
-                      <figure class="bsbig_fig"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="featured_img"> <img alt="" src="
+                      <figure class="bsbig_fig"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="featured_img"> <img alt="" src="
                       <?php
                       $link = substr($data['c_image'], 0, 4);
                       if ($link != 'http') {
@@ -597,8 +635,8 @@ include 'config/connection.php';
                         echo $data['c_image'];
                       }
                       ?>"> <span class="overlay"></span> </a>
-                        <figcaption> <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"><?= $data['title']; ?></a> </figcaption>
-                        <span style="font-size: 14px;"><b> <a href="pages/single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
+                        <figcaption> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"><?= $data['title']; ?></a> </figcaption>
+                        <span style="font-size: 14px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
                           <?php
                           $db_tahun_3 = substr($data['c_datetime'], 0, 4);
                           $db_bulan_3 = substr($data['c_datetime'], 5, 2);
@@ -673,7 +711,7 @@ include 'config/connection.php';
                   ?>
                     <li>
                       <div class="media wow fadeInDown">
-                        <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left">
+                        <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left">
                           <img alt="" src="
                           <?php
                           $link = substr($data['c_image'], 0, 4);
@@ -686,7 +724,7 @@ include 'config/connection.php';
                         </a>
                         <div class="media-body">
                           <div class="media-header">
-                            <span style="font-size: 14px;"><b> <a href="pages/single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
+                            <span style="font-size: 14px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
                               <?php
                               $db_tahun_4 = substr($data['c_datetime'], 0, 4);
                               $db_bulan_4 = substr($data['c_datetime'], 5, 2);
@@ -744,7 +782,7 @@ include 'config/connection.php';
                               }
                               echo "$db_tanggal_4 $db_bulan_4 $db_tahun_4"; ?></span>
                           </div>
-                          <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a>
+                          <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a>
                         </div>
                       </div>
                     </li>
@@ -766,7 +804,7 @@ include 'config/connection.php';
                         while ($data = mysqli_fetch_array($get_data)) {
                         ?>
                           <li>
-                            <figure class="bsbig_fig"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="featured_img"> <img alt="" src="
+                            <figure class="bsbig_fig"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="featured_img"> <img alt="" src="
                         <?php
                           $link = substr($data['c_image'], 0, 4);
                           if ($link != 'http') {
@@ -775,8 +813,8 @@ include 'config/connection.php';
                             echo $data['c_image'];
                           }
                         ?>"> <span class="overlay"></span> </a>
-                              <figcaption> <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"><?= $data['title']; ?></a> </figcaption>
-                              <span style="font-size: 14px;"><b> <a href="pages/single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
+                              <figcaption> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"><?= $data['title']; ?></a> </figcaption>
+                              <span style="font-size: 14px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
                                 <?php
                                 $db_tahun_5 = substr($data['c_datetime'], 0, 4);
                                 $db_bulan_5 = substr($data['c_datetime'], 5, 2);
@@ -850,7 +888,7 @@ include 'config/connection.php';
                         ?>
                           <li>
                             <div class="media wow fadeInDown">
-                              <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left">
+                              <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left">
                                 <img alt="" src="
                             <?php
                             $link = substr($data['c_image'], 0, 4);
@@ -863,7 +901,7 @@ include 'config/connection.php';
                               </a>
                               <div class="media-body">
                                 <div class="media-header">
-                                  <span style="font-size: 14px;"><b> <a href="pages/single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
+                                  <span style="font-size: 14px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
                                     <?php
                                     $db_tahun_6 = substr($data['c_datetime'], 0, 4);
                                     $db_bulan_6 = substr($data['c_datetime'], 5, 2);
@@ -921,7 +959,7 @@ include 'config/connection.php';
                                     }
                                     echo "$db_tanggal_6 $db_bulan_6 $db_tahun_6"; ?></span>
                                 </div>
-                                <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a>
+                                <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a>
                               </div>
                             </div>
                           </li>
@@ -940,7 +978,7 @@ include 'config/connection.php';
                         while ($data = mysqli_fetch_array($get_data)) {
                         ?>
                           <li>
-                            <figure class="bsbig_fig wow fadeInDown"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="featured_img"> <img alt="" src="
+                            <figure class="bsbig_fig wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="featured_img"> <img alt="" src="
                         <?php
                           $link = substr($data['c_image'], 0, 4);
                           if ($link != 'http') {
@@ -949,8 +987,8 @@ include 'config/connection.php';
                             echo $data['c_image'];
                           }
                         ?>"> <span class="overlay"></span> </a>
-                              <figcaption> <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"><?= $data['title']; ?></a> </figcaption>
-                              <span style="font-size: 14px;"><b> <a href="pages/single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
+                              <figcaption> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"><?= $data['title']; ?></a> </figcaption>
+                              <span style="font-size: 14px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
                                 <?php
                                 $db_tahun_7 = substr($data['c_datetime'], 0, 4);
                                 $db_bulan_7 = substr($data['c_datetime'], 5, 2);
@@ -1023,7 +1061,7 @@ include 'config/connection.php';
                         ?>
                           <li>
                             <div class="media wow fadeInDown">
-                              <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left">
+                              <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left">
                                 <img alt="" src="
                             <?php
                             $link = substr($data['c_image'], 0, 4);
@@ -1036,7 +1074,7 @@ include 'config/connection.php';
                               </a>
                               <div class="media-body">
                                 <div class="media-header">
-                                  <span style="font-size: 14px;"><b> <a href="pages/single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
+                                  <span style="font-size: 14px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
                                     <?php
                                     $db_tahun_8 = substr($data['c_datetime'], 0, 4);
                                     $db_bulan_8 = substr($data['c_datetime'], 5, 2);
@@ -1094,7 +1132,7 @@ include 'config/connection.php';
                                     }
                                     echo "$db_tanggal_8 $db_bulan_8 $db_tahun_8"; ?></span>
                                 </div>
-                                <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a>
+                                <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a>
                               </div>
                             </div>
                           </li>
@@ -1117,7 +1155,7 @@ include 'config/connection.php';
                         while ($data = mysqli_fetch_array($get_data)) {
                         ?>
                           <li>
-                            <figure class="bsbig_fig"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="featured_img"> <img alt="" src="
+                            <figure class="bsbig_fig"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="featured_img"> <img alt="" src="
                         <?php
                           $link = substr($data['c_image'], 0, 4);
                           if ($link != 'http') {
@@ -1126,8 +1164,8 @@ include 'config/connection.php';
                             echo $data['c_image'];
                           }
                         ?>"> <span class="overlay"></span> </a>
-                              <figcaption> <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"><?= $data['title']; ?></a> </figcaption>
-                              <span style="font-size: 14px;"><b> <a href="pages/single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
+                              <figcaption> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"><?= $data['title']; ?></a> </figcaption>
+                              <span style="font-size: 14px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
                                 <?php
                                 $db_tahun_5 = substr($data['c_datetime'], 0, 4);
                                 $db_bulan_5 = substr($data['c_datetime'], 5, 2);
@@ -1201,7 +1239,7 @@ include 'config/connection.php';
                         ?>
                           <li>
                             <div class="media wow fadeInDown">
-                              <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left">
+                              <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left">
                                 <img alt="" src="
                             <?php
                             $link = substr($data['c_image'], 0, 4);
@@ -1214,7 +1252,7 @@ include 'config/connection.php';
                               </a>
                               <div class="media-body">
                                 <div class="media-header">
-                                  <span style="font-size: 14px;"><b> <a href="pages/single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
+                                  <span style="font-size: 14px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
                                     <?php
                                     $db_tahun_6 = substr($data['c_datetime'], 0, 4);
                                     $db_bulan_6 = substr($data['c_datetime'], 5, 2);
@@ -1272,7 +1310,7 @@ include 'config/connection.php';
                                     }
                                     echo "$db_tanggal_6 $db_bulan_6 $db_tahun_6"; ?></span>
                                 </div>
-                                <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a>
+                                <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a>
                               </div>
                             </div>
                           </li>
@@ -1291,7 +1329,7 @@ include 'config/connection.php';
                         while ($data = mysqli_fetch_array($get_data)) {
                         ?>
                           <li>
-                            <figure class="bsbig_fig wow fadeInDown"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="featured_img"> <img alt="" src="
+                            <figure class="bsbig_fig wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="featured_img"> <img alt="" src="
                         <?php
                           $link = substr($data['c_image'], 0, 4);
                           if ($link != 'http') {
@@ -1300,8 +1338,8 @@ include 'config/connection.php';
                             echo $data['c_image'];
                           }
                         ?>"> <span class="overlay"></span> </a>
-                              <figcaption> <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"><?= $data['title']; ?></a> </figcaption>
-                              <span style="font-size: 14px;"><b> <a href="pages/single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
+                              <figcaption> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')"><?= $data['title']; ?></a> </figcaption>
+                              <span style="font-size: 14px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
                                 <?php
                                 $db_tahun_7 = substr($data['c_datetime'], 0, 4);
                                 $db_bulan_7 = substr($data['c_datetime'], 5, 2);
@@ -1374,7 +1412,7 @@ include 'config/connection.php';
                         ?>
                           <li>
                             <div class="media wow fadeInDown">
-                              <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left">
+                              <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left">
                                 <img alt="" src="
                             <?php
                             $link = substr($data['c_image'], 0, 4);
@@ -1387,7 +1425,7 @@ include 'config/connection.php';
                               </a>
                               <div class="media-body">
                                 <div class="media-header">
-                                  <span style="font-size: 14px;"><b> <a href="pages/single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
+                                  <span style="font-size: 14px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
                                     <?php
                                     $db_tahun_8 = substr($data['c_datetime'], 0, 4);
                                     $db_bulan_8 = substr($data['c_datetime'], 5, 2);
@@ -1445,7 +1483,7 @@ include 'config/connection.php';
                                     }
                                     echo "$db_tanggal_8 $db_bulan_8 $db_tahun_8"; ?></span>
                                 </div>
-                                <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a>
+                                <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a>
                               </div>
                             </div>
                           </li>
@@ -1470,7 +1508,7 @@ include 'config/connection.php';
                 while ($data = mysqli_fetch_array($get_data)) {
                 ?>
                   <li>
-                    <div class="media wow fadeInDown"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left"> <img alt="" src="
+                    <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left"> <img alt="" src="
                     <?php
                     $link = substr($data['c_image'], 0, 4);
                     if ($link != 'http') {
@@ -1480,7 +1518,7 @@ include 'config/connection.php';
                     }
                     ?>"> </a>
                       <div class="media-header">
-                        <span style="font-size: 13px;"><b> <a href="pages/single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
+                        <span style="font-size: 13px;"><b> <a href="single_page_media.php?media=<?= $data['media_name'] ?>"><?= $data['media_name'] ?></a></b> |
                           <?php
                           $db_tahun_9 = substr($data['c_datetime'], 0, 4);
                           $db_bulan_9 = substr($data['c_datetime'], 5, 2);
@@ -1537,7 +1575,7 @@ include 'config/connection.php';
                           }
                           echo "$db_tanggal_9 " . substr($db_bulan_9, 0, 3) . " $db_tahun_9"; ?> | views : <?= $data['jml_view']; ?></span>
                       </div>
-                      <div class="media-body"> <a href="pages/single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a> </div>
+                      <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a> </div>
                     </div>
                   </li>
                 <?php
@@ -1559,7 +1597,7 @@ include 'config/connection.php';
                     while ($data = mysqli_fetch_array($get_data)) {
                       $canal = $data['c_canal'];
                     ?>
-                      <li class="cat-item"><a href="pages/single_page_cat.php?c_canal=<?= $data['c_canal'] ?>"><?= ucfirst($canal); ?></a></li>
+                      <li class="cat-item"><a href="single_page_cat.php?c_canal=<?= $data['c_canal'] ?>"><?= ucfirst($canal); ?></a></li>
                     <?php
                     }
                     ?>
@@ -1636,7 +1674,7 @@ include 'config/connection.php';
                 while ($data_cat_ar = mysqli_fetch_array($get_cat_ar)) {
                   $canal = $data_cat_ar['c_canal'];
                 ?>
-                  <li><a href="pages/single_page_cat.php?c_canal=<?= $data_cat_ar['c_canal'] ?>"><?= ucfirst($canal) ?></a></li>
+                  <li><a href="single_page_cat.php?c_canal=<?= $data_cat_ar['c_canal'] ?>"><?= ucfirst($canal) ?></a></li>
                 <?php
                 }
                 ?>
@@ -1667,7 +1705,7 @@ include 'config/connection.php';
                 while ($data = mysqli_fetch_array($get_data)) {
                   $canal = $data['c_canal'];
                 ?>
-                  <li><a href="pages/single_page_cat.php?c_canal=<?= $data['c_canal'] ?>"><?= ucfirst($canal) ?></a></li>
+                  <li><a href="single_page_cat.php?c_canal=<?= $data['c_canal'] ?>"><?= ucfirst($canal) ?></a></li>
                 <?php
                 }
                 ?>
@@ -1686,7 +1724,7 @@ include 'config/connection.php';
         </div>
       </div>
       <div class="footer_bottom">
-        <p class="copyright">Copyright &copy; 2045 <a href="index.php">NewsFeed</a></p>
+        <p class="copyright">Copyright &copy; 2045 <a href="index.php"><?= $data_web['copyright'] ?></a></p>
         <p class="developer">Developed By Wpfreeware</p>
       </div>
     </footer>
@@ -1717,7 +1755,7 @@ include 'config/connection.php';
           // alert(response)
           console.log(response)
           // console.log("updated")
-          // window.location.href = ("http://localhost/newsportal/pages/single_page.php?id="+id)
+          // window.location.href = ("http://localhost/newsportal/single_page.php?id="+id)
         }
       });
     }

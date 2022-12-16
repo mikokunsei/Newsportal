@@ -1,11 +1,14 @@
 <?php
+
+session_start();
+
 if (isset($_GET['c_canal']) || ($_GET['halaman'])) {
   $cat_news = $_GET['c_canal'];
 } else {
   die("Error, No Canal Selected !");
 }
 
-include "../config/connection.php";
+include "config/connection.php";
 
 $query_cat = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' AND c_canal = '$cat_news'");
 $data_cat = mysqli_fetch_array($query_cat);
@@ -21,26 +24,27 @@ if ($cat_news != $data_cat['c_canal']) {
 <html>
 
 <head>
-  <title>NewsFeed | Pages | By Category</title>
+  <?php
+
+  $query_web = mysqli_query($conn, "SELECT * FROM web_settings WHERE id = 1");
+  $data_web = mysqli_fetch_array($query_web);
+
+  ?>
+  <title><?= $data_web['title'] ?> By Category</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="../assets/css/animate.css">
-  <link rel="stylesheet" type="text/css" href="../assets/css/font.css">
-  <link rel="stylesheet" type="text/css" href="../assets/css/li-scroller.css">
-  <link rel="stylesheet" type="text/css" href="../assets/css/slick.css">
-  <link rel="stylesheet" type="text/css" href="../assets/css/jquery.fancybox.css">
-  <link rel="stylesheet" type="text/css" href="../assets/css/theme.css">
-  <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/animate.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/font.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/li-scroller.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/slick.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/jquery.fancybox.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/theme.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
-  <link rel="icon" href="../admin/public/image/icon/vitech_asia.png" type="image/png">
-
-  <!--[if lt IE 9]>
-<script src="../assets/js/html5shiv.min.js"></script>
-<script src="../assets/js/respond.min.js"></script>
-<![endif]-->
+  <link rel="shortcut icon" href="admin/public/image/icon/logo_icon_vta.png" type="image/png">
 
   <style>
     .text-paragraph {
@@ -71,205 +75,9 @@ if ($cat_news != $data_cat['c_canal']) {
 </head>
 
 <body>
-  <!-- <div id="preloader">
-    <div id="status">&nbsp;</div>
-  </div> -->
   <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
   <div class="container">
-    <header id="header">
-      <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-          <div class="header_top">
-            <div class="header_top_left">
-              <ul class="top_nav">
-                <li><a href="../index.php">Home</a></li>
-                <li>
-                  <div class="dropdown">
-                    <a href="" class=" dropdown-toggle" type="button" data-toggle="dropdown">News by Date
-                      <span class=""></span></a>
-                    <ul class="dropdown-menu">
-                      <?php
-
-                      $query_date = mysqli_query($conn, "SELECT DISTINCT (SUBSTR(c_datetime, 1,7)) AS data_date FROM news_content WHERE media = 'news' GROUP BY c_datetime");
-                      while ($data_date = mysqli_fetch_array($query_date)) {
-                      ?>
-                        <li>
-                          <a href="single_page_date.php?date=<?= $data_date['data_date'] ?>">
-                            <?php
-                            $date_bulan = substr($data_date['data_date'], 5, 2);
-                            $date_tahun = substr($data_date['data_date'], 0, 4);
-
-                            switch ($date_bulan) {
-                              case '01':
-                                $date_bulan = "Januari";
-                                break;
-
-                              case '02':
-                                $date_bulan = "Februari";
-                                break;
-
-                              case '03':
-                                $date_bulan = "Maret";
-                                break;
-
-                              case '04':
-                                $date_bulan = "April";
-                                break;
-
-                              case '05':
-                                $date_bulan = "Mei";
-                                break;
-
-                              case '06':
-                                $date_bulan = "Juni";
-                                break;
-
-                              case '07':
-                                $date_bulan = "Juli";
-                                break;
-
-                              case '08':
-                                $date_bulan = "Agustus";
-                                break;
-
-                              case '09':
-                                $date_bulan = "September";
-                                break;
-
-                              case '10':
-                                $date_bulan = "Oktober";
-                                break;
-
-                              case '11':
-                                $date_bulan = "November";
-                                break;
-
-                              case '12':
-                                $date_bulan = "Desember";
-                                break;
-                            }
-
-                            echo "$date_bulan $date_tahun"
-                            ?></a>
-                        </li>
-                      <?php } ?>
-                    </ul>
-                  </div>
-                </li>
-                <li>
-                  <div class="dropdown">
-                    <a href="" class=" dropdown-toggle" type="button" data-toggle="dropdown">News by Media
-                      <span class=""></span></a>
-                    <ul class="dropdown-menu">
-                      <?php
-
-                      $query_media = mysqli_query($conn, "SELECT media_name FROM news_content WHERE media = 'news' GROUP BY media_name");
-                      while ($data_media = mysqli_fetch_array($query_media)) {
-                      ?>
-                        <li>
-                          <a href="single_page_media.php?media=<?= $data_media['media_name'] ?>"><?= $data_media['media_name'] ?></a>
-                        </li>
-                      <?php } ?>
-                    </ul>
-                  </div>
-                </li>
-                <li><a href="contact.php">Contact</a></li>
-              </ul>
-            </div>
-            <div class="header_top_right">
-              <p>
-                <?php
-
-                $hari = date('l');
-                // echo $hari . "<br/>"; //akan menampilkan nama hari sekarang dalam bahasa inggris
-                $bulan = date('m');
-
-
-                switch ($hari) {
-                  case "Sunday":
-                    $hari = "Minggu";
-                    break;
-                  case "Monday":
-                    $hari = "Senin";
-                    break;
-                  case "Tuesday":
-                    $hari = "Selasa";
-                    break;
-                  case "Wednesday":
-                    $hari = "Rabu";
-                    break;
-                  case "Thursday":
-                    $hari = "Kamis";
-                    break;
-                  case "Friday":
-                    $hari = "Jumat";
-                    break;
-                  case "Saturday":
-                    $hari = "Sabtu";
-                    break;
-                }
-
-                switch ($bulan) {
-                  case "1":
-                    $bulan = "Januari";
-                    break;
-                  case "2":
-                    $bulan = "Februari";
-                    break;
-                  case "3":
-                    $bulan = "Maret";
-                    break;
-                  case "4":
-                    $bulan = "April";
-                    break;
-                  case "5":
-                    $bulan = "Mei";
-                    break;
-                  case "6":
-                    $bulan = "Juni";
-                    break;
-                  case "7":
-                    $bulan = "Juli";
-                    break;
-                  case "8":
-                    $bulan = "Agustus";
-                    break;
-                  case "9":
-                    $bulan = "September";
-                    break;
-                  case "10":
-                    $bulan = "Oktober";
-                    break;
-                  case "11":
-                    $bulan = "November";
-                    break;
-                  case "12":
-                    $bulan = "Desember";
-                    break;
-                }
-                //menampilkan format hari dalam bahasa indonesia
-                // echo "<br/>" . $hari;
-                $tanggal = date('d');
-                $tahun = date('Y');
-                //menampilkan hari tanggal bulan dan tahun
-                echo "$hari, $tanggal  $bulan  $tahun";
-                ?>
-
-              </p>
-              <form class="search" style="width:100% ;" action="../action/search.php" method="GET">
-                <input type="search" name="search" class="form-control-sm-3" style="margin-top:10px; margin-right:20px ; padding:5px;" placeholder="Cari Berita...">
-              </form>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-12 col-md-12 col-sm-12">
-          <div class="header_bottom">
-            <div class="logo_area"><a href="../index.php" class="logo"><img src="../admin/public/image/icon/logo-vta.png" alt=""></a></div>
-            <!-- <div class="add_banner"><a href="#"><img src="../images/purple_panorama.jpg" style="width: 745 px;" alt=""></a></div> -->
-          </div>
-        </div>
-      </div>
-    </header>
+  <?php include "header.php"; ?>
     <section id="navArea">
       <nav class="navbar navbar-inverse" role="navigation">
         <div class="navbar-header">
@@ -277,7 +85,7 @@ if ($cat_news != $data_cat['c_canal']) {
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav main_nav">
-            <li><a href="../index.php"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
+            <li><a href="index.php"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
             <?php
             $get_data = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news'");
             while ($data = mysqli_fetch_array($get_data)) {
@@ -318,7 +126,7 @@ if ($cat_news != $data_cat['c_canal']) {
                 <?php
                 $link = substr($data['c_image'], 0, 4);
                 if ($link != 'http') {
-                  echo '../admin/public/image/' . $data['c_image'];
+                  echo 'admin/public/image/' . $data['c_image'];
                 } else {
                   echo $data['c_image'];
                 }
@@ -354,7 +162,7 @@ if ($cat_news != $data_cat['c_canal']) {
               $data = mysqli_fetch_array($get_data);
               ?>
               <ol class="breadcrumb">
-                <li><a href="../index.php">Home</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li class="active"><a href="single_page_cat.php?c_canal=<?= $data['c_canal'] ?>"><?= ucfirst($data['c_canal']); ?></a></li>
               </ol>
             </div>
@@ -372,7 +180,7 @@ if ($cat_news != $data_cat['c_canal']) {
               <?php
               $link = substr($data['c_image'], 0, 4);
               if ($link != 'http') {
-                echo '../admin/public/image/' . $data['c_image'];
+                echo 'admin/public/image/' . $data['c_image'];
               } else {
                 echo $data['c_image'];
               }
@@ -463,7 +271,7 @@ if ($cat_news != $data_cat['c_canal']) {
                       <?php
                       $link = substr($data['c_image'], 0, 4);
                       if ($link != 'http') {
-                        echo '../admin/public/image/' . $data['c_image'];
+                        echo 'admin/public/image/' . $data['c_image'];
                       } else {
                         echo $data['c_image'];
                       }
@@ -571,7 +379,7 @@ if ($cat_news != $data_cat['c_canal']) {
                           <?php
                           $link = substr($data['c_image'], 0, 4);
                           if ($link != 'http') {
-                            echo '../admin/public/image/' . $data['c_image'];
+                            echo 'admin/public/image/' . $data['c_image'];
                           } else {
                             echo $data['c_image'];
                           }
@@ -747,192 +555,9 @@ if ($cat_news != $data_cat['c_canal']) {
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
-          <aside class="right_content">
-            <div class="single_sidebar">
-              <h2><span>Popular Post</span></h2>
-              <ul class="spost_nav">
-                <?php
-                $get_data = mysqli_query($conn, "SELECT * FROM news_content WHERE media = 'news' ORDER BY jml_view DESC LIMIT 5 ");
-                while ($data = mysqli_fetch_array($get_data)) {
-
-                ?>
-                  <li>
-                    <div class="media wow fadeInDown"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="media-left"> <img alt="" src="
-                    <?php
-                    $link = substr($data['c_image'], 0, 4);
-                    if ($link != 'http') {
-                      echo '../admin/public/image/' . $data['c_image'];
-                    } else {
-                      echo $data['c_image'];
-                    }
-                    ?>"> </a>
-                      <div class="media-header">
-                        <span style="font-size: 13px;"><?= '<b>' . $data['media_name'] . '</b>' ?> |
-                          <?php
-                          $db_tahun_4 = substr($data['c_datetime'], 0, 4);
-                          $db_bulan_4 = substr($data['c_datetime'], 5, 2);
-                          $db_tanggal_4 = substr($data['c_datetime'], 8, 2);
-                          $db_jam_4 = substr($data['c_datetime'], 12, 8);
-                          switch ($db_bulan_4) {
-                            case '01':
-                              $db_bulan_4 = "Januari";
-                              break;
-
-                            case '02':
-                              $db_bulan_4 = "Februari";
-                              break;
-
-                            case '03':
-                              $db_bulan_4 = "Maret";
-                              break;
-
-                            case '04':
-                              $db_bulan_4 = "April";
-                              break;
-
-                            case '05':
-                              $db_bulan_4 = "Mei";
-                              break;
-
-                            case '06':
-                              $db_bulan_4 = "Juni";
-                              break;
-
-                            case '07':
-                              $db_bulan_4 = "Juli";
-                              break;
-
-                            case '08':
-                              $db_bulan_4 = "Agustus";
-                              break;
-
-                            case '09':
-                              $db_bulan_4 = "September";
-                              break;
-
-                            case '10':
-                              $db_bulan_4 = "Oktober";
-                              break;
-
-                            case '11':
-                              $db_bulan_4 = "November";
-                              break;
-
-                            case '12':
-                              $db_bulan_4 = "Desember";
-                              break;
-                          }
-                          echo "$db_tanggal_4 " . substr($db_bulan_4, 0, 3) . " $db_tahun_4"; ?> | views : <?= $data['jml_view']; ?></span>
-                      </div>
-                      <div class="media-body"> <a href="single_page.php?id=<?= $data['id'] ?>" onclick="updateViews('<?= $data['id'] ?>')" class="catg_title"><?= $data['title']; ?></a> </div>
-                    </div>
-                  </li>
-                <?php
-                }
-                ?>
-              </ul>
-            </div>
-            <div class="single_sidebar">
-              <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#category" aria-controls="home" role="tab" data-toggle="tab">Category</a></li>
-                <li role="presentation"><a href="#video" aria-controls="profile" role="tab" data-toggle="tab">Video</a></li>
-                <li role="presentation"><a href="#comments" aria-controls="messages" role="tab" data-toggle="tab">Comments</a></li>
-              </ul>
-              <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="category">
-                  <ul>
-                    <?php
-                    $get_data = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news' ");
-                    while ($data = mysqli_fetch_array($get_data)) {
-                      $canal = $data['c_canal'];
-                    ?>
-                      <li class="cat-item"><a href="single_page_cat.php?c_canal=<?= $canal ?>"><?= ucfirst($canal); ?></a></li>
-                    <?php
-                    }
-                    ?>
-                  </ul>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="video">
-                  <div class="vide_area">
-                    <!-- Insert this tag where you want the widget to render -->
-                    <iframe width="100%" height="250" src="https://cybermap.kaspersky.com/en/widget/dynamic/dark" frameborder="0"></iframe>
-                    <!-- <iframe width="100%" height="250" src="https://www.youtube.com/embed/_Kyq0T3qe4w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
-                    <!-- <iframe width="100%" height="250" src="http://www.youtube.com/embed/h5QWbURNEpA?feature=player_detailpage" frameborder="0" allowfullscreen></iframe> -->
-                  </div>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="comments">
-                  <!-- <div id="prev-button"><i class="fa fa-chevron-up"></i></div> -->
-                  <ul class="spost_nav">
-                    <?php
-                    $sql_comment = "SELECT * FROM tb_comments WHERE status = 'aktif' ORDER BY rand() DESC LIMIT 3";
-                    $get_comment = mysqli_query($conn, $sql_comment);
-
-                    while ($data_comment = mysqli_fetch_array($get_comment)) {
-
-                    ?>
-                      <li>
-                        <!-- <div class="media wow fadeInDown"> <a href="single_page.html" class="media-left"> <img alt="" src="../images/post_img1.jpg"> </a>
-                        <div class="media-body"> <a href="single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 1</a> </div>
-                      </div> -->
-                        <div class="media wow fadeInRight">
-                          <div class="media-body">
-                            <h4>
-                              <a href="mailto:<?= $data_comment['email']; ?>">
-                                <?= $data_comment['nama']; ?>
-                              </a>
-                              <br>
-                            </h4>
-                            <?= $data_comment['komentar']; ?> [<?= $data_comment['tgl']; ?>]
-                            <hr>
-                          </div>
-                        </div>
-                      </li>
-                    <?php
-                    }
-                    ?>
-                  </ul>
-                  <!-- <div id="next-button"><i class="fa  fa-chevron-down"></i></div> -->
-                </div>
-              </div>
-            </div>
-            <div class="single_sidebar wow fadeInDown">
-              <h2><span>Sponsor</span></h2>
-              <a class="sideAdd" href="https://pocarisweat.id/bintangsma/" target="_blank"><img src="../images/bintang_sma.jpg" alt=""></a>
-            </div>
-            <div class="single_sidebar wow fadeInDown">
-              <h2><span>PORTAL NEWS</span></h2>
-              <ul class="wow fadeInDown">
-                <?php
-                $query = mysqli_query($conn, "SELECT DISTINCT media_name, link FROM news_content WHERE media = 'news' GROUP BY media_name ORDER BY media_name ASC ");
-                while ($data = mysqli_fetch_array($query)) {
-                ?>
-                  <li class="cat-item"><a href="https://<?= parse_url($data['link'], PHP_URL_HOST); ?>" target="_blank" style="max-width: 105px ; max-height:50px ; height:50px;">
-                      <center><img class="img-responsive mx-auto d-block" src="../images/logo_other_portal/<?= $data['media_name']; ?>.png" alt=""></center>
-                    </a></li>
-                <?php
-                }
-                ?>
-              </ul>
-            </div>
-            <div class="single_sidebar wow fadeInDown">
-              <h2><span>Category Archive</span></h2>
-              <ul>
-                <?php
-                $get_cat_ar = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news' ");
-                while ($data_cat_ar = mysqli_fetch_array($get_cat_ar)) {
-                  $canal = $data_cat_ar['c_canal'];
-                ?>
-                  <li><a href="single_page_cat.php?c_canal=<?= $data_cat_ar['c_canal'] ?>"><?= ucfirst($canal) ?></a></li>
-                <?php
-                }
-                ?>
-                <!-- <li><a href="#">Blog</a></li>
-                <li><a href="#">Rss Feed</a></li>
-                <li><a href="#">Login</a></li>
-                <li><a href="#">Life &amp; Style</a></li> -->
-              </ul>
-            </div>
-          </aside>
+          <?php 
+          include "right_side.php";
+          ?>
         </div>
       </div>
     </section>
@@ -972,20 +597,42 @@ if ($cat_news != $data_cat['c_canal']) {
         </div>
       </div>
       <div class="footer_bottom">
-        <p class="copyright">Copyright &copy; 2045 <a href="../index.php">NewsFeed</a></p>
+        <p class="copyright">Copyright &copy; 2045 <a href="index.php">NewsFeed</a></p>
         <p class="developer">Developed By Wpfreeware</p>
       </div>
     </footer>
   </div>
-  <script src="../assets/js/jquery.min.js"></script>
-  <script src="../assets/js/wow.min.js"></script>
-  <script src="../assets/js/bootstrap.min.js"></script>
-  <script src="../assets/js/slick.min.js"></script>
-  <script src="../assets/js/jquery.li-scroller.1.0.js"></script>
-  <script src="../assets/js/jquery.newsTicker.min.js"></script>
-  <script src="../assets/js/jquery.fancybox.pack.js"></script>
-  <script src="../assets/js/custom.js"></script>
-  <script src="../assets/js/tambahan.js"></script>
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/wow.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/slick.min.js"></script>
+  <script src="assets/js/jquery.li-scroller.1.0.js"></script>
+  <script src="assets/js/jquery.newsTicker.min.js"></script>
+  <script src="assets/js/jquery.fancybox.pack.js"></script>
+  <script src="assets/js/custom.js"></script>
+  <script src="assets/js/tambahan.js"></script>
+
+  <script>
+    // UPDATE VIEWS BERITA
+    function updateViews(id) {
+            var id_news = id;
+
+            $.ajax({
+                type: "POST",
+                url: "action/update-views.php",
+                data: {
+                id: id_news
+                },
+                // dataType: "dataType",  
+                success: function(response) {
+                // alert(response)
+                console.log(response)
+                // console.log("updated")
+                // window.location.href = ("http://localhost/newsportal/single_page.php?id="+id)
+                }
+            });
+            }
+  </script>
 </body>
 
 </html>
