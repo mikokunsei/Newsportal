@@ -9,7 +9,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 
     if ($query) {
         // echo "Mencari ".$search;
-        header("location:../pages/single_page_search.php?search=".$search);
+        header("location:../single_page_search.php?search=".$search);
     } else {
         echo "Error Query";
     }

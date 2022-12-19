@@ -1,3 +1,11 @@
+<?php
+include "config/connection.php";
+
+$query_web = mysqli_query($conn, "SELECT * FROM web_settings WHERE id = 1");
+$data_web = mysqli_fetch_array($query_web);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +23,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="admin/template/dist/css/adminlte.min.css">
   <!-- Icon Logo -->
-  <link rel="shortcut icon" href="admin/public/image/icon/logo_icon_vta.png" type="image/png">
+  <link rel="icon" href="admin/public/image/icon/<?= $data_web['icon'] ?>" type="image/png">
 
 </head>
 

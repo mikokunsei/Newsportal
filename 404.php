@@ -8,7 +8,13 @@ include 'config/connection.php'
 <html>
 
 <head>
-    <title>NewsFeed | Pages | Contact</title>
+<?php
+
+$query_web = mysqli_query($conn, "SELECT * FROM web_settings WHERE id = 1");
+$data_web = mysqli_fetch_array($query_web);
+
+?>
+    <title>Error</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,7 +28,7 @@ include 'config/connection.php'
     <link rel="stylesheet" type="text/css" href="assets/css/theme.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
-    <link rel="icon" href="admin/public/image/icon/vitech_asia.png" type="image/png">
+    <link rel="icon" href="admin/public/image/icon/<?= $data_web['icon'] ?>" type="image/png">
 
     <!--[if lt IE 9]>
 <script src="assets/js/html5shiv.min.js"></script>
@@ -36,199 +42,9 @@ include 'config/connection.php'
     </div>
     <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
     <div class="container">
-        <header id="header">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="header_top">
-                        <div class="header_top_left">
-                            <ul class="top_nav">
-                                <li><a href="index.php">Home</a></li>
-                                <li>
-                                    <div class="dropdown">
-                                        <a href="" class=" dropdown-toggle" type="button" data-toggle="dropdown">News by Date
-                                            <span class=""></span></a>
-                                            <ul class="dropdown-menu">
-                                            <?php
-
-                                            $query_date = mysqli_query($conn, "SELECT DISTINCT (SUBSTR(c_datetime, 1,7)) AS data_date FROM news_content WHERE media = 'news' GROUP BY c_datetime");
-                                            while ($data_date = mysqli_fetch_array($query_date)) {
-                                            ?>
-                                                <li>
-                                                    <a href="single_page_date.php?date=<?= $data_date['data_date'] ?>">
-                                                        <?php
-
-                                                        $date_bulan = substr($data_date['data_date'], 5, 2);
-                                                        $date_tahun = substr($data_date['data_date'], 0, 4);
-
-                                                        switch ($date_bulan) {
-                                                            case '01':
-                                                                $date_bulan = "Januari";
-                                                                break;
-
-                                                            case '02':
-                                                                $date_bulan = "Februari";
-                                                                break;
-
-                                                            case '03':
-                                                                $date_bulan = "Maret";
-                                                                break;
-
-                                                            case '04':
-                                                                $date_bulan = "April";
-                                                                break;
-
-                                                            case '05':
-                                                                $date_bulan = "Mei";
-                                                                break;
-
-                                                            case '06':
-                                                                $date_bulan = "Juni";
-                                                                break;
-
-                                                            case '07':
-                                                                $date_bulan = "Juli";
-                                                                break;
-
-                                                            case '08':
-                                                                $date_bulan = "Agustus";
-                                                                break;
-
-                                                            case '09':
-                                                                $date_bulan = "September";
-                                                                break;
-
-                                                            case '10':
-                                                                $date_bulan = "Oktober";
-                                                                break;
-
-                                                            case '11':
-                                                                $date_bulan = "November";
-                                                                break;
-
-                                                            case '12':
-                                                                $date_bulan = "Desember";
-                                                                break;
-                                                        }
-
-                                                        echo "$date_bulan $date_tahun" ?></a>
-                                                </li>
-                                            <?php } ?>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="dropdown">
-                                        <a href="" class=" dropdown-toggle" type="button" data-toggle="dropdown">News by Media
-                                            <span class=""></span></a>
-                                        <ul class="dropdown-menu">
-                                            <?php
-
-                                            $query_media = mysqli_query($conn, "SELECT media_name FROM news_content WHERE media = 'news' GROUP BY media_name");
-                                            while ($data_media = mysqli_fetch_array($query_media)) {
-                                            ?>
-                                                <li>
-                                                    <a href="single_page_media.php?media=<?= $data_media['media_name'] ?>"><?= $data_media['media_name'] ?></a>
-                                                </li>
-                                            <?php } ?>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li><a href="contact.php">Contact</a></li>
-                            </ul>
-                        </div>
-                        <div class="header_top_right">
-                            <p>
-                                <?php
-
-                                $hari = date('l');
-                                // echo $hari . "<br/>"; //akan menampilkan nama hari sekarang dalam bahasa inggris
-                                $bulan = date('m');
-
-
-                                switch ($hari) {
-                                    case "Sunday":
-                                        $hari = "Minggu";
-                                        break;
-                                    case "Monday":
-                                        $hari = "Senin";
-                                        break;
-                                    case "Tuesday":
-                                        $hari = "Selasa";
-                                        break;
-                                    case "Wednesday":
-                                        $hari = "Rabu";
-                                        break;
-                                    case "Thursday":
-                                        $hari = "Kamis";
-                                        break;
-                                    case "Friday":
-                                        $hari = "Jumat";
-                                        break;
-                                    case "Saturday":
-                                        $hari = "Sabtu";
-                                        break;
-                                }
-
-                                switch ($bulan) {
-                                    case "1":
-                                        $bulan = "Januari";
-                                        break;
-                                    case "2":
-                                        $bulan = "Februari";
-                                        break;
-                                    case "3":
-                                        $bulan = "Maret";
-                                        break;
-                                    case "4":
-                                        $bulan = "April";
-                                        break;
-                                    case "5":
-                                        $bulan = "Mei";
-                                        break;
-                                    case "6":
-                                        $bulan = "Juni";
-                                        break;
-                                    case "7":
-                                        $bulan = "Juli";
-                                        break;
-                                    case "8":
-                                        $bulan = "Agustus";
-                                        break;
-                                    case "9":
-                                        $bulan = "September";
-                                        break;
-                                    case "10":
-                                        $bulan = "Oktober";
-                                        break;
-                                    case "11":
-                                        $bulan = "November";
-                                        break;
-                                    case "12":
-                                        $bulan = "Desember";
-                                        break;
-                                }
-                                //menampilkan format hari dalam bahasa indonesia
-                                // echo "<br/>" . $hari;
-                                $tanggal = date('d');
-                                $tahun = date('Y');
-                                //menampilkan hari tanggal bulan dan tahun
-                                echo "$hari, $tanggal  $bulan  $tahun";
-                                ?>
-                            </p>
-                            <form class="search" style="width:100% ;" action="action/search.php" method="GET">
-                                <input type="search" name="search" class="form-control-sm-3" style="margin-top:10px; margin-right:20px ; padding:5px;" placeholder="Cari Berita...">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="header_bottom">
-                        <div class="logo_area"><a href="index.php" class="logo"><img src="admin/public/image/icon/logo-vta.png" alt=""></a></div>
-                        <!-- <div class="add_banner"><a href="#"><img src="images/purple_panorama.jpg" style="width: 745 px;" alt=""></a></div> -->
-                    </div>
-                </div>
-            </div>
-        </header>
+        <?php 
+        include "header.php";
+        ?>
         <section id="navArea">
             <nav class="navbar navbar-inverse" role="navigation">
                 <div class="navbar-header">
@@ -403,78 +219,6 @@ include 'config/connection.php'
                 </div>
             </div>
         </section>
-        <footer id="footer">
-            <div class="footer_top">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-4">
-                        <div class="footer_widget wow fadeInLeftBig">
-                            <h2>Flickr Images</h2>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4">
-                        <div class="footer_widget wow fadeInDown">
-                            <h2>Category</h2>
-                            <ul class="tag_nav">
-                                <?php
-                                $get_data = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news' ");
-                                while ($data = mysqli_fetch_array($get_data)) {
-                                    $canal = $data['c_canal'];
-                                ?>
-                                    <li><a href="single_page_cat.php?c_canal=<?= $canal ?>"><?= ucfirst($canal) ?></a></li>
-                                <?php
-                                }
-                                ?>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4">
-                        <div class="footer_widget wow fadeInRightBig">
-                            <h2>Contact</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                            <address>
-                                Perfect News,1238 S . 123 St.Suite 25 Town City 3333,USA Phone: 123-326-789 Fax: 123-546-567
-                            </address>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="footer_bottom">
-                <p class="copyright">Copyright &copy; 2045 <a href="index.php">NewsFeed</a></p>
-                <p class="developer">Developed By Wpfreeware</p>
-            </div>
-        </footer>
-    </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/wow.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/slick.min.js"></script>
-    <script src="assets/js/jquery.li-scroller.1.0.js"></script>
-    <script src="assets/js/jquery.newsTicker.min.js"></script>
-    <script src="assets/js/jquery.fancybox.pack.js"></script>
-    <script src="assets/js/custom.js"></script>
-    <script src="assets/js/tambahan.js"></script>
-
-    <script>
-        // UPDATE VIEWS BERITA
-        function updateViews(id) {
-            var id_news = id;
-
-            $.ajax({
-                type: "POST",
-                url: "action/update-views.php",
-                data: {
-                id: id_news
-                },
-                // dataType: "dataType",  
-                success: function(response) {
-                // alert(response)
-                console.log(response)
-                // console.log("updated")
-                // window.location.href = ("http://localhost/newsportal/single_page.php?id="+id)
-                }
-            });
-            }
-    </script>
-</body>
-
-</html>
+<?php 
+include "footer.php";
+?>

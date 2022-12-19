@@ -44,7 +44,7 @@ if ($cat_news != $data_cat['c_canal']) {
   <link rel="stylesheet" type="text/css" href="assets/css/theme.css">
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
-  <link rel="shortcut icon" href="admin/public/image/icon/logo_icon_vta.png" type="image/png">
+  <link rel="icon" href="admin/public/image/icon/<?= $data_web['icon'] ?>" type="image/png">
 
   <style>
     .text-paragraph {
@@ -561,82 +561,9 @@ if ($cat_news != $data_cat['c_canal']) {
         </div>
       </div>
     </section>
-    <footer id="footer">
-      <div class="footer_top">
-        <div class="row">
-          <div class="col-lg-4 col-md-4 col-sm-4">
-            <div class="footer_widget wow fadeInLeftBig">
-              <h2>Flicker Images</h2>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-4">
-            <div class="footer_widget wow fadeInDown">
-              <h2>Category</h2>
-              <ul class="tag_nav">
-                <?php
-                $get_data = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news' ");
-                while ($data = mysqli_fetch_array($get_data)) {
-                  $canal = $data['c_canal'];
-                ?>
-                  <li><a href="single_page_cat.php?c_canal=<?= $canal ?>"><?= ucfirst($canal) ?></a></li>
-                <?php
-                }
-                ?>
-              </ul>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-4">
-            <div class="footer_widget wow fadeInRightBig">
-              <h2>Contact</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-              <address>
-                Perfect News,1238 S . 123 St.Suite 25 Town City 3333,USA Phone: 123-326-789 Fax: 123-546-567
-              </address>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="footer_bottom">
-        <p class="copyright">Copyright &copy; 2045 <a href="index.php">NewsFeed</a></p>
-        <p class="developer">Developed By Wpfreeware</p>
-      </div>
-    </footer>
-  </div>
-  <script src="assets/js/jquery.min.js"></script>
-  <script src="assets/js/wow.min.js"></script>
-  <script src="assets/js/bootstrap.min.js"></script>
-  <script src="assets/js/slick.min.js"></script>
-  <script src="assets/js/jquery.li-scroller.1.0.js"></script>
-  <script src="assets/js/jquery.newsTicker.min.js"></script>
-  <script src="assets/js/jquery.fancybox.pack.js"></script>
-  <script src="assets/js/custom.js"></script>
-  <script src="assets/js/tambahan.js"></script>
-
-  <script>
-    // UPDATE VIEWS BERITA
-    function updateViews(id) {
-            var id_news = id;
-
-            $.ajax({
-                type: "POST",
-                url: "action/update-views.php",
-                data: {
-                id: id_news
-                },
-                // dataType: "dataType",  
-                success: function(response) {
-                // alert(response)
-                console.log(response)
-                // console.log("updated")
-                // window.location.href = ("http://localhost/newsportal/single_page.php?id="+id)
-                }
-            });
-            }
-  </script>
-</body>
-
-</html>
-
 <?php 
+
+include "footer.php";
+
 }
 ?>

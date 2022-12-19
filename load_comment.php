@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include "config/connection.php";
 
 
@@ -25,11 +25,13 @@ if (isset($_POST["limit"], $_POST["start"], $_POST["idberita"])) {
             <div class="row btn-media">
               <div class="col-sm-3 col-md-2 col-lg-2 col-xl-2 ">
                 <?php
+                
                 if (!isset($_SESSION['nama'])) {
                 ?>
                 <!-- Tidak tampil -->
                 <?php
                 } else {
+                  
                 ?>
                   <button type="button" class="form-control" onclick="reply_comment(<?= $row['id'] ?>)" style=" background-color: #99CCFF; color: white ; border-radius:10px;">Reply</button>
                 <?php } ?>
@@ -61,14 +63,10 @@ if (isset($_POST["limit"], $_POST["start"], $_POST["idberita"])) {
           <form action="action/comment.php" method="POST">
             <input type="hidden" class="form-control" name="news_id" value="<?= $row['news_id']; ?>">
             <input type="hidden" class="form-control" name="comment_id" value="<?= $row['id'] ?>" id="comment_id">
+            <input type="hidden" class="form-control" name="name" id="" placeholder="Masukkan nama" required>
+            <input type="hidden" class="form-control" name="email" id="" placeholder="Masukkan email" required>
             <div class="form-group">
-              <input type="text" class="form-control" name="name" id="" placeholder="Masukkan nama" required>
-            </div>
-            <div class="form-group">
-              <input type="email" class="form-control" name="email" id="" placeholder="Masukkan email" required>
-            </div>
-            <div class="form-group">
-              <textarea name="comment" class="form-control" id="" cols="30" rows="5" placeholder="Komentar" required></textarea>
+              <textarea name="comment" class="form-control" id="" cols="30" rows="5" placeholder="Komentar sebagai <?= $_SESSION['nama'] ?>" required></textarea>
             </div>
             <div class="form-group">
               <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-6">
