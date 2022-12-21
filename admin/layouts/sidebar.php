@@ -18,7 +18,8 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="template/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <!-- <img src="template/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
+          <i class="fa fa-user-circle" style="font-size: 45px; color:grey;"></i>
         </div>
         <div class="info">
           <a href="dashboard" class="d-block"><b><?php echo ucfirst($_SESSION['role']); ?> | <?php echo ucfirst($_SESSION['username']); ?></b></a>

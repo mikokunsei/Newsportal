@@ -32,13 +32,21 @@ if (isset($_POST['id'])) {
         echo '<script>window.location.href = "berita"</script>';
     }
 
-    if ($gambar_size > 2097152) {
-        echo '<script language="javascript" type="text/javascript">alert("Ukuran file gambar lebih dari 2MB !")</script>';
+    $query_web = mysqli_query($conn, "SELECT * FROM web_settings WHERE id = 1");
+    $data_web = mysqli_fetch_assoc($query_web);
+    
+    // size file dari database dikali 1MB atau 1.048.576  Byte
+    $size_file = $data_web['size_file'] * 1048576 ;
+
+    if ($gambar_size > $size_file) {
+        echo '<script language="javascript" type="text/javascript">alert("Ukuran file gambar lebih dari '. $data_web['size_file'] .'MB !")</script>';
         echo '<script>window.location.href = "../editberita-' . $id . '"</script>';
     } else {
 
         if ($gambar_nama != "") {
-            $izin_ekstensi = array('png', 'jpg', 'jpeg');
+            // ekstensi ambil dari database
+
+            $izin_ekstensi = explode(',', $data_web['ekstensi']);
 
             $pisah_ekstensi = explode('.', $gambar_nama);
             $ekstensi = strtolower(end($pisah_ekstensi));

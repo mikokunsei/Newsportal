@@ -70,7 +70,7 @@ if ($id_news != $data['id']) {
       }
 
       img {
-        max-width: 300px;
+        max-width: 340px;
         max-height: auto;
       }
     </style>

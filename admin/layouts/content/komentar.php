@@ -79,7 +79,7 @@
                                                     <?php
                                                     if ($_SESSION['role'] != 'user') {
                                                     ?>
-                                                        <select class="form-control " id="datastatus" name="status" data-id="<?= $data_comment['id'] ?>">
+                                                        <select class="form-control " id="datastatus" name="status" data-tgl="<?= $data_comment['tgl'] ?>" data-id="<?= $data_comment['id'] ?>">
                                                             <?php
                                                             $sql_status = "SELECT * FROM status_comments GROUP BY status";
                                                             $query_status = mysqli_query($conn, $sql_status);

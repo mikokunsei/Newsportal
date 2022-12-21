@@ -1,6 +1,6 @@
 <!-- Main Footer -->
 <footer class="main-footer">
-  <?php 
+  <?php
   include "config/connection.php";
 
   $query_web = mysqli_query($conn, "SELECT * FROM web_settings WHERE id = 1");
@@ -48,6 +48,12 @@
 <script src="template/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="template/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="template/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- Tag Input -->
+<!-- <script src="public/assets/jquery.min.js"></script> -->
+<script src="public/assets/src/jquery.tagsinput-revisited.js"></script>
+
+
 
 <!-- Preview Image -->
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->
@@ -431,16 +437,19 @@
   $(document).on("change", "#datastatus", function(e) {
     var status = $(this).val();
     var id = $(this).data('id');
+    var tgl = $(this).data('tgl').substr(0,10);
+    var jam = $(this).data('tgl').substr(10,6);
 
     $.ajax({
       url: '../admin/action/update-komentar-ajax.php',
       type: "POST",
       data: {
         status: status,
-        id: id
+        id: id,
+        tgl: tgl
       },
       success: function(result) {
-        alert("Data Komentar ID : " + id + " Berhasil di Update");
+        alert("Status Komentar pada tanggal " + tgl + " jam" + jam + " Berhasil di Update");
         // $("#display").html(result);
         // setTimeout(function() { // wait for 5 secs(2)
         //   location.reload(); // then reload the page.(3)
@@ -538,6 +547,7 @@
   }
 </script>
 
+<!-- Script Preview Image 2 -->
 <script>
   $("#inputFile2").change(function(event) {
     fadeInAdd2();
@@ -666,7 +676,7 @@
       ]
     },
     // https://ckeditor.com/docs/ckeditor5/latest/features/editor-placeholder.html#using-the-editor-configuration
-    placeholder: 'Welcome to CKEditor 5!',
+    placeholder: 'Masukkan isi berita',
     // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-family-feature
     fontFamily: {
       options: [
@@ -761,37 +771,67 @@
   });
 </script>
 
+<!-- DarkMode -->
 <script>
-    function toggleDark() {
-        var element = document.getElementById("body")
-        element.classList.toggle("dark-mode")
-        let dark = JSON.parse(localStorage.getItem("mikokunsei"))
-        if (dark) {
-            localStorage.setItem("mikokunsei", JSON.stringify(false))
-            console.log("Dark mode off")
-        } else {
-            localStorage.setItem("mikokunsei", JSON.stringify(true))
-            console.log("Dark mode on")
-        }
+  function toggleDark() {
+    var element = document.getElementById("body")
+    element.classList.toggle("dark-mode")
+    let dark = JSON.parse(localStorage.getItem("mikokunsei"))
+    if (dark) {
+      localStorage.setItem("mikokunsei", JSON.stringify(false))
+      console.log("Dark mode off")
+    } else {
+      localStorage.setItem("mikokunsei", JSON.stringify(true))
+      console.log("Dark mode on")
     }
+  }
 
-    function loadDark() {
-        //default is light mode
-        console.log("dark mode is ", JSON.parse(localStorage.getItem("mikokunsei")))
-        let dark = JSON.parse(localStorage.getItem("mikokunsei"))
-        if (dark === null) {
-            localStorage.setItem("mikokunsei", JSON.stringify(false))
-            document.getElementById("switch_mode").checked = false
-        } else if (dark === true) {
-            document.getElementById("body").classList.add("dark-mode")
-            document.getElementById("switch_mode").checked = true
-        }
+  function loadDark() {
+    //default is light mode
+    console.log("dark mode is ", JSON.parse(localStorage.getItem("mikokunsei")))
+    let dark = JSON.parse(localStorage.getItem("mikokunsei"))
+    if (dark === null) {
+      localStorage.setItem("mikokunsei", JSON.stringify(false))
+      document.getElementById("switch_mode").checked = false
+    } else if (dark === true) {
+      document.getElementById("body").classList.add("dark-mode")
+      document.getElementById("switch_mode").checked = true
     }
+  }
 </script>
 
 <script>
-    window.on("load", loadDark());
+  window.on("load", loadDark());
 </script>
+
+<!-- Limit input type number jquery -->
+<!-- <script>
+  $(document).ready(function() {
+    $("#size_file").keypress(function(){
+      if (this.value.length == 1) {
+        return false;
+      }
+    });
+  });
+</script> -->
+
+<!-- Limit input type number js -->
+<script>
+  document.getElementById("sizeFile");
+  sizeFile.addEventListener("keypress", function(e) {
+    if (this.value.length == 2) {
+      e.preventDefault();
+      return false;
+    }
+  });
+</script>
+
+<!-- Tag Input -->
+<script>
+  $('#ekstensi').tagsInput();
+</script>
+
+
 
 </body>
 

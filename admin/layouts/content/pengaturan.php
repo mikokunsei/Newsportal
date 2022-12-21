@@ -36,7 +36,7 @@
                                                     Title
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input type="text" class="form-control" name="title" id="" value="<?= $data['title'] ?>" placeholder="Masukkan Judul">
+                                                    <input type="text" class="form-control" name="title" id="" value="<?= $data['title'] ?>" placeholder="Masukkan Judul" required>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -68,7 +68,7 @@
                                                     Alamat
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <textarea class="form-control" name="alamat" id="" cols="30" rows="5" placeholder="Masukkan Alamat"><?= $data['alamat'] ?></textarea>
+                                                    <textarea class="form-control" name="alamat" id="" cols="30" rows="5" placeholder="Masukkan Alamat" required><?= $data['alamat'] ?></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -76,7 +76,7 @@
                                                     Email
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input type="text" class="form-control" name="email" id="" value="<?= $data['email'] ?>" placeholder="Masukkan Email">
+                                                    <input type="text" class="form-control" name="email" id="" value="<?= $data['email'] ?>" placeholder="Masukkan Email" required>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -84,7 +84,7 @@
                                                     No. Telp
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input type="number" class="form-control" name="telp" id="" value="<?= $data['no_telp'] ?>" placeholder="Masukkan Nomor Telpon">
+                                                    <input type="number" class="form-control" name="telp" id="" value="<?= $data['no_telp'] ?>" placeholder="Masukkan Nomor Telpon" required>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -92,9 +92,32 @@
                                                     Copyright
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input type="text" class="form-control" name="copyright" id="" value="<?= $data['copyright'] ?>" placeholder="Masukkan Copyright">
+                                                    <input type="text" class="form-control" name="copyright" id="" value="<?= $data['copyright'] ?>" placeholder="Masukkan Copyright" required>
                                                 </div>
                                             </div>
+                                            <div class="form-group row">
+                                                <label for="size_file" class="col-sm-3 col-form-label">
+                                                    Ukuran File
+                                                </label>
+                                                <div class="col-sm-1">
+                                                    <input type="number" class="form-control" min="1" max="10" name="size_file" id="sizeFile" value="<?= $data['size_file'] ?>" placeholder="0" required>
+                                                </div>
+                                                <label for="size_file" class="col-sm-2 col-form-label">
+                                                    MB <span>(max 10 MB)</span>
+                                                </label>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="ekstensi" class="col-sm-3 col-form-label">
+                                                    Ekstensi File Gambar
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" name="ekstensi" id="ekstensi" value="<?= $data['ekstensi'] ?>" placeholder="Masukkan Ekstensi" >
+                                                </div>
+                                            </div>
+
+
+
                                             <div class="form-group row">
                                                 <div class="submit col-sm-4 d-block mr-0 ml-auto">
                                                     <button type="submit" class="btn btn-info">Simpan</button>

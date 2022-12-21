@@ -58,7 +58,7 @@
                                                 <label>Search:</label>
                                                 <input name="page" value="berita" type="hidden">
                                                 <input name="halaman" value="1" type="hidden">
-                                                <input type="search" id="myInput" name="search" class="form-control form-control-sm" placeholder="Type..." aria-controls="example1">
+                                                <input type="search" id="myInput" name="search" class="form-control form-control-sm" placeholder="Type..." >
                                             </div>
                                         </form>
                                     </div>
@@ -124,7 +124,7 @@
                                                     <?= $data['id']; ?>
                                                 </td>
                                                 <td>
-                                                    <a href="../pages/single_page.php?id=<?= $data['id'] ?>" target="_blank"><?= $data['title']; ?></a>
+                                                    <a href="../single_page.php?id=<?= $data['id'] ?>" target="_blank"><?= $data['title']; ?></a>
                                                 </td>
                                                 <td><?= $data['media_name']; ?></td>
                                                 <td><?= $data['c_canal']; ?></td>
