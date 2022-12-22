@@ -84,19 +84,9 @@ if ($cat_news != $data_cat['c_canal']) {
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav main_nav">
-            <li><a href="index.php"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
-            <?php
-            $get_data = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news'");
-            while ($data = mysqli_fetch_array($get_data)) {
-            ?>
-              <li <?php if ($data['c_canal'] == $cat_news) {
-                    echo 'class="active"';
-                  } ?>><a href="single_page_cat.php?c_canal=<?= $data['c_canal'] ?>"><?= $data['c_canal']; ?></a></li>
+          <ul class="nav navbar-nav main_nav" id="canal-top-cat">
 
-            <?php
-            }
-            ?>
+            
             <!-- <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Mobile</a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="#">Android</a></li>
@@ -567,3 +557,20 @@ include "footer.php";
 
 }
 ?>
+
+<script type="text/javascript">
+    $(function() {
+        $.get("http://localhost/newsportal/api/get-canal", function(data) {
+            var html = '';
+            var cat_news = '<?php echo $cat_news ?>';
+            // console.log(data_canal);
+            console.log(cat_news);
+
+            data.result.forEach(element => {
+                html += `<li><a href="single_page_cat.php?c_canal=${element.c_canal}">${element.c_canal}</a></li>`
+            });
+            // $("#canal-top").html(`<li class="active"><a href="index.php"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>`)
+            $("#canal-top-cat").html(`<li class="active"><a href="index.php"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>` + html)
+        })
+    })
+</script>

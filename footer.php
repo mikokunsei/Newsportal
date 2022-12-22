@@ -9,17 +9,7 @@
             <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="footer_widget wow fadeInDown">
                     <h2>Category</h2>
-                    <ul class="tag_nav">
-                        <?php
-
-                        $get_cat_bot = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news' ");
-                        while ($data_cat_bot = mysqli_fetch_array($get_cat_bot)) {
-                            $canal = $data_cat_bot['c_canal'];
-                        ?>
-                            <li><a href="single_page_cat.php?c_canal=<?= $data_cat_bot['c_canal'] ?>"><?= ucfirst($canal) ?></a></li>
-                        <?php
-                        }
-                        ?>
+                    <ul class="tag_nav" id="canal-tag">
                     </ul>
                 </div>
             </div>
@@ -48,7 +38,7 @@
         $data_web = mysqli_fetch_array($query_web);
 
         ?>
-        <p class="copyright">Copyright &copy; 2045 <a href="index.php"><?= $data_web['copyright'] ?></a></p>
+        <p class="copyright">Copyright &copy; <?= $data_web['tahun'] ?> <a href="index.php"><?= $data_web['copyright'] ?></a></p>
         <p class="developer">Developed By Wpfreeware</p>
     </div>
 </footer>
@@ -220,6 +210,49 @@
     }
 </script>
 
+<script>
+    $(function() {
+        $.get("http://localhost/newsportal/api/get-canal", function(data) {
+            // console.log(data.result)
+            var html = ''
+            data.result.forEach(element => {
+                // console.log(element.c_canal)
+                html += `<li><a href='single_page_cat.php?c_canal=${element.c_canal}'>${element.c_canal.toUpperCase()}</a></li>`
+            });
+            $("#canal-tag").html(html)
+        })
+    })
+</script>
+
+<script type="text/javascript">
+    $(function() {
+        $.get("http://localhost/newsportal/api/get-canal", function(data) {
+            var html = '';
+
+            data.result.forEach(element => {
+                // console.log(data_canal);
+                // console.log(cat_news);
+                html += `<li><a href="single_page_cat.php?c_canal=${element.c_canal}">${element.c_canal}</a></li>`
+            });
+            // $("#canal-top").html(`<li class="active"><a href="index.php"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>`)
+            $("#canal-top").html(`<li class="active"><a href="index.php"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>` + html)
+        })
+    })
+</script>
+
+
+<script>
+    $(function() {
+        $.get("http://localhost/newsportal/api/get-media", function(data) {
+            var html = '';
+
+            data.result.forEach(element => {
+                html += `<li><a href="single_page_media.php?media=${element.media_name}">${element.media_name}</a></li>`
+            });
+            $("#media-list").html(html)
+        })
+    })
+</script>
 
 </body>
 

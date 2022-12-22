@@ -86,16 +86,8 @@ include "config/connection.php";
                             <div class="dropdown">
                                 <a href="" class=" dropdown-toggle" type="button" data-toggle="dropdown">News by Media
                                     <span class=""></span></a>
-                                <ul class="dropdown-menu">
-                                    <?php
+                                <ul class="dropdown-menu" id="media-list">
 
-                                    $query_media = mysqli_query($conn, "SELECT media_name FROM news_content WHERE media = 'news' GROUP BY media_name");
-                                    while ($data_media = mysqli_fetch_array($query_media)) {
-                                    ?>
-                                        <li>
-                                            <a href="single_page_media.php?media=<?= $data_media['media_name'] ?>"><?= $data_media['media_name'] ?></a>
-                                        </li>
-                                    <?php } ?>
                                 </ul>
                             </div>
                         </li>
@@ -227,3 +219,4 @@ include "config/connection.php";
         </div>
     </div>
 </header>
+

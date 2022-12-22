@@ -91,16 +91,8 @@
         </ul>
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="category">
-                <ul>
-                    <?php
-                    $get_data = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news' ");
-                    while ($data = mysqli_fetch_array($get_data)) {
-                        $canal = $data['c_canal'];
-                    ?>
-                        <li class="cat-item"><a href="single_page_cat.php?c_canal=<?= $data['c_canal'] ?>"><?= ucfirst($canal); ?></a></li>
-                    <?php
-                    }
-                    ?>
+                <ul id="canal">
+
                 </ul>
             </div>
             <div role="tabpanel" class="tab-pane" id="video">
@@ -167,16 +159,8 @@
     </div>
     <div class="single_sidebar wow fadeInDown">
         <h2><span>Category Archive</span></h2>
-        <ul>
-            <?php
-            $get_cat_ar = mysqli_query($conn, "SELECT DISTINCT c_canal FROM news_content WHERE media = 'news' ");
-            while ($data_cat_ar = mysqli_fetch_array($get_cat_ar)) {
-                $canal = $data_cat_ar['c_canal'];
-            ?>
-                <li><a href="single_page_cat.php?c_canal=<?= $data_cat_ar['c_canal'] ?>"><?= ucfirst($canal) ?></a></li>
-            <?php
-            }
-            ?>
+        <ul id="canal-ar">
+
             <!-- <li><a href="#">Blog</a></li>
                 <li><a href="#">Rss Feed</a></li>
                 <li><a href="#">Login</a></li>
@@ -184,3 +168,28 @@
         </ul>
     </div>
 </aside>
+
+<script src="assets/js/jquery.min.js"></script>
+
+<script>
+    $(function(){
+        $.get("http://localhost/newsportal/api/get-canal", function (data) {
+            // console.log(data.result)
+            var html = ''
+            data.result.forEach(element => {
+                // console.log(element.c_canal)
+                html += `<li class='cat-item'><a href='single_page_cat.php?c_canal=${element.c_canal}'>${element.c_canal}</a></li>`
+            });
+            $("#canal").html(html)
+        })
+        $.get("http://localhost/newsportal/api/get-canal", function (data) {
+            // console.log(data.result)
+            var html = ''
+            data.result.forEach(element => {
+                // console.log(element.c_canal)
+                html += `<li><a href='single_page_cat.php?c_canal=${element.c_canal}'>${element.c_canal}</a></li>`
+            });
+            $("#canal-ar").html(html)
+        })
+    })
+</script>

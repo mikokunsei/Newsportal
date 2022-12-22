@@ -1,0 +1,8 @@
+RewriteEngine On
+
+RewriteRule ^get-canal/?$ get-canal.php [NC,L]
+RewriteRule ^get-canal/([0-9]+)/?$ get-canal.php?id=$1 [NC,L]
+
+RewriteRule ^get-media/?$ get-media.php [NC,L]
+RewriteRule ^get-media/([0-9]+)/?$ get-media.php?id=$1 [NC,L]
+

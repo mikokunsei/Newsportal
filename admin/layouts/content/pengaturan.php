@@ -27,8 +27,8 @@
                                             <?php
                                             include "../config/connection.php";
 
-                                            $query = mysqli_query($conn, "SELECT * FROM web_settings WHERE id = 1 ");
-                                            $data = mysqli_fetch_assoc($query);
+                                            $query_web = mysqli_query($conn, "SELECT * FROM web_settings WHERE id = 1 ");
+                                            $data_web = mysqli_fetch_assoc($query_web);
 
                                             ?>
                                             <div class="form-group row">
@@ -36,7 +36,7 @@
                                                     Title
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input type="text" class="form-control" name="title" id="" value="<?= $data['title'] ?>" placeholder="Masukkan Judul" required>
+                                                    <input type="text" class="form-control" name="title" id="" value="<?= $data_web['title'] ?>" placeholder="Masukkan Judul" required>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -45,9 +45,9 @@
                                                 </label>
                                                 <div class="col-sm-6">
                                                     <div class="imgWrap" style="margin-bottom: 25px ;">
-                                                        <img src="../admin/public/image/logo/<?= $data['logo'] ?>" style="width : 150px ; height: 100px;" id="imgView" class="img img-fluid">
+                                                        <img src="../admin/public/image/logo/<?= $data_web['logo'] ?>" style="width : 150px ; height: 100px;" id="imgView" class="img img-fluid">
                                                     </div>
-                                                    <span>* Ekstensi file PNG, JPG, JPEG max 2MB</span>
+                                                    <span>* Ekstensi file <?= strtoupper($data_web['ekstensi']) ?> max <?= $data_web['size_file'] ?>MB</span>
                                                     <input type="file" class="form-control" id="inputFile" name="logo" accept="image/*">
                                                 </div>
                                             </div>
@@ -57,9 +57,9 @@
                                                 </label>
                                                 <div class="col-sm-6">
                                                     <div class="imgWrap2" style="margin-bottom: 25px ;">
-                                                        <img src="../admin/public/image/icon/<?= $data['icon'] ?>" style="width : 150px ; height: 100px;" id="imgView2" class="img img-fluid">
+                                                        <img src="../admin/public/image/icon/<?= $data_web['icon'] ?>" style="width : 150px ; height: 100px;" id="imgView2" class="img img-fluid">
                                                     </div>
-                                                    <span>* Ekstensi file PNG, JPG, JPEG max 2MB</span>
+                                                    <span>* Ekstensi file <?= strtoupper($data_web['ekstensi']) ?> max <?= $data_web['size_file'] ?>MB</span>
                                                     <input type="file" class="form-control" id="inputFile2" name="icon" accept="image/*">
                                                 </div>
                                             </div>
@@ -68,7 +68,7 @@
                                                     Alamat
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <textarea class="form-control" name="alamat" id="" cols="30" rows="5" placeholder="Masukkan Alamat" required><?= $data['alamat'] ?></textarea>
+                                                    <textarea class="form-control" name="alamat" id="" cols="30" rows="5" placeholder="Masukkan Alamat" required><?= $data_web['alamat'] ?></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -76,7 +76,7 @@
                                                     Email
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input type="text" class="form-control" name="email" id="" value="<?= $data['email'] ?>" placeholder="Masukkan Email" required>
+                                                    <input type="text" class="form-control" name="email" id="" value="<?= $data_web['email'] ?>" placeholder="Masukkan Email" required>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -84,7 +84,7 @@
                                                     No. Telp
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input type="number" class="form-control" name="telp" id="" value="<?= $data['no_telp'] ?>" placeholder="Masukkan Nomor Telpon" required>
+                                                    <input type="number" class="form-control" name="telp" id="" value="<?= $data_web['no_telp'] ?>" placeholder="Masukkan Nomor Telpon" required>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -92,7 +92,15 @@
                                                     Copyright
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input type="text" class="form-control" name="copyright" id="" value="<?= $data['copyright'] ?>" placeholder="Masukkan Copyright" required>
+                                                    <input type="text" class="form-control" name="copyright" id="" value="<?= $data_web['copyright'] ?>" placeholder="Masukkan Copyright" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="tahun" class="col-sm-3 col-form-label">
+                                                    Tahun
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" name="tahun" id="" value="<?= $data_web['tahun'] ?>" placeholder="Masukkan Tahun" required>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -100,7 +108,7 @@
                                                     Ukuran File
                                                 </label>
                                                 <div class="col-sm-1">
-                                                    <input type="number" class="form-control" min="1" max="10" name="size_file" id="sizeFile" value="<?= $data['size_file'] ?>" placeholder="0" required>
+                                                    <input type="number" class="form-control" min="1" max="10" name="size_file" id="sizeFile" value="<?= $data_web['size_file'] ?>" placeholder="0" required>
                                                 </div>
                                                 <label for="size_file" class="col-sm-2 col-form-label">
                                                     MB <span>(max 10 MB)</span>
@@ -112,7 +120,7 @@
                                                     Ekstensi File Gambar
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input type="text" class="form-control" name="ekstensi" id="ekstensi" value="<?= $data['ekstensi'] ?>" placeholder="Masukkan Ekstensi" >
+                                                    <input type="text" class="form-control" name="ekstensi" id="ekstensi" value="<?= $data_web['ekstensi'] ?>" placeholder="Masukkan Ekstensi" >
                                                 </div>
                                             </div>
 
